@@ -1,38 +1,38 @@
 import React from 'react'
 import TopNavOne from '@/components/Header/TopNav/TopNavOne'
-import MenuOne from '@/components/Header/Menu/MenuOne'
-import SliderOne from '@/components/Slider/SliderOne'
-import WhatNewOne from '@/components/Home1/WhatNewOne'
+import MenuYoga from '@/components/Header/Menu/MenuYoga'
+import SliderYoga from '@/components/Slider/SliderYoga'
 import productData from '@/data/Product.json'
-import Collection from '@/components/Home1/Collection'
-import TabFeatures from '@/components/Home1/TabFeatures'
-import Banner from '@/components/Home1/Banner'
-import Benefit from '@/components/Home1/Benefit'
-import testimonialData from '@/data/Testimonial.json'
-import Testimonial from '@/components/Home1/Testimonial'
-import Instagram from '@/components/Home1/Instagram'
+import BestSeller from '@/components/Yoga/BestSeller'
+import Banner from '@/components/Yoga/Banner'
+import TabFeatures from '@/components/Yoga/TabFeatures'
+import WhyChooseUs from '@/components/Yoga/WhyChooseUs'
+import FlashSale from '@/components/Yoga/FlashSale'
+import dataTestimonial from '@/data/Testimonial.json'
+import Testimonial from '@/components/Yoga/Testimonial'
+import Instagram from '@/components/Yoga/Instagram'
 import Brand from '@/components/Home1/Brand'
 import Footer from '@/components/Footer/Footer'
 import ModalNewsletter from '@/components/Modal/ModalNewsletter'
 
-export default function Home() {
-  return (
-    <>
-      <TopNavOne props="style-one bg-black" slogan="New customers save 10% with the code GET10" />
-      <div id="header" className='relative w-full'>
-        <MenuOne props="bg-transparent" />
-        <SliderOne />
-      </div>
-      <WhatNewOne data={productData} start={0} limit={4} />
-      <Collection />
-      <TabFeatures data={productData} start={0} limit={6} />
-      <Banner />
-      <Benefit props="md:py-20 py-10" />
-      <Testimonial data={testimonialData} limit={6} />
-      <Instagram />
-      <Brand />
-      <Footer />
-      <ModalNewsletter />
-    </>
-  )
+export default function HomeYoga() {
+    return (
+        <>
+            <TopNavOne props="style-one bg-black" slogan='New customers save 10% with the code GET10' />
+            <div id="header" className='relative w-full'>
+                <MenuYoga />
+                <SliderYoga />
+            </div>
+            <BestSeller data={productData} start={0} limit={6} />
+            <Banner />
+            <TabFeatures data={productData} start={0} limit={4} />
+            <WhyChooseUs />
+            <FlashSale />
+            <Testimonial data={dataTestimonial} start={0} limit={6} />
+            <Instagram />
+            <Brand />
+            <Footer />
+            <ModalNewsletter />
+        </>
+    )
 }
