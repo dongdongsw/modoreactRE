@@ -9,33 +9,36 @@ import ModalQuickview from '@/components/Modal/ModalQuickview'
 import ModalCompare from '@/components/Modal/ModalCompare'
 import CountdownTimeType from '@/type/CountdownType'
 import { countdownTime } from '@/store/countdownTime'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const serverTimeLeft: CountdownTimeType = countdownTime();
 
-const instrument = Instrument_Sans({ subsets: ['latin'] })
+const instrument = Instrument_Sans({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Anvogue',
   description: 'Multipurpose eCommerce Template',
-}
+};
 
 export default function RootLayout({
-  children,
-}: {
+                                     children,
+                                   }: {
   children: React.ReactNode
 }) {
   return (
-    <GlobalProvider>
-      <html lang="en">
+      <GlobalProvider>
+        <html lang="en">
         <body className={instrument.className}>
-          {children}
-          <ModalCart serverTimeLeft={serverTimeLeft} />
-          <ModalWishlist />
-          <ModalSearch />
-          <ModalQuickview />
-          <ModalCompare />
+        {children}
+        <ModalCart serverTimeLeft={serverTimeLeft} />
+        <ModalWishlist />
+        <ModalSearch />
+        <ModalQuickview />
+        <ModalCompare />
+        <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
         </body>
-      </html>
-    </GlobalProvider>
-  )
+        </html>
+      </GlobalProvider>
+  );
 }

@@ -15,6 +15,7 @@ import { useModalSearchContext } from '@/context/ModalSearchContext';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
 import { useRouter } from 'next/navigation';
+import axios from "axios";
 
 
 const MenuYoga = () => {
@@ -27,6 +28,8 @@ const MenuYoga = () => {
     const { cartState } = useCart()
     const { openModalWishlist } = useModalWishlistContext()
     const { openModalSearch } = useModalSearchContext()
+    const [nickname, setNickname] = useState('');
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     const handleOpenSubNavMobile = (index: number) => {
         setOpenSubNavMobile(openSubNavMobile === index ? null : index)
@@ -61,6 +64,19 @@ const MenuYoga = () => {
 
     const handleTypeClick = (type: string) => {
         router.push(`/shop/breadcrumb1?type=${type}`);
+    };
+
+    const handleLogout = () => {
+        axios.get('/login/logout')
+            .then(response => {
+                setNickname('');
+                setIsAuthenticated(false);
+                alert(response.data.message);
+                window.location.href = "http://localhost:3000/Main";
+            })
+            .catch(error => {
+                console.error('There was an error logging out!', error);
+            });
     };
 
     return (
@@ -318,9 +334,9 @@ const MenuYoga = () => {
                                         className={`login-popup absolute top-[74px] w-[320px] p-7 rounded-xl bg-white box-shadow-sm 
                                             ${openLoginPopup ? 'open' : ''}`}
                                     >
-                                        <Link href={'/login'} className="button-main w-full text-center">Login</Link>
+                                        <Link href="http://localhost:8080/oauth2/authorization/kakao" className="button-main w-full text-center">Login</Link>
                                         <div className="text-secondary text-center mt-3 pb-4">Don’t have an account?
-                                            <Link href={'/register'} className='text-black pl-1 hover:underline'>Register</Link>
+                                            <Link href={'/login/logout'} className='text-black pl-1 hover:underline'>Logout</Link>
                                         </div>
                                         <div className="bottom pt-4 border-t border-line"></div>
                                         <Link href={'#!'} className='body1 hover:underline'>Support</Link>
