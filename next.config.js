@@ -1,12 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     reactStrictMode: true,
-
+  
+    images: {
+      unoptimized: true,  // 이미지 최적화 비활성화
+    },
+  
     async rewrites() {
         return [
             {
-                source: '/api/:path*',  // 클라이언트가 요청하는 /api/ 경로
-                destination: 'http://localhost:8080/api/:path*',  // 프록시할 서버의 /api/ 경로
+                source: '/api/:path*',
+                destination: 'http://localhost:8080/api/:path*',
             },
             {
                 source: '/:path*',
@@ -14,6 +18,7 @@ const nextConfig = {
             },
         ];
     },
-};
-
-module.exports = nextConfig;
+  };
+  
+  module.exports = nextConfig;
+  

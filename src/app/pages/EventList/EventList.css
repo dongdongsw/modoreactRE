@@ -1,0 +1,6 @@
+.blog-thumb {
+    position: relative;
+    width: 100%;   /* 부모 컨테이너의 전체 너비를 사용 */
+    height: 0;
+    padding-bottom: 75%;  /* 4:3 비율을 유지하기 위해 설정 (1500 / 2000 = 0.75) */
+}

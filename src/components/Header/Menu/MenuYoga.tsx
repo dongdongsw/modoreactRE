@@ -269,8 +269,8 @@ const MenuYoga = () => {
                                                 </Link>
                                             </li>
                                             <li>
-                                                <Link href="/blog/grid" className={`text-secondary duration-300 ${pathname === '/blog/grid' ? 'active' : ''}`}>
-                                                    Blog Grid
+                                                <Link href="/pages/EventList/EventListPage" className={`text-secondary duration-300 ${pathname === '/pages/EventList/EventListPage' ? 'active' : ''}`}>
+                                                    Event
                                                 </Link>
                                             </li>
                                             <li>
