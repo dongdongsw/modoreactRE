@@ -14,7 +14,7 @@ import { toast } from 'react-toastify'; // Add toast notification library
 import {useRouter} from "next/navigation";
 
 const MyAccount = () => {
-    const [activeTab, setActiveTab] = useState<string>('dashboard');
+    const [activeTab, setActiveTab] = useState<string>('userinfo');
     const [nickname, setNickname] = useState<string>('');
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const router = useRouter(); // Initialize router
