@@ -264,12 +264,12 @@ const MenuYoga = () => {
                                         <ul className='w-full'>
                                             
                                             <li>
-                                                <Link href="/blog/list" className={`text-secondary duration-300 ${pathname === '/blog/list' ? 'active' : ''}`}>
+                                                <Link href="/blog/Notice/NoticeListPage" className={`text-secondary duration-300 ${pathname === '/blog/Notice/NoticeListPage' ? 'active' : ''}`}>
                                                     Blog List
                                                 </Link>
                                             </li>
                                             <li>
-                                                <Link href="/pages/EventList/EventListPage" className={`text-secondary duration-300 ${pathname === '/pages/EventList/EventListPage' ? 'active' : ''}`}>
+                                                <Link href="/pages/Event/EventListPage" className={`text-secondary duration-300 ${pathname === '/pages/Event/EventListPage' ? 'active' : ''}`}>
                                                     Event
                                                 </Link>
                                             </li>
