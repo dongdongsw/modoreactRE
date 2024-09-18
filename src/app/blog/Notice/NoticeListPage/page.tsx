@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import TopNavOne from '@/components/Header/TopNav/TopNavOne'
-import MenuOne from '@/components/Header/Menu/MenuOne'
+import MenuYoga from '@/components/Header/Menu/MenuYoga'
 import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
 import BlogItem from '../NoticeLtstItem';
 import Footer from '@/components/Footer/Footer'
@@ -46,7 +46,7 @@ const BlogList = () => {
         <>
              <TopNavOne props="style-one bg-black" slogan="New customers save 10% with the code GET10" />
         <div id="header" className='relative w-full'>
-            <MenuOne props="bg-transparent" />
+            <MenuYoga/>
             <Breadcrumb heading='Notice List' subHeading='Notice List' />
         </div>
         <div className='blog list md:py-20 py-10'>

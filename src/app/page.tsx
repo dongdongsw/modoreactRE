@@ -14,6 +14,10 @@ import Instagram from '@/components/Yoga/Instagram'
 import Brand from '@/components/Home1/Brand'
 import Footer from '@/components/Footer/Footer'
 import ModalNewsletter from '@/components/Modal/ModalNewsletter'
+import LookBook from '@/components/Cosmetic1/LookBook'
+import BannerTop from '@/components/Cosmetic3/BannerTop'
+import NewsInsight from '@/components/Home3/NewsInsight'
+import blogData from '@/data/Blog.json'
 
 export default function HomeYoga() {
     return (
@@ -22,14 +26,13 @@ export default function HomeYoga() {
             <div id="header" className='relative w-full'>
                 <MenuYoga />
                 <SliderYoga />
+                <BannerTop props="bg-[#F4C6A5] md:py-8 py-4" textColor='text-black' bgLine='bg-black' />
+
             </div>
-            <BestSeller data={productData} start={0} limit={6} />
-            <Banner />
-            <TabFeatures data={productData} start={0} limit={4} />
+           <LookBook data={productData} start={8} limit={12} />
+           <NewsInsight data={blogData} start={0} limit={3} />
             <WhyChooseUs />
-            <FlashSale />
             <Testimonial data={dataTestimonial} start={0} limit={6} />
-            <Instagram />
             <Brand />
             <Footer />
             <ModalNewsletter />

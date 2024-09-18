@@ -19,7 +19,7 @@ const Banner = () => {
                                 />
                             </div>
                             <div className="banner-content absolute left-[30px] top-1/2 -translate-y-1/2">
-                                <div className="heading6">Women{String.raw`'s`} Fashion <br />Must-Haves</div>
+                                <div className="heading6">modo Modo <br />Modo Notice</div>
                                 <div className="caption1 font-semibold text-black relative inline-block pb-1 border-b-2 border-black duration-500 mt-2">Shop Now</div>
                             </div>
                         </Link>
@@ -34,7 +34,7 @@ const Banner = () => {
                                 />
                             </div>
                             <div className="banner-content absolute left-[30px] top-1/2 -translate-y-1/2">
-                                <div className="heading6">Latest Men{String.raw`'s`} <br />Fashion Essentials</div>
+                                <div className="heading6">Modo Modo <br />Modo Events</div>
                                 <div className="caption1 font-semibold text-black relative inline-block pb-1 border-b-2 border-black duration-500 mt-2">Shop Now</div>
                             </div>
                         </Link>
@@ -49,7 +49,7 @@ const Banner = () => {
                                 />
                             </div>
                             <div className="banner-content absolute left-[30px] top-1/2 -translate-y-1/2">
-                                <div className="heading6">Summer Sale <br />collection</div>
+                                <div className="heading6">Modo Modo <br />Modo FaQs</div>
                                 <div className="caption1 font-semibold text-black relative inline-block pb-1 border-b-2 border-black duration-500 mt-2">Shop Now</div>
                             </div>
                         </Link>
