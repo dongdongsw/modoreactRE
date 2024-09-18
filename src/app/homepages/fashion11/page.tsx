@@ -6,6 +6,7 @@ import TrendingNow from '@/components/Home11/TrendingNow'
 import productData from '@/data/Product.json'
 import MenFashion from '@/components/Home11/MenFashion'
 import Banner from '@/components/Home9/Banner'
+
 import WomenFashion from '@/components/Home11/WomenFashion'
 import Benefit from '@/components/Home1/Benefit'
 import blogData from '@/data/Blog.json'

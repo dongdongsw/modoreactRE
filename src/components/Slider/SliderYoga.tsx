@@ -23,33 +23,13 @@ const SliderYoga = () => {
                             delay: 4000,
                         }}
                     >
-                        <SwiperSlide>
-                            <div className="slider-item h-full w-full relative">
-                                <div className="container w-full h-full flex items-center">
-                                    <div className="text-content sm:w-1/2 w-2/3">
-                                        <div className="text-sub-display">Sale! Up To 50% Off!</div>
-                                        <div className="text-display md:mt-5 mt-2">Explore Our Yoga Collection</div>
-                                        <Link href='/shop/breadcrumb-img' className="button-main md:mt-8 mt-3">Shop Now</Link>
-                                    </div>
-                                    <div className="sub-img absolute left-0 top-0 w-full h-full z-[-1]">
-                                        <Image
-                                            src={'/images/slider/yoga3.png'}
-                                            width={2560}
-                                            height={1080}
-                                            alt='yoga3'
-                                            priority={true}
-                                            className='w-full h-full object-cover'
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </SwiperSlide>
+                        
                         <SwiperSlide>
                             <div className="slider-item h-full w-full relative">
                                 <div className="container w-full h-full flex items-center">
                                     <div className="text-content sm:w-1/2 w-2/3 text-white">
-                                        <div className="text-sub-display">Sale! Up To 50% Off!</div>
-                                        <div className="text-display md:mt-5 mt-2">Explore Our Yoga Collection</div>
+                                        <div className="text-sub-display">모든 도시락 모두의 도시락</div>
+                                        <div className="text-display md:mt-5 mt-2">Explore Our Modo Collection</div>
                                         <Link href='/shop/breadcrumb-img' className="button-main bg-white text-black md:mt-8 mt-3">Shop Now</Link>
                                     </div>
                                     <div className="sub-img absolute left-0 top-0 w-full h-full z-[-1]">
@@ -65,27 +45,7 @@ const SliderYoga = () => {
                                 </div>
                             </div>
                         </SwiperSlide>
-                        <SwiperSlide>
-                            <div className="slider-item h-full w-full relative">
-                                <div className="container w-full h-full flex items-center">
-                                    <div className="text-content sm:w-1/2 w-2/3">
-                                        <div className="text-sub-display">Sale! Up To 50% Off!</div>
-                                        <div className="text-display md:mt-5 mt-2">Explore Our Yoga Collection</div>
-                                        <Link href='/shop/breadcrumb-img' className="button-main md:mt-8 mt-3">Shop Now</Link>
-                                    </div>
-                                    <div className="sub-img absolute left-0 top-0 w-full h-full z-[-1]">
-                                        <Image
-                                            src={'/images/slider/yoga1.png'}
-                                            width={2560}
-                                            height={1080}
-                                            alt='yoga1'
-                                            priority={true}
-                                            className='w-full h-full object-cover'
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </SwiperSlide>
+                        
                     </Swiper>
                 </div>
             </div>

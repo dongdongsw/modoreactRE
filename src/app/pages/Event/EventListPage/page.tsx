@@ -40,7 +40,7 @@ const BlogGrid = () => {
             <TopNavOne props="style-one bg-black" slogan="New customers save 10% with the code GET10" />
             <div id="header" className='relative w-full'>
                 <MenuYoga/>
-                <Breadcrumb heading='Event Grid' subHeading='Event Grid' />
+                <Breadcrumb heading='Event' subHeading='Event' />
             </div>
             <div className='blog grid md:py-20 py-10'>
                 <div className="container">
