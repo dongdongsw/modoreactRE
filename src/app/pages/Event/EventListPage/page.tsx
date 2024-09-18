@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import TopNavOne from '@/components/Header/TopNav/TopNavOne';
-import MenuOne from '@/components/Header/Menu/MenuOne';
+import MenuYoga from '@/components/Header/Menu/MenuYoga';
 import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
 import BlogItem from '../EventListItem'; // BlogItem을 가져와 렌더링
 import Footer from '@/components/Footer/Footer';
@@ -39,7 +39,7 @@ const BlogGrid = () => {
         <>
             <TopNavOne props="style-one bg-black" slogan="New customers save 10% with the code GET10" />
             <div id="header" className='relative w-full'>
-                <MenuOne props="bg-transparent" />
+                <MenuYoga/>
                 <Breadcrumb heading='Event Grid' subHeading='Event Grid' />
             </div>
             <div className='blog grid md:py-20 py-10'>
