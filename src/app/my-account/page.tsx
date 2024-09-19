@@ -12,6 +12,7 @@ import Logout from './Logout';
 import FavoriteStores, { FavoriteStoresContent } from "@/app/my-account/FavoriteStores";
 import { toast } from 'react-toastify'; // Add toast notification library
 import {useRouter} from "next/navigation";
+import MenuYoga from "@/components/Header/Menu/MenuYoga";
 
 const MyAccount = () => {
     const [activeTab, setActiveTab] = useState<string>('userinfo');
@@ -60,7 +61,7 @@ const MyAccount = () => {
     return (
         <>
             <div id="header" className='relative w-full'>
-                <MenuOne props="bg-transparent" />
+                <MenuYoga props="bg-transparent" />
                 <Breadcrumb heading='My Account' subHeading='My Account' />
             </div>
             <div className="profile-block md:py-20 py-10">

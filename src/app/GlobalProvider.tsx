@@ -7,6 +7,7 @@ import { CompareProvider } from '@/context/CompareContext'
 import { ModalCompareProvider } from '@/context/ModalCompareContext'
 import { ModalSearchProvider } from '@/context/ModalSearchContext'
 import { ModalQuickviewProvider } from '@/context/ModalQuickviewContext'
+import {FavoritesProvider} from "@/app/shop/square/FavoritesContext";
 
 const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
@@ -18,7 +19,9 @@ const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({ children }) =
                             <ModalCompareProvider>
                                 <ModalSearchProvider>
                                     <ModalQuickviewProvider>
-                                        {children}
+                                        <FavoritesProvider>
+                                            {children}
+                                        </FavoritesProvider>
                                     </ModalQuickviewProvider>
                                 </ModalSearchProvider>
                             </ModalCompareProvider>

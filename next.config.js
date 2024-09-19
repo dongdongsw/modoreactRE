@@ -14,6 +14,11 @@ const nextConfig = {
             },
 
             {
+                source: '/store/:id',
+                destination: '/store/[id]', // Next.js가 처리하도록 설정
+            },
+
+            {
                 source: '/notice/:id', 
                 destination: '/notice/[id]', // Next.js가 처리하도록 설정
             },

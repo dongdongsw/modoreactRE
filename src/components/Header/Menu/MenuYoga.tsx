@@ -102,7 +102,7 @@ const MenuYoga = () => {
                                     </Link>
                                     <div className="sub-menu absolute py-3 px-5 -left-10 w-max grid grid-cols-4 gap-5 bg-white rounded-b-xl">
                                         <ul>
-                                            
+
                                             <li>
                                                 <Link href="/homepages/fashion11" className='text-secondary duration-300'>
                                                     Home Fashion 11
@@ -140,7 +140,7 @@ const MenuYoga = () => {
                                     <Link href="#!" className='text-button-uppercase duration-300 h-full flex items-center justify-center'>
                                         Features
                                     </Link>
-                                </li> 
+                                </li>
 
                                 <li className='h-full'>
                                     <Link href="#!" className='text-button-uppercase duration-300 h-full flex items-center justify-center'>
@@ -150,7 +150,7 @@ const MenuYoga = () => {
                                         <div className="container">
                                             <div className="flex justify-between py-8">
                                                 <div className="nav-link basis-2/3 flex justify-between pr-12">
-                                                    
+
                                                     <div className="nav-item">
                                                         <div className="text-button-uppercase pb-2">Shop Layout</div>
                                                         <ul>
@@ -218,7 +218,7 @@ const MenuYoga = () => {
                                                         </ul>
                                                     </div>
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                     </div>
@@ -232,7 +232,7 @@ const MenuYoga = () => {
                                             <div className="flex justify-between py-8">
                                                 <div className="nav-link basis-2/3 flex justify-between xl:pr-14 pr-5">
                                                     <div className="nav-item">
-                                                        
+
                                                             <li>
                                                                 <Link
                                                                     href={'/product/countdown-timer'}
@@ -249,7 +249,7 @@ const MenuYoga = () => {
                                                                     Products Grouped
                                                                 </Link>
                                                             </li>
-                                                            
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -262,7 +262,7 @@ const MenuYoga = () => {
                                     </Link>
                                     <div className="sub-menu py-3 px-5 -left-10 absolute bg-white rounded-b-xl">
                                         <ul className='w-full'>
-                                            
+
                                             <li>
                                                 <Link href="/notice/NoticeListPage" className={`text-secondary duration-300 ${pathname === '/notice/NoticeListPage' ? 'active' : ''}`}>
                                                         Notice
@@ -325,6 +325,11 @@ const MenuYoga = () => {
                                             <li>
                                                 <Link href="/pages/RegisterStore" className={`text-secondary duration-300 ${pathname === '/pages/ManageStore' ? 'active' : ''}`}>
                                                 ManageStore
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link href="/pages/dashboard" className={`text-secondary duration-300 ${pathname === '/pages/dashboard' ? 'active' : ''}`}>
+                                                    Dashboard
                                                 </Link>
                                             </li>
                                         </ul>
@@ -1251,6 +1256,11 @@ const MenuYoga = () => {
                                                     <li>
                                                         <Link href="/pages/customer-feedbacks" className={`text-secondary duration-300 ${pathname === '/pages/customer-feedbacks' ? 'active' : ''}`}>
                                                             Customer Feedbacks
+                                                        </Link>
+                                                    </li>
+                                                    <li>
+                                                        <Link href="/pages/dashboard" className={`text-secondary duration-300 ${pathname === '/pages/dashboard' ? 'active' : ''}`}>
+                                                            Dashboard
                                                         </Link>
                                                     </li>
                                                 </ul>

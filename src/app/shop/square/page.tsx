@@ -20,7 +20,7 @@ export default function FilterDropdown() {
                 <MenuOne props="bg-transparent" />
             </div>
             <div className="shop-square">
-                <ShopFilterDropdown data={productData} productPerPage={12} dataType={type} />
+                <ShopFilterDropdown />
             </div>
             <Footer />
         </>
