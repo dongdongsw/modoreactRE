@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image';
 import Link from 'next/link';
-import { useSearchParams, usePathname } from 'next/navigation'; // useSearchParams와 usePathname 사용
+import { useRouter, usePathname } from 'next/navigation'; // useSearchParams와 usePathname 사용
 import TopNavOne from '@/components/Header/TopNav/TopNavOne'
 import MenuYoga from '@/components/Header/Menu/MenuYoga'
 import Footer from '@/components/Footer/Footer'
@@ -20,10 +20,10 @@ interface NoticeData {
 
 const NoticeDetail = () => {
     const pathname = usePathname();  // usePathname으로 현재 경로 가져오기
+    const router = useRouter();  
     const id = pathname.split('/').pop();  // URL에서 마지막 부분을 id로 사용
     const [notice, setNotice] = useState<NoticeData | null>(null);  // NoticeData 타입 지정
     const [userRole, setUserRole] = useState('');
-    const router = useSearchParams();  // useSearchParams 사용
 
     useEffect(() => {
         // 공지사항 데이터 가져오기
@@ -49,7 +49,7 @@ const NoticeDetail = () => {
     const handleDelete = () => {
         axios.delete(`/api/notice/${id}`)
             .then(() => {
-                //router.push('/Main/Notice');  // 페이지 이동
+                router.push('/notice/NoticeListPage');  // 페이지 이동
             })
             .catch(error => {
                 console.error('Error deleting notice:', error);
@@ -71,6 +71,12 @@ const NoticeDetail = () => {
                     <div className="blog-content flex justify-center max-lg:flex-col gap-y-10">
                         <div className="main xl:w-3/4 lg:w-2/3 lg:pr-[15px]">
                             <div className="heading3 mt-3">{notice.title}</div>
+                            <div className="heading3 flex justify-between  md:pt-8">
+                            <div> </div>
+                            {userRole === 'ROLE_ADMIN' &&
+                                    <button onClick={handleDelete} className='button-main'>삭제</button>
+                                }
+                            </div>
                             <div className="author flex items-center gap-4 mt-4">
                                 <div className='flex items-center gap-2'>
                                     <div className="caption1 text-secondary">by {notice.author}</div>

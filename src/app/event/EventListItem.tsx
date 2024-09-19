@@ -19,7 +19,7 @@ interface BlogProps {
 }
 
 const BlogItem: React.FC<BlogProps> = ({ type, event }) => {
-    
+
     const router = useRouter();
 
      // 이벤트 클릭 시 페이지 이동을 처리하는 함수
@@ -41,7 +41,7 @@ const BlogItem: React.FC<BlogProps> = ({ type, event }) => {
                     className="blog-item style-one h-full cursor-pointer"
                     onClick={handleBlogClick} // 클릭 시 handleBlogClick 함수 호출
                 >                    
-                <div className="blog-main h-full block">
+                    <div className="blog-main h-full block">
                         <div className="blog-thumb rounded-[20px] overflow-hidden">
                             <Image
                                 src={event.imagePath || '/images/default.jpg'}
