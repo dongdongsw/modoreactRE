@@ -23,6 +23,7 @@ interface EventData {
 const EventDetail = () => {
     const pathname  = usePathname(); // useRouter로 라우팅 정보 가져오기
     const router = useRouter(); // Initialize useRouter for navigation
+    const [userRole, setUserRole] = useState('');
 
     const id = pathname?.split('/').pop(); // Extract id from the path
     const [event, setEvent] = useState<EventData | null>(null);
@@ -40,12 +41,20 @@ const EventDetail = () => {
                     setLoading(false);
                 });
         }
+        axios.get('/login/user/role')
+            .then(response => {
+                const { role } = response.data;
+                setUserRole(role);
+            })
+            .catch(error => {
+                console.error('Error fetching user role:', error);
+            });
     }, [id]);
 
     const handleDelete = () => {
         axios.delete(`/api/event/${id}`)
             .then(() => {
-                router.push('/Main/Event'); // 페이지 이동
+                router.push('/event/EventListPage'); // 페이지 이동
             })
             .catch(error => {
                 console.error('Error deleting event:', error);
@@ -67,32 +76,34 @@ const EventDetail = () => {
                 <MenuYoga/>
             </div>
             <div className="blog-content flex items-center justify-center">
-                <div className="heading3 mt-3">{event.title}</div>
+                
             </div>
-            <div className='blog detail1'>
+            <div className='blog detail1 '>
+                <div className="heading3 flex justify-center">{event.title}</div>
+                    <div className="heading3 flex justify-between  md:pt-8">
+                    <div> </div>
+                    {userRole === 'ROLE_ADMIN' &&
+                            <button onClick={handleDelete} className='button-main'>삭제</button>
+                        }
+                    </div>
                 <div className="bg-img flex justify-center items-center md:mt-[74px] mt-14">
-                <Image
-                        src={event.imagePath}
-                        width={5000}
-                        height={4000}
-                        alt={event.imagePath}
-                        className='w-full min-[1600px]:h-[800px] xl:h-[1200px] lg:h-[1500px] sm:w-[1000px] sm:h-[1500px] h-[260px] object-cover'
-                    />
-                </div>
+                    {event.imagePath ? (
+                        <Image
+                            src={event.imagePath}
+                            width={5000}
+                            height={4000}
+                            alt="Event Image"
+                            className='w-full min-[1600px]:h-[800px] xl:h-[1200px] lg:h-[1500px] sm:w-[1000px] sm:h-[1500px] h-[260px] object-cover'
+                        />
+                    ) : null}
+</div>
+
                 <div className="container md:pt-20 pt-10">
                     <div className="blog-content flex items-center justify-center">
                         <div className="main md:w-5/6 w-full">
                             
                             <div className="author flex items-center gap-4 mt-4">
-                                <div className="avatar w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
-                                    <Image
-                                        src={event.imagePath}
-                                        width={200}
-                                        height={200}
-                                        alt='avatar'
-                                        className='w-full h-full object-cover'
-                                    />
-                                </div>
+                                
                                 <div className='flex items-center gap-2'>
                                     <div className="caption1 text-secondary">by {event.author}</div>
                                     <div className="line w-5 h-px bg-secondary"></div>

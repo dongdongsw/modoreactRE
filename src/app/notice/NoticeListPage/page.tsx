@@ -18,6 +18,8 @@ interface NoticeData {
     title: string;
     content: string;
     createdDate: string;
+    imagePath: string;
+
 }
 
 const BlogList = () => {

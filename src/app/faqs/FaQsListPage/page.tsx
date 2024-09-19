@@ -7,6 +7,8 @@ import Footer from '@/components/Footer/Footer'
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import axios from 'axios';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation'
+
 
 // Q&A 데이터 타입 정의
 interface Qanda {
@@ -22,6 +24,8 @@ const Faqs = () => {
     const [qandas, setQandas] = useState<Qanda[]>([]); // Qanda[] 타입으로 상태를 정의
     const [visibleContent, setVisibleContent] = useState<{ [key: string]: boolean }>({}); // 각 Q&A의 표시 상태를 관리하는 객체
     const [userRole, setUserRole] = useState('');
+    const router = useRouter();  
+
 
     // API 호출: Q&A와 사용자 역할 가져오기
     useEffect(() => {
@@ -81,6 +85,17 @@ const Faqs = () => {
         }
     });
 
+     // Q&A 삭제 함수
+     const handleDelete = (id: string) => {
+        axios.delete(`/api/qanda/${id}`)
+            .then(() => {
+                setQandas(prevQandas => prevQandas.filter(qanda => qanda.id !== id));
+            })
+            .catch(error => {
+                console.error('Error deleting Q&A:', error);
+            });
+    };
+
     return (
         <>
             <TopNavOne props="style-one bg-black" slogan="New customers save 10% with the code GET10" />
@@ -124,7 +139,24 @@ const Faqs = () => {
                                     >
                                         <div className="heading flex items-center justify-between gap-6">
                                             <div className="heading6">{qanda.title}</div>
+                                            
                                             <Icon.CaretRight size={24} />
+                                            
+
+                                        </div>
+                                        <div className="heading flex items-right justify-between gap-6 mt-3">
+                                        <div> </div>
+                                        {userRole === 'ROLE_ADMIN' && (
+                                                <button
+                                                    className="button-main"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation(); // 삭제 버튼 클릭 시 Q&A 표시 토글을 막음
+                                                        handleDelete(qanda.id);
+                                                    }}
+                                                >
+                                                    삭제
+                                                </button>
+                                            )}
                                         </div>
                                         {visibleContent[qanda.id] && (
                                             <div className="content body1 text-secondary">
@@ -146,6 +178,20 @@ const Faqs = () => {
                                             <div className="heading6">{qanda.title}</div>
                                             <Icon.CaretRight size={24} />
                                         </div>
+                                        <div className="heading flex items-right justify-between gap-6 mt-3">
+                                        <div> </div>
+                                        {userRole === 'ROLE_ADMIN' && (
+                                                <button
+                                                    className="button-main"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation(); // 삭제 버튼 클릭 시 Q&A 표시 토글을 막음
+                                                        handleDelete(qanda.id);
+                                                    }}
+                                                >
+                                                    삭제
+                                                </button>
+                                            )}
+                                        </div>
                                         {visibleContent[qanda.id] && (
                                             <div className="content body1 text-secondary">
                                                 {qanda.content}
@@ -165,6 +211,20 @@ const Faqs = () => {
                                         <div className="heading flex items-center justify-between gap-6">
                                             <div className="heading6">{qanda.title}</div>
                                             <Icon.CaretRight size={24} />
+                                        </div>
+                                        <div className="heading flex items-right justify-between gap-6 mt-3">
+                                        <div> </div>
+                                        {userRole === 'ROLE_ADMIN' && (
+                                                <button
+                                                    className="button-main"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation(); // 삭제 버튼 클릭 시 Q&A 표시 토글을 막음
+                                                        handleDelete(qanda.id);
+                                                    }}
+                                                >
+                                                    삭제
+                                                </button>
+                                            )}
                                         </div>
                                         {visibleContent[qanda.id] && (
                                             <div className="content body1 text-secondary">
@@ -186,6 +246,20 @@ const Faqs = () => {
                                             <div className="heading6">{qanda.title}</div>
                                             <Icon.CaretRight size={24} />
                                         </div>
+                                        <div className="heading flex items-right justify-between gap-6 mt-3">
+                                        <div> </div>
+                                        {userRole === 'ROLE_ADMIN' && (
+                                                <button
+                                                    className="button-main"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation(); // 삭제 버튼 클릭 시 Q&A 표시 토글을 막음
+                                                        handleDelete(qanda.id);
+                                                    }}
+                                                >
+                                                    삭제
+                                                </button>
+                                            )}
+                                        </div>
                                         {visibleContent[qanda.id] && (
                                             <div className="content body1 text-secondary">
                                                 {qanda.content}
@@ -205,6 +279,20 @@ const Faqs = () => {
                                         <div className="heading flex items-center justify-between gap-6">
                                             <div className="heading6">{qanda.title}</div>
                                             <Icon.CaretRight size={24} />
+                                        </div>
+                                        <div className="heading flex items-right justify-between gap-6 mt-3">
+                                        <div> </div>
+                                        {userRole === 'ROLE_ADMIN' && (
+                                                <button
+                                                    className="button-main"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation(); // 삭제 버튼 클릭 시 Q&A 표시 토글을 막음
+                                                        handleDelete(qanda.id);
+                                                    }}
+                                                >
+                                                    삭제
+                                                </button>
+                                            )}
                                         </div>
                                         {visibleContent[qanda.id] && (
                                             <div className="content body1 text-secondary">
@@ -226,6 +314,20 @@ const Faqs = () => {
                                             <div className="heading6">{qanda.title}</div>
                                             <Icon.CaretRight size={24} />
                                         </div>
+                                        <div className="heading flex items-right justify-between gap-6 mt-3">
+                                        <div> </div>
+                                        {userRole === 'ROLE_ADMIN' && (
+                                                <button
+                                                    className="button-main"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation(); // 삭제 버튼 클릭 시 Q&A 표시 토글을 막음
+                                                        handleDelete(qanda.id);
+                                                    }}
+                                                >
+                                                    삭제
+                                                </button>
+                                            )}
+                                        </div>
                                         {visibleContent[qanda.id] && (
                                             <div className="content body1 text-secondary">
                                                 {qanda.content}
@@ -244,6 +346,21 @@ const Faqs = () => {
                                         <div className="heading flex items-center justify-between gap-6">
                                             <div className="heading6">{qanda.title}</div>
                                             <Icon.CaretRight size={24} />
+                                            
+                                        </div>
+                                        <div className="heading flex items-right justify-between gap-6 mt-3">
+                                        <div> </div>
+                                        {userRole === 'ROLE_ADMIN' && (
+                                                <button
+                                                    className="button-main"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation(); // 삭제 버튼 클릭 시 Q&A 표시 토글을 막음
+                                                        handleDelete(qanda.id);
+                                                    }}
+                                                >
+                                                    삭제
+                                                </button>
+                                            )}
                                         </div>
                                         {visibleContent[qanda.id] && (
                                             <div className="content body1 text-secondary">
@@ -263,7 +380,23 @@ const Faqs = () => {
                                         <div className="heading flex items-center justify-between gap-6">
                                             <div className="heading6">{qanda.title}</div>
                                             <Icon.CaretRight size={24} />
+                                            
                                         </div>
+                                        <div className="heading flex items-right justify-between gap-6 mt-3">
+                                        <div> </div>
+                                        {userRole === 'ROLE_ADMIN' && (
+                                                <button
+                                                    className="button-main"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation(); // 삭제 버튼 클릭 시 Q&A 표시 토글을 막음
+                                                        handleDelete(qanda.id);
+                                                    }}
+                                                >
+                                                    삭제
+                                                </button>
+                                            )}
+                                        </div>
+
                                         {visibleContent[qanda.id] && (
                                             <div className="content body1 text-secondary">
                                                 {qanda.content}
