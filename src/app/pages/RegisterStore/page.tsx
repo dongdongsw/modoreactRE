@@ -7,7 +7,7 @@ import MenuYoga from '@/components/Header/Menu/MenuYoga';
 import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
 import Footer from '@/components/Footer/Footer';
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import axios, { AxiosError } from 'axios'; // AxiosError import 추가
+import axios from 'axios'; // AxiosError import 추가
 
 const RegisterStorePage = () => {
     const [storeInfo, setStoreInfo] = useState({
