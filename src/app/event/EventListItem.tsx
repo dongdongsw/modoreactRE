@@ -4,6 +4,8 @@ import React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import './EventList.css';
+import Link from 'next/link';
+
 
 interface BlogProps {
     type: string;
@@ -20,9 +22,11 @@ const BlogItem: React.FC<BlogProps> = ({ type, event }) => {
     
     const router = useRouter();
 
-    const handleBlogClick = (eventId: string) => {
-        router.push(`/event/${eventId}`);
-        
+     // 이벤트 클릭 시 페이지 이동을 처리하는 함수
+    const handleBlogClick = (e: React.MouseEvent<HTMLDivElement>) => { // 이벤트 타입 명시
+        e.preventDefault(); // 기본 동작 방지 (선택 사항)
+        // 동적 페이지로 이동 (event.id 사용)
+        router.push(`/event/${event.id}`);
     };
 
     // 날짜 형식을 YYYY-MM-DD로 변환
@@ -34,8 +38,10 @@ const BlogItem: React.FC<BlogProps> = ({ type, event }) => {
     return (
         <>
             {type === "style-one" ? (
-                <div className="blog-item style-one h-full cursor-pointer" onClick={() => handleBlogClick(event.id)}>
-                    <div className="blog-main h-full block">
+                <div
+                    className="blog-item style-one h-full cursor-pointer"
+                    onClick={handleBlogClick} // 클릭 시 handleBlogClick 함수 호출
+                >                    <div className="blog-main h-full block">
                         <div className="blog-thumb rounded-[20px] overflow-hidden">
                             <Image
                                 src={event.imagePath || '/images/default.jpg'}
