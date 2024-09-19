@@ -264,8 +264,8 @@ const MenuYoga = () => {
                                         <ul className='w-full'>
                                             
                                             <li>
-                                                <Link href="/blog/Notice/NoticeListPage" className={`text-secondary duration-300 ${pathname === '/blog/Notice/NoticeListPage' ? 'active' : ''}`}>
-                                                    Blog List
+                                                <Link href="/notice/NoticeListPage" className={`text-secondary duration-300 ${pathname === '/notice/NoticeListPage' ? 'active' : ''}`}>
+                                                        Notice
                                                 </Link>
                                             </li>
                                             <li>
