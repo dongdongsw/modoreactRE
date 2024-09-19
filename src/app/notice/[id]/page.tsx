@@ -2,14 +2,13 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image';
 import Link from 'next/link';
+import { useSearchParams, usePathname } from 'next/navigation'; // useSearchParams와 usePathname 사용
 import TopNavOne from '@/components/Header/TopNav/TopNavOne'
 import MenuYoga from '@/components/Header/Menu/MenuYoga'
 import Footer from '@/components/Footer/Footer'
-import { usePathname, useRouter  } from 'next/navigation'; // useRouter로 변경
 import axios from 'axios';
 
-
-interface EventData {
+interface NoticeData {
     id: string;
     title: string;
     content: string;
@@ -17,47 +16,48 @@ interface EventData {
     imagePath: string;
     author: string;
     date: string;
-    
 }
 
-const EventDetail = () => {
-    const pathname  = usePathname(); // useRouter로 라우팅 정보 가져오기
-    const router = useRouter(); // Initialize useRouter for navigation
-
-    const id = pathname?.split('/').pop(); // Extract id from the path
-    const [event, setEvent] = useState<EventData | null>(null);
-    const [loading, setLoading] = useState(true);
+const NoticeDetail = () => {
+    const pathname = usePathname();  // usePathname으로 현재 경로 가져오기
+    const id = pathname.split('/').pop();  // URL에서 마지막 부분을 id로 사용
+    const [notice, setNotice] = useState<NoticeData | null>(null);  // NoticeData 타입 지정
+    const [userRole, setUserRole] = useState('');
+    const router = useSearchParams();  // useSearchParams 사용
 
     useEffect(() => {
-        if (id) {
-            axios.get(`/api/event/${id}`)
-                .then(response => {
-                    setEvent(response.data);
-                    setLoading(false);
-                })
-                .catch(error => {
-                    console.error('Error fetching event:', error);
-                    setLoading(false);
-                });
-        }
+        // 공지사항 데이터 가져오기
+        axios.get(`/api/notice/${id}`)
+            .then(response => {
+                setNotice(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching notice:', error);
+            });
+
+        // 사용자 권한 정보 가져오기
+        axios.get('/login/user/role')
+            .then(response => {
+                const { role } = response.data;
+                setUserRole(role);
+            })
+            .catch(error => {
+                console.error('Error fetching user role:', error);
+            });
     }, [id]);
 
     const handleDelete = () => {
-        axios.delete(`/api/event/${id}`)
+        axios.delete(`/api/notice/${id}`)
             .then(() => {
-                router.push('/Main/Event'); // 페이지 이동
+                //router.push('/Main/Notice');  // 페이지 이동
             })
             .catch(error => {
-                console.error('Error deleting event:', error);
+                console.error('Error deleting notice:', error);
             });
     };
 
-    if (loading) {
+    if (!notice) {
         return <div>Loading...</div>;
-    }
-
-    if (!event) {
-        return <div>No event found.</div>;
     }
 
     return (
@@ -66,45 +66,34 @@ const EventDetail = () => {
             <div id="header" className='relative w-full'>
                 <MenuYoga/>
             </div>
-            <div className="blog-content flex items-center justify-center">
-                <div className="heading3 mt-3">{event.title}</div>
-            </div>
-            <div className='blog detail1'>
-                <div className="bg-img flex justify-center items-center md:mt-[74px] mt-14">
-                <Image
-                        src={event.imagePath}
-                        width={5000}
-                        height={4000}
-                        alt={event.imagePath}
-                        className='w-full min-[1600px]:h-[800px] xl:h-[1200px] lg:h-[1500px] sm:w-[1000px] sm:h-[1500px] h-[260px] object-cover'
-                    />
-                </div>
-                <div className="container md:pt-20 pt-10">
-                    <div className="blog-content flex items-center justify-center">
-                        <div className="main md:w-5/6 w-full">
-                            
+            <div className='blog detail2 md:mt-[74px] mt-[56px] border-t border-line'>
+                <div className="container lg:pt-20 md:pt-14 pt-10">
+                    <div className="blog-content flex justify-center max-lg:flex-col gap-y-10">
+                        <div className="main xl:w-3/4 lg:w-2/3 lg:pr-[15px]">
+                            <div className="heading3 mt-3">{notice.title}</div>
                             <div className="author flex items-center gap-4 mt-4">
-                                <div className="avatar w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
-                                    <Image
-                                        src={event.imagePath}
-                                        width={200}
-                                        height={200}
-                                        alt='avatar'
-                                        className='w-full h-full object-cover'
-                                    />
-                                </div>
                                 <div className='flex items-center gap-2'>
-                                    <div className="caption1 text-secondary">by {event.author}</div>
+                                    <div className="caption1 text-secondary">by {notice.author}</div>
                                     <div className="line w-5 h-px bg-secondary"></div>
-                                    <div className="caption1 text-secondary">{event.date}</div>
+                                    <div className="caption1 text-secondary">{notice.date}</div>
                                 </div>
                             </div>
-                            <div className="content md:mt-8 mt-5">
-                                <div className="body1">{event.content}</div>
-                                
+                            <div className="bg-img md:py-10 py-6">
+                                {notice.imagePath ? (
+                                    <Image
+                                    src={notice.imagePath}
+                                    width={5000}
+                                    height={4000}
+                                    alt={notice.title} // alt 값은 title로 변경
+                                    className='w-full object-cover rounded-3xl'
+                                    />
+                                ) : null}
+                                </div>
+                            <div className="content">
+                                <div className="body1">{notice.content}</div>
                             </div>
                             <div className="action flex items-center justify-between flex-wrap gap-5 md:mt-8 mt-5">
-                                <div className="right flex items-center gap-3 flex-wrap">
+                                <div className="right list-social flex items-center gap-3 flex-wrap">
                                     <p>Share:</p>
                                     <div className="list flex items-center gap-3 flex-wrap">
                                         <Link href={'https://www.facebook.com/'} target='_blank' className='bg-surface w-10 h-10 flex items-center justify-center rounded-full duration-300 hover:bg-black hover:text-white'>
@@ -126,7 +115,7 @@ const EventDetail = () => {
                                 </div>
                             </div>
                             <div className="next-pre flex items-center justify-between md:mt-8 mt-5 py-6 border-y border-line">
-                                {/* Previous and Next Event Links */}
+                                {/* Next/Previous navigation 로직 수정 필요 시 추가 */}
                             </div>
                         </div>
                     </div>
@@ -137,4 +126,4 @@ const EventDetail = () => {
     )
 }
 
-export default EventDetail
+export default NoticeDetail;

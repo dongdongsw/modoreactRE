@@ -12,6 +12,11 @@ const nextConfig = {
                 source: '/event/:id', 
                 destination: '/event/[id]', // Next.js가 처리하도록 설정
             },
+
+            {
+                source: '/notice/:id', 
+                destination: '/notice/[id]', // Next.js가 처리하도록 설정
+            },
             // 나머지 모든 경로는 백엔드로 리디렉션
             {
                 source: '/:path*',
