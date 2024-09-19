@@ -7,6 +7,9 @@ import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
 import BlogItem from '../EventListItem'; // BlogItem을 가져와 렌더링
 import Footer from '@/components/Footer/Footer';
 import HandlePagination from '@/components/Other/HandlePagination';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+import axios from 'axios';
 
 interface EventData {
     id: string;
@@ -17,6 +20,8 @@ interface EventData {
 }
 
 const BlogGrid = () => {
+    const pathname = usePathname()
+    const [userRole, setUserRole] = useState('');
     const [events, setEvents] = useState<EventData[]>([]); // 여러 데이터를 받을 상태로 변경
     const [loading, setLoading] = useState(true); // 로딩 상태 추가
     const currentPage = 0; // 페이지네이션 관련 설정
@@ -31,6 +36,15 @@ const BlogGrid = () => {
                 setLoading(false); // 로딩 완료
             })
             .catch((error) => console.error('Error fetching event data:', error));
+
+            axios.get('/login/user/role')
+            .then(response => {
+                const { role } = response.data;
+                setUserRole(role);
+            })
+            .catch(error => {
+                console.error('Error fetching user role:', error);
+            });   
     }, []);
 
     if (loading) return <div>Loading...</div>; // 데이터 로드 전 처리
@@ -42,6 +56,15 @@ const BlogGrid = () => {
                 <MenuYoga/>
                 <Breadcrumb heading='Event' subHeading='Event' />
             </div>
+            
+            {userRole === 'ROLE_ADMIN' &&
+            <div className="flex justify-center md:py-8">
+                <Link href="/event/EventForm" className='text-secondary duration-300'>
+                    <button className="button-main">새로운 이벤트 작성</button>
+                </Link>
+            </div>
+            }
+
             <div className='blog grid md:py-20 py-10'>
                 <div className="container">
                     <div className="list-blog grid lg:grid-cols-3 sm:grid-cols-2 md:gap-[42px] gap-8">

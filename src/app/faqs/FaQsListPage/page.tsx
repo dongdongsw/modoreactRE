@@ -6,6 +6,7 @@ import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
 import Footer from '@/components/Footer/Footer'
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import axios from 'axios';
+import Link from 'next/link';
 
 // Q&A 데이터 타입 정의
 interface Qanda {
@@ -87,6 +88,14 @@ const Faqs = () => {
                 <MenuYoga/>
                 <Breadcrumb heading='FAQs' subHeading='FAQs' />
             </div>
+            {userRole === 'ROLE_ADMIN' &&
+            <div className="flex justify-center md:py-8">
+            <Link href="/faqs/FaQsForm" className='text-secondary duration-300'>
+                <button className="button-main">새로운 FaQs 작성</button>
+                </Link>
+                </div>
+                }
+                
             <div className='faqs-block md:py-20 py-10'>
                 <div className="container">
                     <div className="flex justify-between">

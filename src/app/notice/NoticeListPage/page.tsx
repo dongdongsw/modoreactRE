@@ -11,7 +11,7 @@ import HandlePagination from '@/components/Other/HandlePagination'
 import { useRouter } from 'next/navigation'
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import axios from 'axios';
-
+import Link from 'next/link';
 
 interface NoticeData {
     id: string;
@@ -21,6 +21,7 @@ interface NoticeData {
 }
 
 const BlogList = () => {
+    const [userRole, setUserRole] = useState('');
     const [notices, setNotices] = useState<NoticeData[]>([]); // 공지사항 데이터 상태
     const [loading, setLoading] = useState(true); // 로딩 상태 추가
     const currentPage = 0; // 페이지네이션 관련 설정
@@ -37,6 +38,15 @@ const BlogList = () => {
                 console.error('Error fetching notices:', error);
                 setLoading(false); // 에러 시에도 로딩 상태 변경
             });
+
+            axios.get('/login/user/role')
+            .then(response => {
+                const { role } = response.data;
+                setUserRole(role);
+            })
+            .catch(error => {
+                console.error('Error fetching user role:', error);
+            });
     }, []);
 
     if (loading) return <div>Loading...</div>; // 로딩 중일 때 표시
@@ -49,6 +59,13 @@ const BlogList = () => {
             <MenuYoga/>
             <Breadcrumb heading='Notice List' subHeading='Notice List' />
         </div>
+        {userRole === 'ROLE_ADMIN' &&
+        <div className="flex justify-center md:py-8">
+        <Link href="/notice/NoticeForm" className='text-secondary duration-300'>
+                <button className="button-main">새로운 공지사항 작성</button>
+                </Link>
+                </div>
+                }
         <div className='blog list md:py-20 py-10'>
             <div className="container mx-auto">
                 <div className="flex justify-center max-xl:flex-col gap-y-12"> {/* 가운데 정렬 */}
