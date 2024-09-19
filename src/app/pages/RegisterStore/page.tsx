@@ -204,13 +204,8 @@ const RegisterStorePage = () => {
                                             placeholder="주소"
                                             className="store-input border-line px-4 pt-3 pb-3 w-full rounded-lg pr-20"
                                         />
-                                        <button
-                                            type="button"
-                                            onClick={execDaumPostcode}
-                                            className="button-main black absolute top-1 bottom-1 right-1 flex items-center justify-center"
-                                        >
-                                            주소 검색
-                                        </button>
+                                        <button className="store-button-register button-main absolute top-1 bottom-1 right-1 flex items-center justify-center
+">주소 검색</button>
                                     </div>
                                 </p>
                                 <p>
@@ -261,13 +256,9 @@ const RegisterStorePage = () => {
                                         onChange={handleImageChange}
                                         className="store-input border-line px-4 pt-3 pb-3 w-full rounded-lg"
                                     />
-                                    <button
-                                        type="button"
-                                        onClick={handleImageUpload}
-                                        className="button-main absolute top-1 bottom-1 right-1 flex items-center justify-center"
-                                    >
-                                        이미지 업로드
-                                    </button>
+                                    <button onClick={handleImageUpload}
+                                    className="store-button-register button-main absolute top-1 bottom-1 right-1 flex items-center justify-center
+">이미지업로드</button>
                                 </div>
                             </p>
                         </div>
