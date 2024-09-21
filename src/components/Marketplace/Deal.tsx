@@ -27,12 +27,12 @@ const Deal = () => {
     };
 
     return (
-        <div className=" md:pt-[60px] pt-10">
+        <div className="md:pt-[60px] pt-10">
             <div className="container">
                 <div className="heading flex items-center justify-between gap-5 flex-wrap">
                     <div className="left flex items-center gap-6 gap-y-3 flex-wrap">
                         <div className="heading3">Deals of the week</div>
-                        <div className="deal-time bg-red py-1 px-5 rounded-lg">
+                        <div className="deal-time bg-red-500 py-1 px-5 rounded-lg">
                             <div className="heading6 text-white">
                                 <span className='countdown-day'>{timeLeft.days < 10 ? `0${timeLeft.days}` : timeLeft.days}</span>
                                 <span>D : </span>
@@ -45,18 +45,16 @@ const Deal = () => {
                             </div>
                         </div>
                     </div>
-                    <a href='/shop/breadcrumb-img' className='text-button pb-1 border-b-2 border-black'>View All Deals
-                    </a>
+                    <a href='/shop/breadcrumb-img' className='text-button pb-1 border-b-2 border-black'>View All Deals</a>
                 </div>
-                <div
-                    className="list grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[20px] md:mt-10 mt-6">
+                <div className="list grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[20px] md:mt-10 mt-6">
                     {productData.slice(150, 155).map(item => (
                         <Product data={item} type='marketplace' key={item.id} />
                     ))}
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 export default Deal
