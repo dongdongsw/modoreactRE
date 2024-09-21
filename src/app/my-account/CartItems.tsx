@@ -1,4 +1,3 @@
-// src/app/my-account/CartItems.tsx
 import React, { useEffect, useState } from 'react';
 import * as Icon from '@phosphor-icons/react/dist/ssr';
 import axios from 'axios';
@@ -32,6 +31,8 @@ const CartItems: React.FC<TabButtonProps> = ({ isActive, onClick }) => {
 const CartContent: React.FC = () => {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [cartError, setCartError] = useState<string | null>(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
 
     useEffect(() => {
         const fetchCartItems = async () => {
@@ -51,7 +52,6 @@ const CartContent: React.FC = () => {
         fetchCartItems();
     }, []);
 
-
     const handleRemove = async (id: string) => {
         try {
             const response = await fetch(`/api/cart/remove/${id}`, {
@@ -68,11 +68,18 @@ const CartContent: React.FC = () => {
             alert('항목 삭제 중 오류가 발생했습니다.');
         }
     };
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = cartItems.slice(indexOfFirstItem, indexOfLastItem);
+
+    const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
     return (
         <div className="cart-content p-7 border border-line rounded-xl">
             <div className="heading5 mb-4">상품 장바구니</div>
             <div className="cart-items">
-                {cartItems.slice(0, 4).map(item => (
+                {currentItems.map((item) => (
                     <div key={item.id} className='item py-5 flex items-center justify-between gap-3 border-b border-line'>
                         <div className="infor flex items-center gap-5">
                             <div className="bg-img">
@@ -93,7 +100,7 @@ const CartContent: React.FC = () => {
                         </div>
                         <div
                             className="text-xl bg-white w-10 h-10 rounded-xl border border-black flex items-center justify-center duration-300 cursor-pointer hover:bg-black hover:text-white"
-                            onClick={e => {
+                            onClick={(e) => {
                                 e.stopPropagation();
                                 handleRemove(item.id);
                             }}
@@ -102,6 +109,28 @@ const CartContent: React.FC = () => {
                         </div>
                     </div>
                 ))}
+            </div>
+
+            <div className="flex justify-center mt-4">
+                {Array.from({ length: Math.ceil(cartItems.length / itemsPerPage) }, (_, index) => (
+                    <button
+                        key={index}
+                        className={`mx-1 px-4 py-2 rounded-lg ${
+                            currentPage === index + 1 ? 'text-red' : 'text-black'
+                        }`}
+                        onClick={() => paginate(index + 1)}
+                    >
+                        {index + 1}
+                    </button>
+                ))}
+                {currentPage < Math.ceil(cartItems.length / itemsPerPage) && (
+                    <button
+                        className="mx-1 px-4 py-2 rounded-lg text-gray-300"
+                        onClick={() => paginate(currentPage + 1)}
+                    >
+                        &gt;
+                    </button>
+                )}
             </div>
         </div>
     );
