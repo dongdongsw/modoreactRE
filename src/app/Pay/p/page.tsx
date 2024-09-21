@@ -4,7 +4,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'; // next/navigation에서 관련 훅 가져오기
-import axios, { AxiosError } from 'axios'; // AxiosError를 import
+import axios from 'axios'; // AxiosError를 import
 import CompanySelector from '../CompanySelector';
 import DateSelector from '../DateSelector';
 import RangeSelection from '../RangeSelection';
@@ -384,6 +384,19 @@ const Pay = () => {
     return { totalAmount, merchantUidList, combinedName };
   };
 
+  const handlePaymentSuccess = (merchantUids: string[], companyId: string): void => {
+    // 결제 완료 후 장바구니에서 결제된 항목 삭제 요청
+    axios.post('/api/cart/deletePaidItems', { merchantUids, companyId })
+      .then((response) => {
+        console.log('결제된 항목 삭제 성공:', response.data);
+        // 결제 완료 후 필요한 추가 작업 (예: 사용자 알림, 화면 전환 등)
+      })
+      .catch((error) => {
+        console.error('결제된 항목 삭제 실패:', error);
+      });
+  };
+  
+
   const processPayment = (
     companyId: string,
     totalAmount: number,
@@ -421,6 +434,8 @@ const Pay = () => {
             if (rsp.success) {
               alert('주문이 완료되었습니다.');
               savePaymentToDatabase(merchantUidList.join(', '), companyId, combinedName, totalAmount, rsp);
+              handlePaymentSuccess(merchantUidList, companyId);
+
             } else {
               alert('결제 실패: ' + rsp.error_msg);
             }
@@ -465,6 +480,10 @@ const Pay = () => {
   if (!isMounted) {
     return null; // 서버사이드 렌더링 시 아무것도 렌더링하지 않음
   }
+
+
+
+
   return (
     <div className="pay-container">
       <div className="step-indicator-container">

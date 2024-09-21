@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    reactStrictMode: true,
+  
+    images: {
+      unoptimized: true,  // 이미지 최적화 비활성화
+    },
     async rewrites() {
         return [
             // API 요청을 백엔드 서버로 리디렉션
