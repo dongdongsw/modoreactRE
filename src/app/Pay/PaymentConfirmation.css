@@ -1,0 +1,82 @@
+.paymentConfirmation {
+    padding: 20px;
+    border: 1px solid #ccc;
+    margin-top: 20px;
+  }
+  
+  .addressSelection {
+    margin-bottom: 20px;
+  }
+  
+  .addressSelect {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .addressInfo {
+    margin-top: 10px;
+  }
+  
+  .confirmButton {
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .itemsList {
+    margin-top: 20px;
+  }
+  
+  .itemDetail {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+  }
+  
+  .dateDetail {
+    margin-left: 20px;
+  }
+  
+  .totalAmount {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .confirmationButtons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .cancelButton, .payButton {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .cancelButton {
+    background-color: #ff6961;
+    color: white;
+  }
+  
+  .payButton {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .payButton:hover {
+    background-color: #45a049;
+  }
+  
+  .cancelButton:hover {
+    background-color: #ff5c5c;
+  }
+  

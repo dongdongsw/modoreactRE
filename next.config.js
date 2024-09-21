@@ -14,6 +14,11 @@ const nextConfig = {
             },
 
             {
+                source: '/Pay/:p', 
+                destination: '/Pay/p', // Next.js가 처리하도록 설정
+            },
+
+            {
                 source: '/store/:id',
                 destination: '/store/[id]', // Next.js가 처리하도록 설정
             },

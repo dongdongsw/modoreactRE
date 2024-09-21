@@ -1,0 +1,26 @@
+.companySelector {
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+  
+  .companyButton {
+    margin: 10px;
+    padding: 5px;
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+  }
+  
+  .companyButton.active {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .companyItems {
+    margin-top: 10px;
+  }
+  
+  .cartItem {
+    margin: 5px 0;
+  }
+  

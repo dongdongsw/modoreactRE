@@ -1,0 +1,15 @@
+.dateSelector {
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+  
+  .restDay {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+  
+  .selectedRange {
+    background-color: #4caf50;
+    color: white;
+  }
+  
