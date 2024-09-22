@@ -1,47 +1,112 @@
 .rangeSelection {
-    padding: 10px;
-    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    
   }
   
   .rangeButton {
-    margin: 5px;
-    padding: 10px;
+    background-color: #000000;
+    color: white;
     border: none;
-    background-color: #f0f0f0;
+    border-radius: 15px;
+    padding: 10px 20px;
+    font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 15px;
   }
   
+  .rangeButton:hover {
+    background-color: #ccc;
+  }
+
   .rangeButton.active {
-    background-color: #4caf50;
-    color: white;
+    background-color: #000000;
   }
   
   .resetButton {
-    margin-left: 10px;
-    padding: 10px;
-    border: none;
-    background-color: #ff6961;
+    background-color: #ccc;
     color: white;
+    border: none;
+    border-radius: 15px;
+    padding: 10px 20px;
+    font-size: 14px;
     cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.3s ease;
+  }
+
+  .resetButton:hover {
+    background-color: #c82333;
   }
   
   .selectionBox {
-    margin-top: 10px;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-top: 20px;  
+  }
+
+  .selectionBox h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
   }
   
   .selectedDate {
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 6px;
     margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
   }
   
   .mealButtonsInline {
     display: flex;
-    justify-content: space-between;
-    width: 300px;
-  }
+  justify-content: space-around; /* 각 섹션이 고르게 가로로 배치되도록 설정 */
+  align-items: center;
+}
+  
   
   .mealSection {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    gap: 5px;
+    flex-direction: row;
+  }
+
+  .mealSection span {
+    font-weight: bold;
   }
   
+  .mealSection button {
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  .mealSection button:hover {
+    background-color: #ccc;
+  }
+  
+  .mealSection button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .mealSection span {
+    width: 30px;
+    text-align: center;
+  }

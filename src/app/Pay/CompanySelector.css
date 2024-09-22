@@ -1,6 +1,7 @@
 .companySelector {
     padding: 10px;
     border: 1px solid #ccc;
+    border-radius: 20px;
   }
   
   .companyButton {
@@ -9,18 +10,49 @@
     border: none;
     background-color: #f0f0f0;
     cursor: pointer;
+    width: 540px;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: bolder;
+
   }
   
   .companyButton.active {
-    background-color: #4caf50;
+    background-color: #000000;
     color: white;
+    border-radius: 10px;
+    width: 540px;
+
   }
   
   .companyItems {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     margin-top: 10px;
   }
   
   .cartItem {
-    margin: 5px 0;
+    margin: 5px 15px 0;
   }
   
+  input[type='radio'] {
+    
+    -webkit-appearance: none; 
+    -moz-appearance: none;
+    appearance: none; 
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ccc; 
+    border-radius: 50%;
+    outline: none; 
+    cursor: pointer;
+  }
+
+  input[type='radio']:checked {
+    
+    background-color: #000000;
+    border: 3px solid white;
+    box-shadow: 0 0 0 1.6px #000000; 
+
+  
+  }

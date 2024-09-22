@@ -28,9 +28,9 @@ const DailySelection = ({ selectedItem, selectedDays, handleMealCountChange, mea
       >
         일일 기간
       </button>
-      <button onClick={handleDailyReset} className="resetButton">초기화</button>
+      <button onClick={handleDailyReset} className="resetButton">초기화 </button>
       <div className="selectionBox">
-        <h4>일일 기간</h4>
+        
         {selectedItem && selectedDays[selectedItem] && selectedDays[selectedItem].length > 0 ? (
           selectedDays[selectedItem].map((date, index) => (
             <div key={index} className="selectedDate">

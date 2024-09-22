@@ -1,6 +1,7 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { ko } from 'date-fns/locale'; // 한국어 로케일 import
 import './DateSelector.css'; // 일반 CSS 파일 import
 
 const DateSelector = ({ 
@@ -93,8 +94,6 @@ const DateSelector = ({
   };
 
   return (
-    <div className="dateSelector">
-      <h3>날짜 선택</h3>
       <DatePicker
         selected={selectedItem ? (selectedDates[selectedItem]?.[0] || selectedDays[selectedItem]?.[0]) : null}
         onChange={handleDateSelection}
@@ -102,10 +101,10 @@ const DateSelector = ({
         maxDate={new Date(new Date().setDate(new Date().getDate() + 30))}
         inline
         dayClassName={dayClassName}
+        locale={ko} // 한국어 로케일 적용
         highlightDates={selectedItem ? [...(selectedDates[selectedItem] || []), ...(selectedDays[selectedItem] || [])] : []}
         filterDate={(date) => !isDateRestDay(date)}  // 쉬는 날을 선택하지 못하게 필터링
       />
-    </div>
   );
 };
 

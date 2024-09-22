@@ -11,7 +11,7 @@ const CompanySelector = ({ categorizedItems, activeCompany, setActiveCompany, se
 
   return (
     <div className="companySelector"> {/* 일반 className 사용 */}
-      <h3>업체 선택</h3>
+      
       {Object.keys(categorizedItems).map((companyId) => (
         <div key={companyId}>
           <button
@@ -30,7 +30,7 @@ const CompanySelector = ({ categorizedItems, activeCompany, setActiveCompany, se
                     onChange={() => setSelectedItem(item.merchanUid)}
                     checked={selectedItem === item.merchanUid}
                   />
-                  <label>{item.name} - {item.price} 원</label>
+                  <label> {item.name} : {item.price} 원</label>
                 </div>
               ))}
               {/* 여기서 결제 버튼을 추가합니다 */}

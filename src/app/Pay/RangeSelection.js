@@ -29,7 +29,7 @@ const RangeSelection = ({ selectedItem, selectedDates, handleMealCountChange, me
       </button>
       <button onClick={handleRangeReset} className="resetButton">초기화</button>
       <div className="selectionBox">
-        <h4>기간 이용</h4>
+        
         {selectedItem && selectedDates[selectedItem] && selectedDates[selectedItem].length > 0 ? (
           selectedDates[selectedItem].map((date, index) => (
             <div key={index} className="selectedDate">

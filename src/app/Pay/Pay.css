@@ -31,7 +31,7 @@
 }
 
 .company-button.active {
-  background-color: #4CAF50;
+  background-color: #000000;
   color: white;
 }
 
@@ -59,6 +59,10 @@
   max-width: 600px; /* 최대 폭 설정 */
   border-radius: 8px;
   border: 1px solid #ddd;
+}
+
+.heading4{
+  margin-bottom: 15px;
 }
 
 .react-datepicker__header {
@@ -89,11 +93,57 @@
   align-items: center;
 }
 
+.react-datepicker__navigation-icon::before{
+  border-color: #ffffff;
+    border-style: solid;
+    border-width: 3px 3px 0 0;
+    content: "";
+    display: block;
+    height: 20px;
+    position: absolute;
+    top: 6px;
+    width: 20px;
+  
+}
 
+.react-datepicker__day-name{
+font-size: 25px;
+font-weight: bold;
+    width: 70px;
+    height: 70px;
+    line-height: 48px;
+    margin: 2px;
+    border-radius: 30%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+h2.react-datepicker__current-month {
+font-size: 40px;
+}
+
+
+.react-datepicker__day--highlighted{
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.react-datepicker__day--selected{
+  background-color: #000000;
+  color: #ffffff;
+
+}
+
+.react-datepicker__day--today{
+  background-color: #ccc;
+  color: #ffffff;
+}
 
 .react-datepicker__day--selected, .react-datepicker__day--in-range, .react-datepicker__day--keyboard-selected {
-  background-color: #c3ec1e;
-  color: rgb(25, 24, 24);
+  background-color: #000000;
+  color: rgb(255, 255, 255);
 }
 
 .react-datepicker__day--selected:hover, .react-datepicker__day--in-range:hover {
@@ -156,7 +206,7 @@
 .meal-buttons button {
   margin-right: 5px;
   padding: 5px 10px;
-  background-color: #4CAF50;
+  background-color: #000000;
   color: white;
   border: none;
   border-radius: 5px;
@@ -168,7 +218,7 @@
 }
 
 .selected-range {
-  background-color: #4CAF50 !important;
+  background-color: #000000 !important;
   color: white !important;
 }
 
@@ -191,7 +241,78 @@
   margin: 0 5px;
 }
 
-.step-indicator{
- width: 600px;
- margin: 0 auto;
+/* step-indicator */
+
+.step-indicator {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  width: 700px;
 }
+
+.step {
+  flex: 1;
+  text-align: center;
+  position: relative;
+}
+
+.step.active .step-number {
+  background-color: #000000;
+  color: white;
+}
+
+.step .step-number {
+  width: 30px;
+  height: 30px;
+  margin: 0 auto;
+  background-color: #ccc;
+  color: #333;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.step .step-label {
+  font-size: 14px;
+  color: #666;
+}
+
+.step::after {
+  content: '';
+  position: absolute;
+  top: 15px;
+  right: -50%;
+  width: 100%;
+  height: 2px;
+  background-color: #ccc;
+  z-index: -1;
+}
+
+.step:last-child::after {
+  display: none;
+}
+
+.step.active .step-label {
+  font-weight: bold;
+  color: #000000;
+}
+
+.step.active::after {
+  background-color: #000000;
+}
+
+/* StepIndicator.css 또는 다른 CSS 파일 */
+.rest-day {
+  background-color: #ffcccc !important; /* 쉬는 날 배경색 */
+  pointer-events: none !important;      /* 선택 불가능하게 */
+  color: #999 !important;               /* 텍스트 색상 */
+}
+
+
+
+
+
+
+
