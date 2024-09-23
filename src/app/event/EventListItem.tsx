@@ -49,7 +49,7 @@ const BlogItem: React.FC<BlogProps> = ({ type, event }) => {
                                 width={2000}
                                 height={1500}
                                 layout="responsive"
-                                objectFit="cover"  // 컨테이너에 맞게 자르기
+                                style={{ objectFit: 'cover' }}
                                 className="w-full duration-500"
                             />
                         </div>
