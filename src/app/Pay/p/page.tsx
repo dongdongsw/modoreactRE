@@ -502,31 +502,30 @@ const Pay = () => {
       {!isNextStep ? (
         <>
         <div id="header" className='relative w-full'>
-                <div className={`header-menu style-one fixed top-0 left-0 right-0 w-full md:h-[74px] h-[56px]`}>
-                    <div className="container mx-auto h-full">
-                        <div className="header-main flex items-center justify-between h-full">
-                            <Link href={'/'} className='flex items-center'>
-                                <div className="heading4">Modo Modo</div>
-                            </Link>
-                            <div className="pay-container">
-                              <div className="step-indicator-container">
-                                <StepIndicator currentStep={currentStep} />
-                              </div>
-                            </div>
-                            <button className="max-md:hidden cart-icon flex items-center relative h-fit cursor-pointer" onClick={openModalCart}>
-                                <Icon.Handbag size={24} color='black' />
-                                <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-black w-4 h-4 flex items-center justify-center rounded-full">{cartState.cartArray.length}</span>
-                            </button>
-                        </div>
-                    </div>
+          <div className={`header-menu style-one fixed top-0 left-0 right-0 w-full md:h-[74px] h-[56px]`}>
+            <div className="container mx-auto h-full">
+              <div className="header-main flex items-center justify-between h-full">
+                <Link href={'/'} className='flex items-center'>
+                  <div className="heading4">Modo Modo</div>
+                </Link>
+                <div className="pay-container">
+                  <div className="step-indicator-container">
+                    <StepIndicator currentStep={currentStep} />
+                  </div>
                 </div>
+                <button className="max-md:hidden cart-icon flex items-center relative h-fit cursor-pointer" onClick={openModalCart}>
+                  <Icon.Handbag size={24} color='black' />
+                  <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-black w-4 h-4 flex items-center justify-center rounded-full">{cartState.cartArray.length}</span>
+                </button>
+              </div>
             </div>
+          </div>
+        </div>
+
         <div className="checkout-block relative md:pt-[74px] pt-[56px]">
-        
           <div className="content-main flex max-lg:flex-col-reverse justify-between">
             <div className="left flex lg:justify-end w-full">
               <div className="lg:max-w-[670px] flex-shrink-0 w-full lg:pt-20 pt-12 lg:pr-[70px] pl-[16px] max-lg:pr-[16px]">
-                
                 <div className="login flex justify-between gap-4">
                   <h4 className="heading4">메뉴 선택</h4>
                 </div>
@@ -538,82 +537,106 @@ const Pay = () => {
                       setSelectedItem={setSelectedItem}
                       fetchRestDays={fetchRestDays} // fetchRestDays 함수 전달
                     />
-                <div className="information md:mt-10 mt-6">
-                  <h4 className="heading4">날짜 선택</h4>
-                  <div className="deli_type">
-                    <DateSelector
+                  <div className="information md:mt-10 mt-6">
+                    <h4 className="heading4">날짜 선택</h4>
+                    <div className="deli_type">
+                      <DateSelector
+                        selectedItem={selectedItem}
+                        selectedDates={selectedDates}
+                        selectedDays={selectedDays}
+                        setSelectedDates={setSelectedDates}
+                        setSelectedDays={setSelectedDays}
+                        saveDatesToLocalStorage={saveDatesToLocalStorage}
+                        isRangeSelectionActive={isRangeSelectionActive}
+                        isDailySelectionActive={isDailySelectionActive}
+                        restDays={restDays} // 쉬는 날 정보 전달
+                      />
+                    </div>                
+                  </div>   
+                </div>
+              </div>
+              <div className="right justify-start flex-shrink-0 lg:w-[47%] bg-surface lg:py-20 py-12">
+                <div className="lg:sticky lg:top-24 h-fit lg:max-w-[606px] w-full flex-shrink-0 lg:pl-[80px] pr-[16px] max-lg:pl-[16px]">
+                  <div className="list_prd flex flex-col gap-7">
+                    <div className="item flex items-center justify-between gap-6">
+                            
+                    </div>
+                                
+                    <RangeSelection
                       selectedItem={selectedItem}
                       selectedDates={selectedDates}
-                      selectedDays={selectedDays}
-                      setSelectedDates={setSelectedDates}
-                      setSelectedDays={setSelectedDays}
+                      handleMealCountChange={handleMealCountChange}
+                      mealCounts={mealCounts}
+                      setIsRangeSelectionActive={setIsRangeSelectionActive}
+                      setIsDailySelectionActive={setIsDailySelectionActive}
                       saveDatesToLocalStorage={saveDatesToLocalStorage}
-                      isRangeSelectionActive={isRangeSelectionActive}
-                      isDailySelectionActive={isDailySelectionActive}
-                      restDays={restDays} // 쉬는 날 정보 전달
-                    />
-                  </div>                
-                </div>   
-                
-                        </div>
-                        
-                    </div>
-                    
-                    <div className="right justify-start flex-shrink-0 lg:w-[47%] bg-surface lg:py-20 py-12">
-                      <div className="lg:sticky lg:top-24 h-fit lg:max-w-[606px] w-full flex-shrink-0 lg:pl-[80px] pr-[16px] max-lg:pl-[16px]">
-                        <div className="list_prd flex flex-col gap-7">
-                          <div className="item flex items-center justify-between gap-6">
-                            
-                                    
-                                </div>
-                                
-                                    
-                                    <RangeSelection
-                                      selectedItem={selectedItem}
-                                      selectedDates={selectedDates}
-                                      handleMealCountChange={handleMealCountChange}
-                                      mealCounts={mealCounts}
-                                      setIsRangeSelectionActive={setIsRangeSelectionActive}
-                                      setIsDailySelectionActive={setIsDailySelectionActive}
-                                      saveDatesToLocalStorage={saveDatesToLocalStorage}
-                                      setSelectedDates={setSelectedDates}
-                                    />  
-                                    
-                                
-                            </div>
-                            
-                            
-                            
-                            <DailySelection
-                              selectedItem={selectedItem}
-                              selectedDays={selectedDays}
-                              handleMealCountChange={handleMealCountChange}
-                              mealCounts={mealCounts}
-                              setIsRangeSelectionActive={setIsRangeSelectionActive}
-                              setIsDailySelectionActive={setIsDailySelectionActive}
-                              saveDatesToLocalStorage={saveDatesToLocalStorage}
-                              setSelectedDays={setSelectedDays}
-                            />
-                            <NextStepButton onNext={handleNextStep} />
-                        </div>
-                    </div>
-                    
+                      setSelectedDates={setSelectedDates}
+                     />  
+                  </div>
+                  <DailySelection
+                    selectedItem={selectedItem}
+                    selectedDays={selectedDays}
+                    handleMealCountChange={handleMealCountChange}
+                    mealCounts={mealCounts}
+                    setIsRangeSelectionActive={setIsRangeSelectionActive}
+                    setIsDailySelectionActive={setIsDailySelectionActive}
+                    saveDatesToLocalStorage={saveDatesToLocalStorage}
+                    setSelectedDays={setSelectedDays}
+                  />
+                  <NextStepButton onNext={handleNextStep} />          
                 </div>
-                
+              </div>
             </div>
-            <div className="copyright caption1 md:mt-20 mt-12 py-3 border-t border-line">©2024 Anvogue. All Rights Reserved.</div>
+          </div>
+          
+          <div className="copyright caption1 md:mt-20 mt-12 py-3 border-t border-line">©2024 Anvogue. All Rights Reserved.</div>
 
           
           
 
         </>
       ) : (
-        <PaymentConfirmation
-          itemsToPay={itemsToPay}
-          totalAmount={totalAmount}
-          onPayment={handlePayment}
-          onCancel={handleBackToSelection}
-        />
+        <>
+          <div id="header" className='relative w-full'>
+            <div className={`header-menu style-one fixed top-0 left-0 right-0 w-full md:h-[74px] h-[56px]`}>
+              <div className="container mx-auto h-full">
+                <div className="header-main flex items-center justify-between h-full">
+                  <Link href={'/'} className='flex items-center'>
+                    <div className="heading4">Modo Modo</div>
+                  </Link>
+                  <div className="pay-container">
+                    <div className="step-indicator-container">
+                      <StepIndicator currentStep={currentStep} />
+                    </div>
+                  </div>
+                  <button
+                    className="max-md:hidden cart-icon flex items-center relative h-fit cursor-pointer"
+                    onClick={openModalCart}
+                  >
+                    <Icon.Handbag size={24} color='black' />
+                    <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-black w-4 h-4 flex items-center justify-center rounded-full">
+                      {cartState.cartArray.length}
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+
+
+                <PaymentConfirmation
+                  itemsToPay={itemsToPay}
+                  totalAmount={totalAmount}
+                  onPayment={handlePayment}
+                  onCancel={handleBackToSelection}
+                />
+                
+                                
+          
+          
+          <div className="copyright caption1 md:mt-20 mt-12 py-3 border-t border-line">©2024 Anvogue. All Rights Reserved.</div>
+        </>
       )}
     </>
   );
