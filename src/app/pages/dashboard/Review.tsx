@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import {useModalReviewContext} from "@/context/ModalReviewContext";
 
 interface Comment {
     id: number;
@@ -33,6 +34,8 @@ export const ReviewContent: React.FC = () => {
     const [editCommentId, setEditCommentId] = useState<number | null>(null);
     const [activeReviewId, setActiveReviewId] = useState<number | null>(null);
     const [activeComments, setActiveComments] = useState<Comment[]>([]);
+    const { openModalReview } = useModalReviewContext();
+
 
     useEffect(() => {
         const fetchReviews = async () => {
@@ -182,7 +185,15 @@ export const ReviewContent: React.FC = () => {
                 {currentReviews.map((review) => (
                     <div className="testimonial-main p-4 rounded-2xl h-full mb-4" style={{ backgroundColor: '#f7f7f7' }} key={review.id}>
                         <div className="flex items-center mt-4">
-                            <div className="heading6 title font-semibold text-black">{review.name}</div>
+                            <div
+                                className="heading6 title font-semibold text-black cursor-pointer"
+                                onClick={() => {
+                                    console.log("Review Details:", review);
+                                    openModalReview(review);
+                                }}
+                            >
+                                {review.name}
+                            </div>
                             <div className="desc ml-2 text-secondary">주문</div>
                         </div>
 

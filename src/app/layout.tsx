@@ -11,6 +11,7 @@ import CountdownTimeType from '@/type/CountdownType'
 import { countdownTime } from '@/store/countdownTime'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ModalReview from "@/components/Modal/ModalReview";
 
 const serverTimeLeft: CountdownTimeType = countdownTime();
 
@@ -36,6 +37,7 @@ export default function RootLayout({
         <ModalSearch />
         <ModalQuickview />
         <ModalCompare />
+        <ModalReview serverTimeLeft={serverTimeLeft} />
         <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
         </body>
         </html>
