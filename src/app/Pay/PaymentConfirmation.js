@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './PaymentConfirmation.css'; // 일반 CSS 파일 import
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
-import { faChevronRight, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import * as Icon from "@phosphor-icons/react/dist/ssr";
 
 const PaymentConfirmation = ({ itemsToPay, totalAmount, onPayment, onCancel }) => {
     const [addresses, setAddresses] = useState([]);
@@ -128,8 +127,13 @@ const PaymentConfirmation = ({ itemsToPay, totalAmount, onPayment, onCancel }) =
                                       <h5 className="heading5">
                                         {item.name}
                                       </h5>
-                                      {/* 열림 상태에 따라 아이콘 변경 */}
-                                      <FontAwesomeIcon icon={activeIndices.includes(index) ? faChevronDown : faChevronRight} />
+                                      
+                                        {/* 열림 상태에 따라 Phosphor 아이콘 변경 */}
+                                        {activeIndices.includes(index) ? (
+                                                <Icon.CaretDown size={24} weight="bold" />
+                                            ) : (
+                                                <Icon.CaretRight size={24} weight="bold" />
+                                            )}
                                     </div>
 
                                     {/* 열림 상태가 true인 항목만 보여주기 */}

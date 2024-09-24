@@ -92,55 +92,49 @@ const MenuYoga = () => {
                         </Link>
                         <div className="menu-main h-full max-lg:hidden">
                             <ul className='flex items-center gap-8 h-full'>
-                                <li className='h-full relative'>
+                                
                                     <Link
-                                        href="#!"
+                                        href={'/shop'}
                                         className={`text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 
-                                            ${pathname.includes('/homepages/') ? 'active' : ''}`}
-                                    >
-                                        Demo
+                                            ${pathname === '/shop/square' ? 'active' : ''}`}>
+                                        STORE
                                     </Link>
-                                    <div className="sub-menu absolute py-3 px-5 -left-10 w-max grid grid-cols-4 gap-5 bg-white rounded-b-xl">
-                                        <ul>
 
-                                            <li>
-                                                <Link href="/homepages/fashion11" className='text-secondary duration-300'>
-                                                    Home Fashion 11
-                                                </Link>
-                                            </li>
-                                        </ul>
-                                        <ul>
-                                            <li>
-                                                <Link href="/homepages/cosmetic1" className='text-secondary duration-300'>
-                                                    Home Cosmetic 1
-                                                </Link>
-                                            </li>
-                                            <li>
-                                                <Link href="/homepages/cosmetic3" className={`text-secondary duration-300 ${pathname === '/homepages/cosmetic3' ? 'active' : ''}`}>
-                                                    Home Cosmetic 3
-                                                </Link>
-                                            </li>
-                                            <li>
-                                                <Link href="/homepages/furniture" className='text-secondary duration-300'>
-                                                    Home Furniture
-                                                </Link>
-                                            </li>
-                                        </ul>
-                                        <ul>
-                                            <li>
-                                                <Link href="/homepages/marketplace" className='text-secondary duration-300'>
-                                                    Home Marketplace
-                                                </Link>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-
-                                <li className='h-full'>
-                                    <Link href="#!" className='text-button-uppercase duration-300 h-full flex items-center justify-center'>
-                                        Features
+                                    <Link href="/notice/NoticeListPage" className={`text-button-uppercase duration-300 h-full flex items-center justify-center 
+                                        ${pathname === '/notice/NoticeListPage' ? 'active' : ''}`} >
+                                        NOTICE
                                     </Link>
-                                </li>
+
+                                    <Link href="/event/EventListPage" className={`text-button-uppercase duration-300 h-full flex items-center justify-center 
+                                        ${pathname === '/event/EventListPage' ? 'active' : ''}`} >
+                                        EVENT
+                                    </Link>
+
+                                    <Link href="/faqs/FaQsListPage" className={`text-button-uppercase duration-300 h-full flex items-center justify-center 
+                                        ${pathname === '/faqs/FaQsListPage' ? 'active' : ''}`} >
+                                        FAQ
+                                    </Link>
+
+                                    <Link href="/pages/RegisterStore" className={`text-button-uppercase duration-300 h-full flex items-center justify-center 
+                                        ${pathname === '/pages/RegisterStore' ? 'active' : ''}`} >
+                                        REGISTER STORE
+                                    </Link>
+
+                                    <Link href="/pages/RegisterStore" className={`text-button-uppercase duration-300 h-full flex items-center justify-center 
+                                        ${pathname === '/pages/RegisterStore' ? 'active' : ''}`} >
+                                        DASHBOARD
+                                    </Link>
+                                    <Link href="/pages/ManageStore" className={`text-button-uppercase duration-300 h-full flex items-center justify-center 
+                                        ${pathname === '/pages/ManageStore' ? 'active' : ''}`}>
+                                        ManageStore
+                                    </Link>
+                                                
+                                    <Link href="/pages/dashboard" className={`text-button-uppercase duration-300 h-full flex items-center justify-center 
+                                        ${pathname === '/pages/dashboard' ? 'active' : ''}`}>
+                                        Dashboard
+                                    </Link>
+                                           
+                                    
 
                                 <li className='h-full'>
                                     <Link href="#!" className='text-button-uppercase duration-300 h-full flex items-center justify-center'>
@@ -164,7 +158,7 @@ const MenuYoga = () => {
                                                             </li>
                                                             <li>
                                                                 <Link
-                                                                    href={'/shop/square'}
+                                                                    href={'/shop'}
                                                                     className={`link text-secondary duration-300 ${pathname === '/shop/square' ? 'active' : ''}`}
                                                                 >
                                                                     Shop Square
@@ -223,69 +217,8 @@ const MenuYoga = () => {
                                         </div>
                                     </div>
                                 </li>
-                                <li className='h-full'>
-                                    <Link href="#!" className='text-button-uppercase duration-300 h-full flex items-center justify-center'>
-                                        Product
-                                    </Link>
-                                    <div className="mega-menu absolute top-[74px] left-0 bg-white w-screen">
-                                        <div className="container">
-                                            <div className="flex justify-between py-8">
-                                                <div className="nav-link basis-2/3 flex justify-between xl:pr-14 pr-5">
-                                                    <div className="nav-item">
-
-                                                            <li>
-                                                                <Link
-                                                                    href={'/product/countdown-timer'}
-                                                                    className={`text-secondary duration-300 ${pathname === '/product/countdown-timer' ? 'active' : ''}`}
-                                                                >
-                                                                    Products Countdown Timer
-                                                                </Link>
-                                                            </li>
-                                                            <li>
-                                                                <Link
-                                                                    href={'/product/grouped'}
-                                                                    className={`text-secondary duration-300 ${pathname === '/product/grouped' ? 'active' : ''}`}
-                                                                >
-                                                                    Products Grouped
-                                                                </Link>
-                                                            </li>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li className='h-full relative'>
-                                    <Link href="#!" className='text-button-uppercase duration-300 h-full flex items-center justify-center'>
-                                        Blog
-                                    </Link>
-                                    <div className="sub-menu py-3 px-5 -left-10 absolute bg-white rounded-b-xl">
-                                        <ul className='w-full'>
-
-                                            <li>
-                                                <Link href="/notice/NoticeListPage" className={`text-secondary duration-300 ${pathname === '/notice/NoticeListPage' ? 'active' : ''}`}>
-                                                        Notice
-                                                </Link>
-                                            </li>
-                                            <li>
-                                                <Link href="/event/EventListPage" className={`text-secondary duration-300 ${pathname === '/event/EventListPage' ? 'active' : ''}`}>
-                                                    Event
-                                                </Link>
-                                            </li>
-                                            <li>
-                                                <Link href="/blog/detail1" className={`text-secondary duration-300 ${pathname === '/blog/detail1' ? 'active' : ''}`}>
-                                                    Blog Detail 1
-                                                </Link>
-                                            </li>
-                                            <li>
-                                                <Link href="/blog/detail2" className={`text-secondary duration-300 ${pathname === '/blog/detail2' ? 'active' : ''}`}>
-                                                    Blog Detail 2
-                                                </Link>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
+                                
+                                
                                 <li className='h-full relative'>
                                     <Link href="#!" className='text-button-uppercase duration-300 h-full flex items-center justify-center'>
                                         Pages
@@ -338,13 +271,10 @@ const MenuYoga = () => {
                             </ul>
                         </div>
                         <div className="right flex gap-12">
-                            <div className="max-md:hidden search-icon flex items-center cursor-pointer relative">
-                                <Icon.MagnifyingGlass size={24} color='black' onClick={openModalSearch} />
-                                <div className="line absolute bg-line w-px h-6 -right-6"></div>
-                            </div>
+                            
                             <div className="list-action flex items-center gap-4">
                                 <div className="user-icon flex items-center justify-center cursor-pointer">
-                                    <Icon.User size={24} color='black' onClick={handleLoginPopup} />
+                                    <Icon.SignIn size={24} color='black' onClick={handleLoginPopup} />
                                     <div
                                         className={`login-popup absolute top-[74px] w-[320px] p-7 rounded-xl bg-white box-shadow-sm 
                                             ${openLoginPopup ? 'open' : ''}`}
@@ -356,6 +286,12 @@ const MenuYoga = () => {
                                         <div className="bottom pt-4 border-t border-line"></div>
                                         <Link href={'#!'} className='body1 hover:underline'>Support</Link>
                                     </div>
+                                </div>
+                                <div className="max-md:hidden wishlist-icon flex items-center cursor-pointer">
+                                    <Link href={'/my-account'} className={`link text-secondary duration-300 ${pathname === '/my-account' ? 'active' : ''}`}>
+                                                         
+                                    <Icon.User size={24} color='black' />
+                                    </Link>
                                 </div>
                                 <div className="max-md:hidden wishlist-icon flex items-center cursor-pointer" onClick={openModalWishlist}>
                                     <Icon.Heart size={24} color='black' />

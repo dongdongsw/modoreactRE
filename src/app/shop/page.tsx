@@ -11,7 +11,6 @@ import Footer from '@/components/Footer/Footer'
 export default function FilterDropdown() {
     const searchParams = useSearchParams()
     const type = searchParams.get('type')
-    const category = searchParams.get('category')
 
     return (
         <>
