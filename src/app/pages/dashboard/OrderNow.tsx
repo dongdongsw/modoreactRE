@@ -25,7 +25,7 @@ export const OrderNowContent: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('/api/payments'); // API 엔드포인트 수정 가능
+                const response = await fetch('/api/payments/company');
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
