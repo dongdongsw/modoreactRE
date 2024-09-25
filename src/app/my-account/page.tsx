@@ -61,7 +61,7 @@ const MyAccount = () => {
     return (
         <>
             <div id="header" className='relative w-full'>
-                <MenuYoga props="bg-transparent" />
+                <MenuYoga />
                 <Breadcrumb heading='My Account' subHeading='My Account' />
             </div>
             <div className="profile-block md:py-20 py-10">

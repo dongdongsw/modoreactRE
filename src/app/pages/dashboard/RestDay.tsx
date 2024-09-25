@@ -28,14 +28,20 @@ const RestDayContent: React.FC = () => {
 
     const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
 
+    const resetSelections = () => {
+        setSelectedDates([]);
+        setPeriods([]);
+        setWeeklyDays([]);
+    };
+
     const formatDisplayDate = (date: Date) => {
         const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
         return utcDate.toISOString().substring(2, 10).replace(/-/g, '.');
     };
+
     useEffect(() => {
         axios.get<RestDayResponse>('/api/rest-days/current')
             .then(response => {
-                console.log('Fetched rest days:', response.data);
                 const restDay = response.data;
 
                 if (restDay.dailyRestDays) {
@@ -114,7 +120,6 @@ const RestDayContent: React.FC = () => {
         }
     };
 
-
     const handleModeChange = (mode: string) => {
         if (!isEditing) return;
 
@@ -148,11 +153,6 @@ const RestDayContent: React.FC = () => {
             weeklyRestDays
         });
 
-        if (dailyRestDays.length === 0 && periodRestDays.length === 0 && weeklyRestDays.length === 0) {
-            console.error('No rest days to save!');
-            return; // Prevent saving if there's nothing to save
-        }
-
         axios.post('/api/rest-days', {
             dailyRestDays,
             periodRestDays,
@@ -161,6 +161,7 @@ const RestDayContent: React.FC = () => {
             .then(response => {
                 console.log('Rest days saved:', response.data);
                 setIsEditing(false);
+                resetSelections();
             })
             .catch(error => {
                 console.error('There was an error saving the rest days!', error);
@@ -213,11 +214,11 @@ const RestDayContent: React.FC = () => {
                     <div className="rest-day-container-first flex-1">
                         <div className="settings-container">
                             <div className="weekly-days mb-4">
-                            <span
-                                className="tag px-4 py-1.5 rounded-full bg-opacity-10 caption1 font-semibold bg-success mb-8"
-                                style={{ cursor: 'pointer' }}>
-                                1. 정기 휴무일이 있나요?
-                            </span>
+                                <span
+                                    className="tag px-4 py-1.5 rounded-full bg-opacity-10 caption1 font-semibold bg-success mb-8"
+                                    style={{ cursor: 'pointer' }}>
+                                    1. 정기 휴무일이 있나요?
+                                </span>
                                 <div className="weekly-buttons flex items-center mt-2">
                                     {daysOfWeek.map((day, index) => (
                                         <React.Fragment key={day}>
@@ -233,10 +234,10 @@ const RestDayContent: React.FC = () => {
                                 </div>
 
                                 <div className="button-group mb-4 mt-2">
-                                <span
-                                    className="tag px-4 py-1.5 rounded-full bg-opacity-10 caption1 font-semibold bg-success ">
-                                    2. 쉬는 날을 추가할 수 있어요.
-                                </span>
+                                    <span
+                                        className="tag px-4 py-1.5 rounded-full bg-opacity-10 caption1 font-semibold bg-success">
+                                        2. 쉬는 날을 추가할 수 있어요.
+                                    </span>
                                     <div className="flex items-center">
                                         <button
                                             onClick={() => handleModeChange('DAILY')}
@@ -298,25 +299,32 @@ const RestDayContent: React.FC = () => {
                                 <button
                                     onClick={() => setIsEditing(!isEditing)}
                                     className="button-main px-4 py-2 bg-green-500 text-white rounded-lg mt-10 ml-2">
-                                    {isEditing ? "Cancel" : "Edit"}
+                                    {isEditing ? "취소" : "수정"}
                                 </button>
                                 {isEditing && (
-                                    <button
-                                        onClick={saveRestDays}
-                                        className="button-main px-4 py-2 bg-green-500 text-white rounded-lg mt-10 ml-2">
-                                        Save
-                                    </button>
+                                    <>
+                                        <button
+                                            onClick={resetSelections} // 초기화 버튼
+                                            className="button-main px-4 py-2 bg-red-500 text-white rounded-lg mt-10 ml-2">
+                                            초기화
+                                        </button>
+                                        <button
+                                            onClick={saveRestDays}
+                                            className="button-main px-4 py-2 bg-green-500 text-white rounded-lg mt-10 ml-2">
+                                            Save
+                                        </button>
+                                    </>
                                 )}
                             </div>
                         </div>
                     </div>
 
                     <div className="date-display flex-1">
-                    <span
-                        className="tag px-4 py-1.5 rounded-full bg-opacity-10 caption1 font-semibold bg-success mb-8"
-                        style={{ cursor: 'pointer', marginBottom: '5rem' }}>
-                        3. 휴무 확인
-                    </span>
+                        <span
+                            className="tag px-4 py-1.5 rounded-full bg-opacity-10 caption1 font-semibold bg-success mb-8"
+                            style={{ cursor: 'pointer', marginBottom: '5rem' }}>
+                            3. 휴무 확인
+                        </span>
 
                         <div className="selected-dates">
                             {/* 일일 섹션 */}
@@ -326,8 +334,8 @@ const RestDayContent: React.FC = () => {
                                     {selectedDates.length > 0 ? (
                                         selectedDates.map((date, index) => (
                                             <span key={index} className="py-1.5 px-4 rounded-full text-button-uppercase text-secondary duration-300">
-                    {`D.${formatDisplayDate(date)}`}
-                </span>
+                                                {`D.${formatDisplayDate(date)}`}
+                                            </span>
                                         ))
                                     ) : (
                                         <div className="no-selected-dates">선택된 날짜가 없습니다</div>
@@ -335,15 +343,14 @@ const RestDayContent: React.FC = () => {
                                 </div>
                             </div>
 
-
                             {/* 기간 섹션 */}
                             <div className="selected-dates-period mb-4">
                                 <h3>기간</h3>
                                 {periods.length > 0 ? (
                                     periods.map((period, index) => (
                                         <span key={index} className="py-1.5 px-4 rounded-full text-button-uppercase text-secondary duration-300">
-                                        {`P.${formatDisplayDate(period.startDate)}~${formatDisplayDate(period.endDate)}`}
-                                    </span>
+                                            {`P.${formatDisplayDate(period.startDate)}~${formatDisplayDate(period.endDate)}`}
+                                        </span>
                                     ))
                                 ) : (
                                     <div className="no-selected-dates">선택된 날짜가 없습니다</div>
@@ -357,15 +364,14 @@ const RestDayContent: React.FC = () => {
                                     {weeklyDays.length > 0 ? (
                                         weeklyDays.map((day, index) => (
                                             <span key={index} className="py-1.5 px-4 rounded-full text-button-uppercase text-secondary duration-300">
-                    {day}
-                </span>
+                                                {day}
+                                            </span>
                                         ))
                                     ) : (
                                         <div className="no-selected-dates">선택된 날짜가 없습니다</div>
                                     )}
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -374,4 +380,4 @@ const RestDayContent: React.FC = () => {
     );
 };
 
-export {RestDayContent};
+export { RestDayContent };

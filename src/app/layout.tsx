@@ -37,7 +37,7 @@ export default function RootLayout({
         <ModalSearch />
         <ModalQuickview />
         <ModalCompare />
-        <ModalReview serverTimeLeft={serverTimeLeft} />
+        <ModalReview />
         <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
         </body>
         </html>

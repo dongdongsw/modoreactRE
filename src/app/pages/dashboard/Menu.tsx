@@ -145,7 +145,7 @@ export const MenuContent: React.FC = () => {
                                 <h3 className="text-lg font-bold">{menu.name}</h3>
                                 <p className="text-gray-600">{menu.price}원</p>
                                 {menu.imageUrl && (
-                                    <div style={{ width: '100%', height: '0', paddingBottom: '133.33%', position: 'relative' }}> {}
+                                    <div style={{ width: '100%', height: '0', paddingBottom: '133.33%', position: 'relative', cursor:"default" }}> {}
                                         <img
                                             src={menu.imageUrl}
                                             alt={menu.name}

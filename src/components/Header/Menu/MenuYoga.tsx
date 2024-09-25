@@ -16,26 +16,26 @@ import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
 import { useRouter } from 'next/navigation';
 import axios from "axios";
-
+import { toast } from 'react-toastify';
 
 const MenuYoga = () => {
-    const pathname = usePathname()
-    const router = useRouter()
-    const { openLoginPopup, handleLoginPopup } = useLoginPopup()
-    const { openMenuMobile, handleMenuMobile } = useMenuMobile()
-    const [openSubNavMobile, setOpenSubNavMobile] = useState<number | null>(null)
-    const { openModalCart } = useModalCartContext()
-    const { cartState } = useCart()
-    const { openModalWishlist } = useModalWishlistContext()
-    const { openModalSearch } = useModalSearchContext()
+    const pathname = usePathname();
+    const router = useRouter();
+    const { openLoginPopup, handleLoginPopup } = useLoginPopup();
+    const { openMenuMobile, handleMenuMobile } = useMenuMobile();
+    const [openSubNavMobile, setOpenSubNavMobile] = useState<number | null>(null);
+    const { openModalCart } = useModalCartContext();
+    const { cartState } = useCart();
+    const { openModalWishlist } = useModalWishlistContext();
+    const { openModalSearch } = useModalSearchContext();
     const [nickname, setNickname] = useState('');
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     const handleOpenSubNavMobile = (index: number) => {
-        setOpenSubNavMobile(openSubNavMobile === index ? null : index)
-    }
+        setOpenSubNavMobile(openSubNavMobile === index ? null : index);
+    };
 
-    const [fixedHeader, setFixedHeader] = useState(false)
+    const [fixedHeader, setFixedHeader] = useState(false);
     const [lastScrollPosition, setLastScrollPosition] = useState(0);
 
     useEffect(() => {
@@ -45,14 +45,28 @@ const MenuYoga = () => {
             setLastScrollPosition(scrollPosition);
         };
 
-        // Gắn sự kiện cuộn khi component được mount
         window.addEventListener('scroll', handleScroll);
 
-        // Hủy sự kiện khi component bị unmount
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
     }, [lastScrollPosition]);
+
+    useEffect(() => {
+        const fetchExternalId = async () => {
+            try {
+                const response = await axios.get('login/user/externalId');
+                if (response.status === 200 && response.data) {
+                    setNickname(response.data); // externalId를 닉네임으로 설정
+                    setIsAuthenticated(true);
+                }
+            } catch (error) {
+                console.error('External ID not found', error);
+            }
+        };
+
+        fetchExternalId();
+    }, []);
 
     const handleGenderClick = (gender: string) => {
         router.push(`/shop/breadcrumb1?gender=${gender}`);
@@ -72,7 +86,7 @@ const MenuYoga = () => {
                 setNickname('');
                 setIsAuthenticated(false);
                 alert(response.data.message);
-                window.location.href = "http://localhost:3000/Main";
+                window.location.href = "http://localhost:3000";
             })
             .catch(error => {
                 console.error('There was an error logging out!', error);
@@ -120,10 +134,6 @@ const MenuYoga = () => {
                                         REGISTER STORE
                                     </Link>
 
-                                    <Link href="/pages/RegisterStore" className={`text-button-uppercase duration-300 h-full flex items-center justify-center 
-                                        ${pathname === '/pages/RegisterStore' ? 'active' : ''}`} >
-                                        DASHBOARD
-                                    </Link>
                                     <Link href="/pages/ManageStore" className={`text-button-uppercase duration-300 h-full flex items-center justify-center 
                                         ${pathname === '/pages/ManageStore' ? 'active' : ''}`}>
                                         ManageStore
@@ -275,14 +285,20 @@ const MenuYoga = () => {
                             <div className="list-action flex items-center gap-4">
                                 <div className="user-icon flex items-center justify-center cursor-pointer">
                                     <Icon.SignIn size={24} color='black' onClick={handleLoginPopup} />
-                                    <div
-                                        className={`login-popup absolute top-[74px] w-[320px] p-7 rounded-xl bg-white box-shadow-sm 
-                                            ${openLoginPopup ? 'open' : ''}`}
-                                    >
-                                        <Link href="http://localhost:8080/oauth2/authorization/kakao" className="button-main w-full text-center">Login</Link>
-                                        <div className="text-secondary text-center mt-3 pb-4">Don’t have an account?
-                                            <Link href={'/login/logout'} className='text-black pl-1 hover:underline'>Logout</Link>
-                                        </div>
+                                    <div className={`login-popup absolute top-[74px] w-[320px] p-7 rounded-xl bg-white box-shadow-sm ${openLoginPopup ? 'open' : ''}`}>
+                                        {isAuthenticated ? (
+                                            <button onClick={handleLogout} className="button-main w-full text-center">
+                                                Logout
+                                            </button>
+                                        ) : (
+                                            <>
+                                                <Link href="http://localhost:8080/oauth2/authorization/kakao" className="button-main w-full text-center">Login</Link>
+                                                <div className="text-secondary text-center mt-3 pb-4">
+                                                    Don’t have an account?
+                                                    <Link href={'/login/signup'} className='text-black pl-1 hover:underline'>Sign Up</Link>
+                                                </div>
+                                            </>
+                                        )}
                                         <div className="bottom pt-4 border-t border-line"></div>
                                         <Link href={'#!'} className='body1 hover:underline'>Support</Link>
                                     </div>

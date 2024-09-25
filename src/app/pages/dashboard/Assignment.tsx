@@ -45,7 +45,6 @@ export const AssignmentContent: React.FC = () => {
         const fetchStoreInfo = async () => {
             try {
                 const response = await axios.get('/api/stores/by-external-id');
-                console.log('API Response:', response.data);
 
                 if (response.data) {
                     setStoreInfo({
@@ -61,7 +60,6 @@ export const AssignmentContent: React.FC = () => {
                         isEditing: false,
                     });
                     setOriginalCompanyId(response.data.companyId);
-                    console.log('Fetched Store Info:', response.data);
                 } else {
                     setStoreInfo({
                         id: null,

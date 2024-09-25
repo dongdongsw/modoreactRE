@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {useModalReviewContext} from "@/context/ModalReviewContext";
+import {data} from "autoprefixer";
 
 interface Comment {
     id: number;
@@ -47,6 +48,11 @@ export const ReviewContent: React.FC = () => {
                         ...review,
                         comments: Array.isArray(review.comments) ? review.comments : [],
                     }));
+
+                    processedReviews.sort((a: Review, b: Review) => {
+                        return new Date(b.createdDateTime).getTime() - new Date(a.createdDateTime).getTime();
+                    });
+
                     setReviews(processedReviews);
                     setFilteredReviews(processedReviews);
                 } else {
@@ -92,8 +98,6 @@ export const ReviewContent: React.FC = () => {
     const handleSaveReply = async (reviewId: number) => {
         try {
             const response = await axios.post(`http://localhost:8080/api/review/${reviewId}/comments`, { content: reply });
-
-            console.log('Response:', response); // Log the response for debugging
 
             if (response.status === 200 || response.status === 201) { // Handle both 200 and 201 as success
                 const newComment = response.data;
@@ -181,26 +185,52 @@ export const ReviewContent: React.FC = () => {
             <h5 className="heading5 text-2xl font-bold mb-4">리뷰 관리</h5>
 
             {/* 열 당 출력할 카드개수 설정 부분 */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:2 gap-6">
                 {currentReviews.map((review) => (
-                    <div className="testimonial-main p-4 rounded-2xl h-full mb-4" style={{ backgroundColor: '#f7f7f7' }} key={review.id}>
+                    <div
+                        className="testimonial-main p-4 rounded-2xl h-full mb-4 cursor-pointer"
+                        style={{ backgroundColor: '#f7f7f7' }}
+                        key={review.id}
+                        onClick={() => {
+                            console.log("Review Details:", review);
+                            openModalReview(review);
+                        }}
+                    >
                         <div className="flex items-center mt-4">
-                            <div
-                                className="heading6 title font-semibold text-black cursor-pointer"
-                                onClick={() => {
-                                    console.log("Review Details:", review);
-                                    openModalReview(review);
-                                }}
-                            >
+                            <div className="heading6 title font-semibold text-black">
                                 {review.name}
                             </div>
                             <div className="desc ml-2 text-secondary">주문</div>
                         </div>
-
-                        <div className="desc mt-2">{review.content}</div>
+                        <hr
+                            style={{
+                                border: 0,
+                                height: '1px',
+                                backgroundColor: '#d3d3d3', // 회색
+                                margin: '0.2rem 0', // 상하 여백
+                            }}
+                        />
+                        <div className="desc mt-2">
+                            {review.content.length > 30 ? (
+                                <>
+                                    {review.content.substring(0, 30)}...
+                                    <span className="text-blue-500">더보기</span>
+                                </>
+                            ) : (
+                                review.content
+                            )}
+                        </div>
                         {review.imageUrl && (
                             <div className="review-image mt-4">
-                                <img src={review.imageUrl} alt="Review" className="rounded-lg shadow" />
+                                {review.imageUrl && (
+                                    <div style={{ width: '100%', height: '0', paddingBottom: '56.25%', position: 'relative' }}>
+                                        <img
+                                            src={review.imageUrl}
+                                            alt={review.name}
+                                            className="absolute top-0 left-0 w-full h-full object-cover rounded-lg"
+                                        />
+                                    </div>
+                                )}
                             </div>
                         )}
 
@@ -209,105 +239,6 @@ export const ReviewContent: React.FC = () => {
                                 ? `${new Date(review.updatedDateTime).toLocaleDateString()} (수정됨)`
                                 : new Date(review.createdDateTime).toLocaleDateString()}
                         </div>
-
-                        <button onClick={() => fetchComments(review.id)} className="mt-4 reply-button">▼</button>
-
-                        {activeReviewId === review.id && (
-                            <div className="comments-section mt-4">
-                                {activeComments.length > 0 ? (
-                                    <div className="admin-reply">
-                                        {activeComments.map((comment) => (
-                                            <div key={comment.id} className="admin-reply-content mt-2">
-                                                {editCommentId === comment.id ? (
-                                                    <div className="reply-edit">
-                                                    <textarea
-                                                        value={editingReply}
-                                                        onChange={(e) => setEditingReply(e.target.value)}
-                                                        className="p-2 border rounded-md w-full"
-                                                    />
-                                                        <button
-                                                            className="review-save-button mt-2"
-                                                            onClick={() => handleEditReply(comment.id)}
-                                                        >
-                                                            저장
-                                                        </button>
-                                                        <button
-                                                            className="review-cancel-button ml-2 mt-2"
-                                                            onClick={() => setEditCommentId(null)}
-                                                        >
-                                                            취소
-                                                        </button>
-                                                    </div>
-                                                ) : (
-                                                    <div className="reply-content">
-                                                        <h4 className="font-semibold">{`"${review.author}" 님에게`}</h4>
-                                                        <div className="admin-content mt-1">
-                                                            <p>{comment.content}</p>
-                                                            <p className="text-gray-500 text-sm">
-                                                                {comment.updatedAt
-                                                                    ? `${new Date(comment.updatedAt).toLocaleDateString()} (수정됨)`
-                                                                    : new Date(comment.createdAt).toLocaleDateString()}
-                                                            </p>
-                                                        </div>
-                                                        <div className="reply-actions mt-2">
-                                                            <button
-                                                                className="review-edit-button mr-2"
-                                                                onClick={() => {
-                                                                    setEditCommentId(comment.id);
-                                                                    setEditingReply(comment.content);
-                                                                }}
-                                                            >
-                                                                수정
-                                                            </button>
-                                                            <button
-                                                                className="review-delete-button"
-                                                                onClick={() => handleDeleteReply(comment.id)}
-                                                            >
-                                                                삭제
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        ))}
-                                    </div>
-                                ) : (
-                                    <div className="no-comments">댓글이 없습니다.</div>
-                                )}
-
-                                {activeComments.length === 0 && !isReplying && (
-                                    <button onClick={() => setIsReplying(true)} className="mt-4 reply-button">
-                                        댓글 작성
-                                    </button>
-                                )}
-
-                                {isReplying && (
-                                    <div className="reply-input mt-4">
-                                    <textarea
-                                        value={reply}
-                                        onChange={(e) => setReply(e.target.value)}
-                                        className="p-2 border rounded-md w-full"
-                                        placeholder="댓글을 입력하세요..."
-                                    />
-                                        <button
-                                            className="review-save-button mt-2"
-                                            onClick={() => handleSaveReply(review.id)}
-                                        >
-                                            댓글 작성
-                                        </button>
-                                        <button
-                                            className="review-cancel-button ml-2 mt-2"
-                                            onClick={() => {
-                                                setIsReplying(false);
-                                                setReply('');
-                                            }}
-                                        >
-                                            취소
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
-                        )}
                     </div>
                 ))}
             </div>
