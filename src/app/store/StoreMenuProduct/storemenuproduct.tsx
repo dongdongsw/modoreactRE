@@ -121,7 +121,7 @@ const Product: React.FC<ProductProps> = ({ data, type }) => {
                                 style={{ flex: '0 1 calc(20% - 20px)', display: 'flex', flexDirection: 'column' }}
                                 onMouseEnter={() => setHoveredItem(item.id)}
                                 onMouseLeave={() => setHoveredItem(null)}
-                                onClick={() => handleMenuClick(item)} // 클릭 이벤트 추가
+                                onClick={() => handleMenuClick(item)}
                             >
                                 <div className="product-thumb bg-white relative overflow-hidden rounded-2xl flex-grow">
                                     <div className="list-action-right absolute top-3 right-3 max-lg:hidden">
@@ -137,13 +137,13 @@ const Product: React.FC<ProductProps> = ({ data, type }) => {
                                             </div>
                                         )}
                                     </div>
-                                    <div className="product-img w-full h-full flex items-center justify-center">
+                                    <div className="product-img" style={{ width: '100%', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                                         <Image
                                             src={item.imageUrl}
                                             alt={item.name}
                                             width={500}
                                             height={500}
-                                            className="w-full h-full object-cover duration-700"
+                                            style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.3s ease' }}
                                             fetchPriority="high"
                                         />
                                     </div>
@@ -169,7 +169,7 @@ const Product: React.FC<ProductProps> = ({ data, type }) => {
                                     style={{ flex: '0 1 calc(20% - 20px)', display: 'flex', flexDirection: 'column' }}
                                     onMouseEnter={() => setHoveredItem(item.id)}
                                     onMouseLeave={() => setHoveredItem(null)}
-                                    onClick={() => handleMenuClick(item)} // 클릭 이벤트 추가
+                                    onClick={() => handleMenuClick(item)}
                                 >
                                     <div className="product-thumb bg-white relative overflow-hidden rounded-2xl flex-grow">
                                         <div className="list-action-right absolute top-3 right-3 max-lg:hidden">
@@ -185,13 +185,13 @@ const Product: React.FC<ProductProps> = ({ data, type }) => {
                                                 </div>
                                             )}
                                         </div>
-                                        <div className="product-img w-full h-full flex items-center justify-center">
+                                        <div className="product-img" style={{ width: '100%', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                                             <Image
                                                 src={item.imageUrl}
                                                 alt={item.name}
                                                 width={500}
                                                 height={500}
-                                                className="w-full h-full object-cover duration-700"
+                                                style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.3s ease' }} // Add transition here for image
                                                 fetchPriority="high"
                                             />
                                         </div>

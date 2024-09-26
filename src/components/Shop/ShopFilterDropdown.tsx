@@ -230,7 +230,7 @@ const ShopFilterDropdown: React.FC = () => {
                                                             maxWidth: '500px',
                                                             height: 'auto',
                                                             transform: hoveredImage === store.companyId ? 'scale(1.05)' : 'scale(1)',
-                                                            transition: 'transform 0.2s ease'
+                                                            transition: 'transform 0.3s ease-in-out'
                                                         }}
                                                     />
                                                 </div>
