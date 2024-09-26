@@ -143,13 +143,42 @@ const Product: React.FC<ProductProps> = ({ data, type }) => {
                                             alt={item.name}
                                             width={500}
                                             height={500}
-                                            style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.3s ease' }}
+                                            style={{
+                                                width: '100%',
+                                                height: '100%',
+                                                objectFit: 'cover',
+                                                transition: 'transform 0.3s ease',
+                                                transform: hoveredItem === item.id ? 'scale(1.1)' : 'scale(1)', // hover 시 확대 효과
+                                            }}
                                             fetchPriority="high"
                                         />
+                                        
+                                    </div>
+
+                                    {hoveredItem === item.id && ( // 마우스 오버된 아이템에만 Quick View 버튼 보이기
+                                <div
+                                    className="list-action grid grid-cols-2 gap-3 px-5 absolute w-full bottom-5 max-lg:hidden"
+                                    style={{
+                                        transform: hoveredItem === item.id ? 'translateY(0)' : 'translateY(100%)',
+                                        opacity: hoveredItem === item.id ? 1 : 0,
+                                        transition: 'transform 0.3s ease, opacity 0.3s ease',
+                                    }}
+                                >
+                                    <div
+                                        className="quick-view-btn w-full text-button-uppercase py-2 text-center rounded-full duration-300 bg-white hover:bg-black hover:text-white"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                        }}
+                                    >
+                                        Quick View
                                     </div>
                                 </div>
+                            )}
+
+                        </div>
+                                
                                 <div className="product-infor mt-4 lg:mb-7">
-                                    <div className="product-name text-title duration-300">{item.name}</div>
+                                    <div className="product-price text-title duration-300">{item.name}</div>
                                     <div className="product-price text-title duration-300">{item.price}원</div>
                                 </div>
                             </div>
