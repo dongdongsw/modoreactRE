@@ -1,71 +1,65 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import Link from 'next/link'
+import Link from 'next/link';
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import { ProductType } from '@/type/ProductType'
+import { ProductType } from '@/type/ProductType';
 import Product from '../StoreMenuProduct/storemenuproduct';
 import Slider from 'rc-slider';
-import 'rc-slider/assets/index.css'
+import 'rc-slider/assets/index.css';
 import HandlePagination from './HandlePagination';
+import product from "@/components/Product/Product";
 
 interface Props {
     data: Array<ProductType>;
-    productPerPage: number
-    dataType: string | null
+    productPerPage: number;
+    dataType: string | null;
 }
 
 const ShopBreadCrumbImg: React.FC<Props> = ({ data, productPerPage, dataType }) => {
-    const [layoutCol, setLayoutCol] = useState<number | null>(4)
-    const [showOnlySale,] = useState(false)
+    const [layoutCol, setLayoutCol] = useState<number | null>(4);
+    const [showOnlySale] = useState(false);
     const [sortOption] = useState('');
-    const [type, setType] = useState<string | null>(dataType)
-    const [size] = useState<string | null>()
-    const [color] = useState<string | null>()
-    const [brand] = useState<string | null>()
+    const [type, setType] = useState<string | null>(dataType);
+    const [size] = useState<string | null>();
+    const [color] = useState<string | null>();
+    const [brand] = useState<string | null>();
     const [priceRange] = useState<{ min: number; max: number }>({ min: 0, max: 100 });
     const [currentPage, setCurrentPage] = useState(0);
     const productsPerPage = productPerPage;
     const offset = currentPage * productsPerPage;
 
     const handleLayoutCol = (col: number) => {
-        setLayoutCol(col)
-    }
-
-    
+        setLayoutCol(col);
+    };
 
     const handleType = (type: string) => {
-        setType((prevType) => (prevType === type ? null : type))
+        setType((prevType) => (prevType === type ? null : type));
         setCurrentPage(0);
-    }
-
-   
-
-    
-
+    };
 
     // Filter product
     let filteredData = data.filter(product => {
         let isShowOnlySaleMatched = true;
         if (showOnlySale) {
-            isShowOnlySaleMatched = product.sale
+            isShowOnlySaleMatched = product.sale;
         }
 
         let isDataTypeMatched = true;
         if (dataType) {
-            isDataTypeMatched = product.type === dataType
+            isDataTypeMatched = product.type === dataType;
         }
 
         let isTypeMatched = true;
         if (type) {
-            dataType = type
+            dataType = type;
             isTypeMatched = product.type === type;
         }
 
         let isSizeMatched = true;
         if (size) {
-            isSizeMatched = product.sizes.includes(size)
+            isSizeMatched = product.sizes.includes(size);
         }
 
         let isPriceRangeMatched = true;
@@ -75,7 +69,7 @@ const ShopBreadCrumbImg: React.FC<Props> = ({ data, productPerPage, dataType }) 
 
         let isColorMatched = true;
         if (color) {
-            isColorMatched = product.variation.some(item => item.color === color)
+            isColorMatched = product.variation.some(item => item.color === color);
         }
 
         let isBrandMatched = true;
@@ -83,35 +77,29 @@ const ShopBreadCrumbImg: React.FC<Props> = ({ data, productPerPage, dataType }) 
             isBrandMatched = product.brand === brand;
         }
 
-        return isShowOnlySaleMatched && isDataTypeMatched && isTypeMatched && isSizeMatched && isColorMatched && isBrandMatched && isPriceRangeMatched && product.category === 'fashion'
-    })
+        return isShowOnlySaleMatched && isDataTypeMatched && isTypeMatched && isSizeMatched && isColorMatched && isBrandMatched && isPriceRangeMatched && product.category === 'fashion';
+    });
 
     // Create a copy array filtered to sort
     let sortedData = [...filteredData];
 
     if (sortOption === 'soldQuantityHighToLow') {
-        filteredData = sortedData.sort((a, b) => b.sold - a.sold)
+        filteredData = sortedData.sort((a, b) => b.sold - a.sold);
     }
 
     if (sortOption === 'discountHighToLow') {
-        filteredData = sortedData
-            .sort((a, b) => (
-                (Math.floor(100 - ((b.price / b.originPrice) * 100))) - (Math.floor(100 - ((a.price / a.originPrice) * 100)))
-            ))
-
+        filteredData = sortedData.sort((a, b) => (
+            (Math.floor(100 - ((b.price / b.originPrice) * 100))) - (Math.floor(100 - ((a.price / a.originPrice) * 100)))
+        ));
     }
 
     if (sortOption === 'priceHighToLow') {
-        filteredData = sortedData.sort((a, b) => b.price - a.price)
+        filteredData = sortedData.sort((a, b) => b.price - a.price);
     }
 
     if (sortOption === 'priceLowToHigh') {
-        filteredData = sortedData.sort((a, b) => a.price - b.price)
+        filteredData = sortedData.sort((a, b) => a.price - b.price);
     }
-
-    const totalProducts = filteredData.length
-    
-
 
     if (filteredData.length === 0) {
         filteredData = [{
@@ -154,14 +142,12 @@ const ShopBreadCrumbImg: React.FC<Props> = ({ data, productPerPage, dataType }) 
     if (filteredData.length > 0) {
         currentProducts = filteredData.slice(offset, offset + productsPerPage);
     } else {
-        currentProducts = []
+        currentProducts = [];
     }
 
     const handlePageChange = (selected: number) => {
         setCurrentPage(selected);
     };
-
-    
 
     return (
         <>
@@ -202,80 +188,19 @@ const ShopBreadCrumbImg: React.FC<Props> = ({ data, productPerPage, dataType }) 
                 </div>
             </div>
 
-                       {/* 여기가 메뉴 크기 정하는 곳 */}
-
+            {/* 여기가 메뉴 크기 정하는 곳 */}
             <div className="shop-product breadcrumb1 lg:py-20 md:py-14 py-10">
                 <div className="container">
                     <div className="list-product-block relative">
-                        <div className="filter-heading flex items-center justify-between gap-5 flex-wrap">
-                            <div className="left flex has-line items-center flex-wrap gap-5">
-                                
-                                <div className="choose-layout flex items-center gap-2">
-                                    <div
-                                        className={`item three-col p-2 border border-line rounded flex items-center justify-center cursor-pointer ${layoutCol === 3 ? 'active' : ''}`}
-                                        onClick={() => handleLayoutCol(3)}
-                                    >
-                                        <div className='flex items-center gap-0.5'>
-                                            <span className='w-[3px] h-4 bg-secondary2 rounded-sm'></span>
-                                            <span className='w-[3px] h-4 bg-secondary2 rounded-sm'></span>
-                                            <span className='w-[3px] h-4 bg-secondary2 rounded-sm'></span>
-                                        </div>
-                                    </div>
-                                    <div
-                                        className={`item four-col p-2 border border-line rounded flex items-center justify-center cursor-pointer ${layoutCol === 4 ? 'active' : ''}`}
-                                        onClick={() => handleLayoutCol(4)}
-                                    >
-                                        <div className='flex items-center gap-0.5'>
-                                            <span className='w-[3px] h-4 bg-secondary2 rounded-sm'></span>
-                                            <span className='w-[3px] h-4 bg-secondary2 rounded-sm'></span>
-                                            <span className='w-[3px] h-4 bg-secondary2 rounded-sm'></span>
-                                            <span className='w-[3px] h-4 bg-secondary2 rounded-sm'></span>
-                                        </div>
-                                    </div>
-                                    <div
-                                        className={`item five-col p-2 border border-line rounded flex items-center justify-center cursor-pointer ${layoutCol === 5 ? 'active' : ''}`}
-                                        onClick={() => handleLayoutCol(5)}
-                                    >
-                                        <div className='flex items-center gap-0.5'>
-                                            <span className='w-[3px] h-4 bg-secondary2 rounded-sm'></span>
-                                            <span className='w-[3px] h-4 bg-secondary2 rounded-sm'></span>
-                                            <span className='w-[3px] h-4 bg-secondary2 rounded-sm'></span>
-                                            <span className='w-[3px] h-4 bg-secondary2 rounded-sm'></span>
-                                            <span className='w-[3px] h-4 bg-secondary2 rounded-sm'></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                           
+
+                        {/* 개수 나오는 곳 */}
+
+                        {/* 메뉴 보이는 곳 */}
+                        <div className="list-product sm:gap-[30px] gap-[20px] mt-7">
+                            <Product data={product} type='grid' />
                         </div>
 
-                       {/* 개수 나오는 곳 */}
-
-                        <div className="list-filtered flex items-center gap-3 mt-4">
-                            <div className="total-product">
-                                {totalProducts}
-                                <span className='text-secondary pl-1'>Products Found</span>
-                            </div>
-                            
-                        </div>
-
-                       {/* 메뉴 보이는 곳 */}
-
-
-                        <div className={`list-product hide-product-sold grid lg:grid-cols-${layoutCol} sm:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[20px] mt-7`}>
-                            {currentProducts.map((item) => (
-                                item.id === 'no-data' ? (
-                                    <div key={item.id} className="no-data-product">No products match the selected criteria.</div>
-                                ) : (
-                                    <Product key={item.id} data={item} type='grid' />
-                                )
-                            ))}
-                        </div>
-
-                       {/* 페이징 기능 */}
-
-
+                        {/* 페이징 기능 */}
                         {pageCount > 1 && (
                             <div className="list-pagination flex items-center justify-center md:mt-10 mt-7">
                                 <HandlePagination pageCount={pageCount} onPageChange={handlePageChange} />
@@ -285,7 +210,7 @@ const ShopBreadCrumbImg: React.FC<Props> = ({ data, productPerPage, dataType }) 
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default ShopBreadCrumbImg
+export default ShopBreadCrumbImg;
