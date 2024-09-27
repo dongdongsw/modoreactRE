@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FaShoppingBag } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import Link from "next/link";
+
 interface RandomMenuProps {
     data: {
         id: string;
@@ -14,33 +15,38 @@ interface RandomMenuProps {
     limit: number;
 }
 
-
 const RandomMenu: React.FC<RandomMenuProps> = ({ data, start, limit }) => {
     const [products, setProducts] = useState<any[]>(data.slice(start, start + limit));
-   const [storeNames, setStoreNames] = useState<{ [key: string]: string }>({});
+    const [storeNames, setStoreNames] = useState<{ [key: string]: string }>({});
     const [externalId, setExternalId] = useState<string | null>(null);
     const [hoveredImage, setHoveredImage] = useState<number | null>(null);
-    const router = useRouter(); // useRouter 훅 사용
+    const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
 
     useEffect(() => {
         fetch('/menus/random')
             .then(response => response.json())
             .then(data => {
-                setProducts(data);
-                data.forEach((product: any) => {
-                    fetch(`/api/stores/${product.companyId}/name`)
-                        .then(response => response.text())
-                        .then(storeName => {
-                            setStoreNames(prev => ({
-                                ...prev,
-                                [product.companyId]: storeName
-                            }));
-                        })
-                        .catch(error => console.error('Error fetching store name:', error));
-                });
+                if (data.length > 0) {
+                    setProducts(data);
+                    data.forEach((product: any) => {
+                        fetch(`/api/stores/${product.companyId}/name`)
+                            .then(response => response.text())
+                            .then(storeName => {
+                                setStoreNames(prev => ({
+                                    ...prev,
+                                    [product.companyId]: storeName
+                                }));
+                            })
+                            .catch(error => console.error('Error fetching store name:', error));
+                    });
+                } else {
+                    setError('등록된 메뉴가 없습니다.');
+                }
             })
             .catch(error => console.error('Error fetching products:', error));
     }, []);
+
 
     useEffect(() => {
         fetch('/login/user/externalId', {
@@ -56,7 +62,7 @@ const RandomMenu: React.FC<RandomMenuProps> = ({ data, start, limit }) => {
     }, []);
 
     const addToCart = (product: any, e: React.MouseEvent) => {
-        e.stopPropagation(); // 클릭 이벤트 전파 방지
+        e.stopPropagation();
         if (!externalId) {
             alert('로그인 후 진행해주세요.');
             return;
@@ -93,7 +99,7 @@ const RandomMenu: React.FC<RandomMenuProps> = ({ data, start, limit }) => {
     };
 
     const goToStore = (id: string) => {
-        router.push(`/store/${id}`); // store로 이동
+        router.push(`/store/${id}`);
     };
 
     return (
@@ -101,16 +107,18 @@ const RandomMenu: React.FC<RandomMenuProps> = ({ data, start, limit }) => {
             <div className="container lg:flex items-center">
                 <div className="heading lg:w-1/4 lg:pr-[15px] max-lg:pb-8">
                     <div className="heading3 md:pb-5 pb-3">A Full Meal, Packed with Care</div>
-                    <Link href={'/shop/square'} className='text-button pb-1 border-b-2 border-black duration-300 hover:border-green'>Shop Now</Link>
+                    <Link href={'/shop'} className='text-button pb-1 border-b-2 border-black duration-300 hover:border-green'>Shop Now</Link>
                 </div>
                 <div className="list-product hide-product-sold lg:w-3/4 lg:pl-[15px]">
                     <div className={`list-product grid lg:grid-cols-3 sm:grid-cols-3 grid-cols-1 sm:gap-[30px] gap-[20px] mt-7`}>
-                        {products.length ? (
+                        {error ? (
+                            <div className='text-center col-span-full mt-4'>{error}</div>
+                        ) : products.length ? (
                             products.map(product => (
                                 <div
                                     key={product.id}
                                     className="product-main cursor-pointer block"
-                                    onClick={() => goToStore(product.id)} // 사진을 클릭하면 스토어로 이동
+                                    onClick={() => goToStore(product.id)}
                                 >
                                     <div className="relative overflow-hidden rounded-2xl">
                                         <div
@@ -130,15 +138,14 @@ const RandomMenu: React.FC<RandomMenuProps> = ({ data, start, limit }) => {
                                                     height: 'auto',
                                                     transform: hoveredImage === product.id ? 'scale(1.05)' : 'scale(1)',
                                                     transition: 'transform 0.2s ease',
-                                                    borderRadius: '10px', // 모든 모서리를 둥글게 설정
+                                                    borderRadius: '10px',
                                                 }}
                                             />
-
                                             <div className="list-action-right absolute top-2 right-2 z-[2] invisible group-hover:visible">
                                                 <div className="add-cart-btn w-[32px] h-[32px] flex items-center justify-center rounded-full bg-white duration-200">
                                                     <div
                                                         className="w-[16px] h-[16px] flex items-center justify-center cursor-pointer"
-                                                        onClick={(e) => addToCart(product, e)} // 장바구니에만 담기
+                                                        onClick={(e) => addToCart(product, e)}
                                                     >
                                                         <FaShoppingBag color="currentColor" size={16} />
                                                     </div>
@@ -157,7 +164,7 @@ const RandomMenu: React.FC<RandomMenuProps> = ({ data, start, limit }) => {
                                 </div>
                             ))
                         ) : (
-                            <div className='text-center col-span-full mt-4'>No stores found.</div>
+                            <div className='text-center col-span-full mt-4'>등록된 메뉴가 없습니다.</div>
                         )}
                     </div>
                 </div>
