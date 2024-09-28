@@ -40,20 +40,29 @@ const Product: React.FC<ProductProps> = ({ data, type }) => {
 
     const fetchStoreData = async (id: string) => {
         try {
+            console.log(`Fetching store data for ID: ${id}`); // ID 확인
             const storeResponse = await axios.get(`/api/stores/${id}`);
+            console.log("Store response data:", storeResponse.data); // Store 데이터 확인
+    
             setStore(storeResponse.data);
             const companyId = storeResponse.data.companyId;
-
+            console.log(`Fetching menu for company ID: ${companyId}`); // Company ID 확인
+    
             const menuResponse = await axios.get(`/api/stores/${companyId}/menu`);
-            setMenu(menuResponse.data);
+            console.log("Menu response data:", menuResponse.data); // Menu 데이터 확인
+    
+            setMenu(menuResponse.data); // Menu 데이터 설정
         } catch (error) {
             console.error('데이터를 불러오는 데 실패했습니다.', error);
             setError('데이터를 불러오는 데 실패했습니다.');
         }
     };
+    
 
     useEffect(() => {
         const id = window.location.pathname.split('/').pop();
+        console.log("Fetched ID from URL:", id); // id 값을 확인
+
         if (id) fetchStoreData(id);
     }, []);
 

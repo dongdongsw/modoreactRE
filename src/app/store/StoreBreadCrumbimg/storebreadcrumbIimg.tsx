@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
@@ -6,148 +6,41 @@ import Link from 'next/link';
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { ProductType } from '@/type/ProductType';
 import Product from '../StoreMenuProduct/storemenuproduct';
-import Slider from 'rc-slider';
-import 'rc-slider/assets/index.css';
 import HandlePagination from './HandlePagination';
-import product from "@/components/Product/Product";
+import TestimonialItem from '../Review/page'; // 리뷰 컴포넌트 임포트
+import 'rc-slider/assets/index.css';
 
 interface Props {
     data: Array<ProductType>;
     productPerPage: number;
     dataType: string | null;
+    companyId: string;
 }
 
-const ShopBreadCrumbImg: React.FC<Props> = ({ data, productPerPage, dataType }) => {
+const ShopBreadCrumbImg: React.FC<Props> = ({ data, productPerPage, dataType, companyId }) => {
     const [layoutCol, setLayoutCol] = useState<number | null>(4);
-    const [showOnlySale] = useState(false);
-    const [sortOption] = useState('');
-    const [type, setType] = useState<string | null>(dataType);
-    const [size] = useState<string | null>();
-    const [color] = useState<string | null>();
-    const [brand] = useState<string | null>();
-    const [priceRange] = useState<{ min: number; max: number }>({ min: 0, max: 100 });
     const [currentPage, setCurrentPage] = useState(0);
+    const [activeTab, setActiveTab] = useState<string>('menu'); // 탭 상태 관리
     const productsPerPage = productPerPage;
     const offset = currentPage * productsPerPage;
-
-    const handleLayoutCol = (col: number) => {
-        setLayoutCol(col);
-    };
-
-    const handleType = (type: string) => {
-        setType((prevType) => (prevType === type ? null : type));
-        setCurrentPage(0);
-    };
-
-    // Filter product
-    let filteredData = data.filter(product => {
-        let isShowOnlySaleMatched = true;
-        if (showOnlySale) {
-            isShowOnlySaleMatched = product.sale;
-        }
-
-        let isDataTypeMatched = true;
-        if (dataType) {
-            isDataTypeMatched = product.type === dataType;
-        }
-
-        let isTypeMatched = true;
-        if (type) {
-            dataType = type;
-            isTypeMatched = product.type === type;
-        }
-
-        let isSizeMatched = true;
-        if (size) {
-            isSizeMatched = product.sizes.includes(size);
-        }
-
-        let isPriceRangeMatched = true;
-        if (priceRange.min !== 0 || priceRange.max !== 100) {
-            isPriceRangeMatched = product.price >= priceRange.min && product.price <= priceRange.max;
-        }
-
-        let isColorMatched = true;
-        if (color) {
-            isColorMatched = product.variation.some(item => item.color === color);
-        }
-
-        let isBrandMatched = true;
-        if (brand) {
-            isBrandMatched = product.brand === brand;
-        }
-
-        return isShowOnlySaleMatched && isDataTypeMatched && isTypeMatched && isSizeMatched && isColorMatched && isBrandMatched && isPriceRangeMatched && product.category === 'fashion';
-    });
-
-    // Create a copy array filtered to sort
-    let sortedData = [...filteredData];
-
-    if (sortOption === 'soldQuantityHighToLow') {
-        filteredData = sortedData.sort((a, b) => b.sold - a.sold);
-    }
-
-    if (sortOption === 'discountHighToLow') {
-        filteredData = sortedData.sort((a, b) => (
-            (Math.floor(100 - ((b.price / b.originPrice) * 100))) - (Math.floor(100 - ((a.price / a.originPrice) * 100)))
-        ));
-    }
-
-    if (sortOption === 'priceHighToLow') {
-        filteredData = sortedData.sort((a, b) => b.price - a.price);
-    }
-
-    if (sortOption === 'priceLowToHigh') {
-        filteredData = sortedData.sort((a, b) => a.price - b.price);
-    }
-
-    if (filteredData.length === 0) {
-        filteredData = [{
-            id: 'no-data',
-            category: 'no-data',
-            type: 'no-data',
-            name: 'no-data',
-            gender: 'no-data',
-            new: false,
-            sale: false,
-            rate: 0,
-            price: 0,
-            originPrice: 0,
-            brand: 'no-data',
-            sold: 0,
-            quantity: 0,
-            quantityPurchase: 0,
-            sizes: [],
-            variation: [],
-            thumbImage: [],
-            images: [],
-            description: 'no-data',
-            action: 'no-data',
-            slug: 'no-data'
-        }];
-    }
-
-
-    // Find page number base on filteredData
-    const pageCount = Math.ceil(filteredData.length / productsPerPage);
-
-    // If page number 0, set current page = 0
-    if (pageCount === 0) {
-        setCurrentPage(0);
-    }
-
-    // Get product data for current page
-    let currentProducts: ProductType[];
-
-    if (filteredData.length > 0) {
-        currentProducts = filteredData.slice(offset, offset + productsPerPage);
-    } else {
-        currentProducts = [];
-    }
 
     const handlePageChange = (selected: number) => {
         setCurrentPage(selected);
     };
+
+    const handleTabChange = (tab: string) => {
+        setActiveTab(tab);
+        setCurrentPage(0); // 탭이 변경될 때 페이지 초기화
+    };
+
+    // 메뉴 필터링 로직
+    let filteredData = data.filter(product => product.category === 'fashion');
+
+    // 페이지 수 계산
+    const pageCount = Math.ceil(filteredData.length / productsPerPage);
+
+    // 현재 페이지의 제품 데이터
+    let currentProducts: ProductType[] = filteredData.slice(offset, offset + productsPerPage);
 
     return (
         <>
@@ -163,12 +56,13 @@ const ShopBreadCrumbImg: React.FC<Props> = ({ data, productPerPage, dataType }) 
                                     <div className='text-secondary2 capitalize'>{dataType === null ? 'Shop' : dataType}</div>
                                 </div>
                             </div>
+                            {/* 탭 메뉴 */}
                             <div className="list-tab flex flex-wrap items-center justify-center gap-y-5 gap-8 lg:mt-[70px] mt-12 overflow-hidden">
-                                {['t-shirt', 'dress', 'top', 'swimwear', 'shirt'].map((item, index) => (
+                                {['menu', '리뷰', '가게 정보'].map((item, index) => (
                                     <div
                                         key={index}
-                                        className={`tab-item text-button-uppercase cursor-pointer has-line-before line-2px ${dataType === item ? 'active' : ''}`}
-                                        onClick={() => handleType(item)}
+                                        className={`tab-item text-button-uppercase cursor-pointer has-line-before line-2px ${activeTab === item ? 'active' : ''}`}
+                                        onClick={() => handleTabChange(item)}
                                     >
                                         {item}
                                     </div>
@@ -188,22 +82,42 @@ const ShopBreadCrumbImg: React.FC<Props> = ({ data, productPerPage, dataType }) 
                 </div>
             </div>
 
-            {/* 여기가 메뉴 크기 정하는 곳 */}
+            {/* 탭에 따라 다른 콘텐츠를 표시 */}
             <div className="shop-product breadcrumb1 lg:py-20 md:py-14 py-10">
                 <div className="container">
                     <div className="list-product-block relative">
+                        {/* '메뉴' 탭 */}
+                        {activeTab === 'menu' && (
+                            <>
+                                {/* 메뉴 리스트 */}
+                                <div className="list-product sm:gap-[30px] gap-[20px] mt-7">
+                                    {currentProducts.length > 0 ? (
+                                        <Product data={currentProducts} type='grid' />
+                                    ) : (
+                                        <p>메뉴가 없습니다.</p>
+                                    )}
+                                </div>
 
-                        {/* 개수 나오는 곳 */}
+                                {/* 페이징 기능 */}
+                                {pageCount > 1 && (
+                                    <div className="list-pagination flex items-center justify-center md:mt-10 mt-7">
+                                        <HandlePagination pageCount={pageCount} onPageChange={handlePageChange} />
+                                    </div>
+                                )}
+                            </>
+                        )}
 
-                        {/* 메뉴 보이는 곳 */}
-                        <div className="list-product sm:gap-[30px] gap-[20px] mt-7">
-                            <Product data={product} type='grid' />
-                        </div>
+                        {/* '리뷰' 탭 */}
+                        {activeTab === '리뷰' && (
+                            <div className="review-section mt-7">
+                                <TestimonialItem companyId={companyId} />
+                            </div>
+                        )}
 
-                        {/* 페이징 기능 */}
-                        {pageCount > 1 && (
-                            <div className="list-pagination flex items-center justify-center md:mt-10 mt-7">
-                                <HandlePagination pageCount={pageCount} onPageChange={handlePageChange} />
+                        {/* '가게 정보' 탭 (가게 정보를 나중에 추가할 수 있음) */}
+                        {activeTab === '가게 정보' && (
+                            <div className="store-info-section mt-7">
+                                <p>가게 정보가 여기에 표시됩니다.</p>
                             </div>
                         )}
                     </div>
