@@ -18,7 +18,7 @@ const FaQsForm = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [author, setAuthor] = useState('Default Author'); // Default author setting
-    const [category, setCategory] = useState('Event'); // Default category setting
+    const [category, setCategory] = useState('order or pay'); // Default category setting
     const [image, setImage] = useState<File | null>(null);
 
     useEffect(() => {
