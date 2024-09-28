@@ -201,11 +201,13 @@ const RegisterStorePage = () => {
                                             name="address"
                                             value={storeInfo.address}
                                             readOnly
-                                            placeholder="주소"
+                                            placeholder="우편번호"
                                             className="store-input border-line px-4 pt-3 pb-3 w-full rounded-lg pr-20"
                                         />
-                                        <button className="store-button-register button-main absolute top-1 bottom-1 right-1 flex items-center justify-center
-">주소 검색</button>
+                                        <button 
+                                        className="store-button-register button-main absolute top-1 bottom-1 right-1 flex items-center justify-center"
+                                        onClick={execDaumPostcode}>
+                                            주소 검색</button>
                                     </div>
                                 </p>
                                 <p>
