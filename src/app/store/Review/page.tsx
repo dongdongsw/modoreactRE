@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Image from 'next/image';
+import './TestimonialItem.css'
 
 interface ReviewType {
     id: string
@@ -10,7 +11,7 @@ interface ReviewType {
     author: string
     createdDateTime: string
     comments: CommentType[]
-    imageurl: string
+    imageUrl: string
 }
 
 interface CommentType {
@@ -53,6 +54,9 @@ const TestimonialItem: React.FC<{ companyId: string }> = ({ companyId }) => {
                                 .then(commentResponse => ({ ...review, comments: commentResponse.data }))
                         )
                     )
+
+                    console.log("Fetched reviews with comments:", reviewsWithComments);
+
                     setReviews(reviewsWithComments)
                 } else {
                     console.log('No reviews found.'); // 리뷰가 없는 경우
@@ -81,46 +85,49 @@ const TestimonialItem: React.FC<{ companyId: string }> = ({ companyId }) => {
     }
 
     return (
-        <div className="testimonial-container">
+        <div className="testimonial-container" >
             {reviews.length > 0 ? (
                 reviews.map((review: ReviewType) => (
-                    <div key={review.id} className="testimonial-item style-one h-full">
-                        <div className="testimonial-main bg-white p-8 rounded-2xl h-full">
-                        <div className="product-img" style={{ width: '100%', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                        <Image
-                            src = {review.imageurl || ''}
-                            alt='Review Image'
-                            width={500}
-                            height={500}
+                    <div key={review.id} className="testimonial-divdidual" style={{ border: '1px solid #F7F7F7', borderRadius: '10px', backgroundColor: '#F7F7F7' }}>
+                        <div className="testimonial-main rounded-2xl h-full" style={{paddingLeft: '30px', paddingTop: '30px', paddingRight: '30px'}}>
+                            <div className="text-button" style={{marginBottom: '20px', fontSize: '20px'}}>작성자 : {review.author}</div>
+                                <div className="product-img" style={{ width: '250px', height: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                                    <Image
+                                        src = {review.imageUrl || ' '}
+                                        alt='Review Image'
+                                        width={500}
+                                        height={500}
+                                        fetchPriority="high"
+                                        unoptimized={true}
+                                        onError={(e) => console.error("Image failed to load for URL:", review.imageUrl)} // 이미지 로드 실패 시 로그 출력
+
+                                        />
+                                </div>
+                                <div className="heading6 title mt-4">{review.title}</div>
+                                <div className="desc mt-2">{review.content}</div>
                             
-                            fetchPriority="high"
-                            />
+                                <div className="caption2 date text-secondary2 mt-3">{new Date(review.createdDateTime).toLocaleDateString()}</div>
                             </div>
-                            <div className="heading6 title mt-4">{review.title}</div>
-                            <div className="desc mt-2">{review.content}</div>
-                            <div className="text-button name mt-4">{review.author}</div>
-                            <div className="caption2 date text-secondary2 mt-1">{new Date(review.createdDateTime).toLocaleDateString()}</div>
+                            {/* 댓글 섹션 추가 */}
+                            <div className="comments-section mt-4">
+                                {review.comments && review.comments.length > 0 ? (
+                                    review.comments.map((comment: CommentType) => (
+                                        <div key={comment.id} className="comment-item bg-gray-100 p-4 rounded-lg mt-2">
+                                            <div className="text-button comment-author">{comment.author}</div>
+                                            <div className="caption2 comment-date text-secondary2">{new Date(comment.date).toLocaleDateString()}</div>
+                                            <div className="body1 comment-content mt-1">{comment.content}</div>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p className="no-comments text-sm text-gray-500">댓글이 없습니다.</p>
+                                )}
+                            </div>
                         </div>
-                        {/* 댓글 섹션 추가 */}
-                        <div className="comments-section mt-4">
-                            {review.comments && review.comments.length > 0 ? (
-                                review.comments.map((comment: CommentType) => (
-                                    <div key={comment.id} className="comment-item bg-gray-100 p-4 rounded-lg mt-2">
-                                        <div className="text-button comment-author">{comment.author}</div>
-                                        <div className="caption2 comment-date text-secondary2">{new Date(comment.date).toLocaleDateString()}</div>
-                                        <div className="body1 comment-content mt-1">{comment.content}</div>
-                                    </div>
-                                ))
-                            ) : (
-                                <p className="no-comments text-sm text-gray-500">댓글이 없습니다.</p>
-                            )}
-                        </div>
+                    ))
+                ) : (
+                        <p className="no-reviews text-sm text-gray-500">리뷰가 없습니다.</p>
+                )}
                     </div>
-                ))
-            ) : (
-                <p className="no-reviews text-sm text-gray-500">리뷰가 없습니다.</p>
-            )}
-        </div>
     )
 }
 

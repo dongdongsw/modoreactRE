@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'; // usePathname 훅 사용
 import axios from 'axios';
 import TopNavOne from '@/components/Header/TopNav/TopNavOne';
 import MenuOne from '@/components/Header/Menu/MenuOne';
-import productData from '@/data/Product.json';
+// import productData from '@/data/Product.json';
 import Footer from '@/components/Footer/Footer';
 import ShopBreadCrumbImg from "@/app/store/StoreBreadCrumbimg/storebreadcrumbIimg";
 
@@ -50,8 +50,6 @@ export default function Default() {
             {/* ShopBreadCrumbImg에 companyId 전달 */}
             {companyId ? (
                 <ShopBreadCrumbImg 
-                    data={productData} 
-                    productPerPage={12} 
                     dataType={store?.type || ''} 
                     companyId={companyId} 
                 />

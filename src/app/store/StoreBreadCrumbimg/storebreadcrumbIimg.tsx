@@ -4,44 +4,25 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import { ProductType } from '@/type/ProductType';
+// import { ProductType } from '@/type/ProductType';
 import Product from '../StoreMenuProduct/storemenuproduct';
-import HandlePagination from './HandlePagination';
+// import HandlePagination from './HandlePagination';
 import TestimonialItem from '../Review/page'; // 리뷰 컴포넌트 임포트
 import 'rc-slider/assets/index.css';
 
 interface Props {
-    data: Array<ProductType>;
-    productPerPage: number;
     dataType: string | null;
     companyId: string;
 }
 
-const ShopBreadCrumbImg: React.FC<Props> = ({ data, productPerPage, dataType, companyId }) => {
-    const [layoutCol, setLayoutCol] = useState<number | null>(4);
-    const [currentPage, setCurrentPage] = useState(0);
+const ShopBreadCrumbImg: React.FC<Props> = ({   dataType, companyId }) => {
     const [activeTab, setActiveTab] = useState<string>('menu'); // 탭 상태 관리
-    const productsPerPage = productPerPage;
-    const offset = currentPage * productsPerPage;
-
-    const handlePageChange = (selected: number) => {
-        setCurrentPage(selected);
-    };
 
     const handleTabChange = (tab: string) => {
         setActiveTab(tab);
-        setCurrentPage(0); // 탭이 변경될 때 페이지 초기화
+        
     };
-
-    // 메뉴 필터링 로직
-    let filteredData = data.filter(product => product.category === 'fashion');
-
-    // 페이지 수 계산
-    const pageCount = Math.ceil(filteredData.length / productsPerPage);
-
-    // 현재 페이지의 제품 데이터
-    let currentProducts: ProductType[] = filteredData.slice(offset, offset + productsPerPage);
-
+    
     return (
         <>
             <div className="breadcrumb-block style-img">
@@ -91,19 +72,11 @@ const ShopBreadCrumbImg: React.FC<Props> = ({ data, productPerPage, dataType, co
                             <>
                                 {/* 메뉴 리스트 */}
                                 <div className="list-product sm:gap-[30px] gap-[20px] mt-7">
-                                    {currentProducts.length > 0 ? (
-                                        <Product data={currentProducts} type='grid' />
-                                    ) : (
-                                        <p>메뉴가 없습니다.</p>
-                                    )}
+                                    
+                                        <Product type='grid' />
+                                    
                                 </div>
 
-                                {/* 페이징 기능 */}
-                                {pageCount > 1 && (
-                                    <div className="list-pagination flex items-center justify-center md:mt-10 mt-7">
-                                        <HandlePagination pageCount={pageCount} onPageChange={handlePageChange} />
-                                    </div>
-                                )}
                             </>
                         )}
 
