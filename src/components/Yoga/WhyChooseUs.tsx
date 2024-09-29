@@ -6,7 +6,7 @@ const WhyChooseUs = () => {
         <>
             <div className="why-choose-us md:pt-20 pt-10">
                 <div className="container">
-                    <div className="content flex max-lg:flex-col items-center justify-between gap-y-8">
+                    <div className="content flex max-lg:flex-col items-center justify-between gap-y-8 p-8">
                         <div className="left lg:w-1/2 sm:w-2/3 w-full lg:pr-4">
                             <div className="bg-img">
                                 <Image

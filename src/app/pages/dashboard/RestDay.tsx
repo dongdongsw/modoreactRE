@@ -254,16 +254,11 @@ const RestDayContent: React.FC = () => {
                                     {restDayType === 'PERIOD' && (
                                         <button
                                             onClick={addPeriod}
-                                            className="button-main h-[44px] inline-flex items-center justify-center ml-2 whitespace-nowrap"
-                                            style={{
-                                                padding: '0px 8px',
-                                                backgroundColor: 'transparent',
-                                                color: 'inherit',
-                                                border: 'none'
-                                            }}
+                                            className="button-main px-4 py-2 bg-red-500 text-white rounded-lg ml-2"
                                             disabled={!startDate || !endDate}>
-                                            기간 선택
+                                            기간 추가 ->
                                         </button>
+
                                     )}
                                 </div>
                             </div>

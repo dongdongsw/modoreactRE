@@ -71,7 +71,7 @@ const PaymentHistoryContent: React.FC = () => {
     useEffect(() => {
         const fetchPayments = async () => {
             try {
-                const response = await axios.get('/api/payments'); // 결제 내역을 가져오는 API 호출
+                const response = await axios.get('/api/payments/user'); // 결제 내역을 가져오는 API 호출
                 setPayments(response.data);
             } catch (error) {
                 console.error('Failed to fetch payments:', (error as Error).message);
@@ -377,7 +377,7 @@ const PaymentHistoryContent: React.FC = () => {
                                             type="submit"
                                             className="btn-primary bg-green-500"
                                         >
-                                            수정
+                                            저장
                                         </button>
                                         <button
                                             type="button"

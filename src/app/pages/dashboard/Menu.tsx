@@ -48,7 +48,7 @@ export const MenuContent: React.FC = () => {
     const handleAddMenus = () => {
         if (newMenu.name && newMenu.price > 0) {
             setNewMenus([...newMenus, { ...newMenu, id: Math.random() }]);
-            setNewMenu({ id: Math.random(), name: '', price: 0, image: null, imageUrl: '', companyId });
+            alert('메뉴가 추가되었습니다.');
         }
     };
 
@@ -79,6 +79,8 @@ export const MenuContent: React.FC = () => {
             fetchMenus();
             setEditMode(false);
             setNewMenus([]);
+            setNewMenu({ id: Math.random(), name: '', price: 0, image: null, imageUrl: '', companyId });
+            alert('저장되었습니다.');
         } catch (error) {
             console.error('Error updating menus:', error);
         }
@@ -198,7 +200,6 @@ export const MenuContent: React.FC = () => {
                         className="border p-2 rounded-lg w-full"
                     />
                     <input
-                        type="number"
                         value={newMenu.price}
                         onChange={(e) => handleNewMenuChange('price', Number(e.target.value))}
                         placeholder="가격"

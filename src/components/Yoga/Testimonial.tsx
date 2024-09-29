@@ -1,26 +1,52 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import Slider from "react-slick";
-import Image from 'next/image'
-import Link from 'next/link'
-// import { Swiper, SwiperSlide } from 'swiper/react';
-// import { Autoplay, Pagination } from 'swiper/modules';
-// import 'swiper/css/bundle';
-// import 'swiper/css/effect-fade';
-
-import { TestimonialType } from '@/type/TestimonialType'
+import Image from 'next/image';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Rate from '../Other/Rate';
 
-interface Props {
-    data: Array<TestimonialType>;
-    start: number;
-    limit: number;
+interface ReviewData {
+    id: number;
+    author: string;
+    content: string;
+    externalId: string;
+    merchantUid: string;
+    imageUrl: string | null;
+    createdDateTime: string;
+    updatedDateTime: string;
+    companyId: string;
+    name: string;
 }
 
-const Testimonial: React.FC<Props> = ({ data, start, limit }) => {
+const Testimonial: React.FC = () => {
+    const [data, setData] = useState<ReviewData[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const limit = 5; // 출력할 리뷰 개수
+
+    const fetchData = async () => {
+        try {
+            const response = await fetch('/api/review/latest');
+            const result = await response.json();
+            setData(result);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const truncateContent = (content: string, length: number) => {
+        if (content.length <= length) {
+            return content;
+        }
+        return `${content.slice(0, length)}... <더보기>`;
+    };
+
     const settings = {
         dots: true,
         arrows: false,
@@ -73,55 +99,60 @@ const Testimonial: React.FC<Props> = ({ data, start, limit }) => {
         ]
     };
 
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
     return (
-        <>
-            <div className="testimonial-block yoga bg-surface md:pt-20 md:pb-32 pt-12 pb-24">
-                <div className="container">
-                    <div className="heading">
-                        <div className="heading3 text-center">The Ultimate Guide to Guest Reviews</div>
-                        <div className="body1 text-center text-secondary mt-3">Discover What Our Guests Really Think About Their Stay</div>
-                    </div>
-                </div>
-                <div className="list-testimonial yoga md:mt-10 dots-mt40 mt-6">
-                    <Slider {...settings} className="">
-                        {data.filter(product => product.category === 'yoga').slice(start, limit).map(product => (
-                            <div className="item yoga h-full" key={product.id}>
-                                <div className="main bg-white py-7 px-8 rounded-[20px] h-full flex flex-col justify-between gap-4">
-                                    <div className="content flex gap-4">
-                                        <div className="bg-img">
-                                            <Image
-                                                src={product.images[0]}
-                                                width={300}
-                                                height={300}
-                                                alt={product.images[0]}
-                                                className='w-[112px] max-w-none rounded-xl'
-                                            />
-                                        </div>
-                                        <div className="desc body1">{product.description}</div>
-                                    </div>
-                                    <div className="infor flex items-center gap-4">
-                                        <div className="avatar">
-                                            <Image
-                                                src={product.avatar}
-                                                width={300}
-                                                height={300}
-                                                alt={product.avatar}
-                                                className='w-10 h-10 rounded-full'
-                                            />
-                                        </div>
-                                        <div className="right">
-                                            <Rate currentRate={product.star} size={14} />
-                                            <div className="name text-title">{product.name}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </Slider>
+        <div className="testimonial-block yoga bg-surface md:pt-20 md:pb-32 pt-12 pb-24">
+            <div className="container">
+                <div className="heading">
+                    <div className="heading3 text-center">The Ultimate Guide to Guest Reviews</div>
+                    <div className="body1 text-center text-secondary mt-3">Discover What Our Guests Really Think About Their Stay</div>
                 </div>
             </div>
-        </>
-    )
+            <div className="list-testimonial yoga md:mt-10 dots-mt40 mt-6">
+                <Slider {...settings}>
+                    {data.slice(0, limit).map((review) => (
+                        <div className="item yoga h-full" key={review.id}>
+                            <div className="main bg-white py-7 px-8 rounded-[20px] h-full flex">
+                                {review.imageUrl && (
+                                    <div className="bg-img flex-none flex flex-col items-center mr-4">
+                                        <Image
+                                            src={review.imageUrl}
+                                            width={112}
+                                            height={112}
+                                            alt="Review Image"
+                                            className='w-[112px] h-[112px] object-cover rounded-xl'
+                                        />
+                                        <div className="author text-title mt-2" style={{ color: 'gray' }}>
+                                            {review.author || "Unknown Author"}
+                                        </div>
+                                    </div>
+                                )}
+                                <div className="flex-1">
+                                    <div className="content-text">{truncateContent(review.content, 30)}</div>
+                                    {!review.imageUrl && (
+                                        <div className="author text-title mt-2">{review.author || "Unknown Author"}</div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                    {data.length < limit && Array.from({ length: limit - data.length }).map((_, index) => (
+                        <div className="item yoga h-full" key={`placeholder-${index}`}>
+                            <div className="main bg-gray-200 py-7 px-8 rounded-[20px] h-full flex">
+                                <div className="flex-1">
+                                    <div className="content-text">No review available.</div>
+                                    <div className="author text-title mt-2">Anonymous</div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </Slider>
+            </div>
+        </div>
+    );
 }
 
-export default Testimonial
+export default Testimonial;

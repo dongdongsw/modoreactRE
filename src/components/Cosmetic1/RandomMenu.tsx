@@ -98,9 +98,22 @@ const RandomMenu: React.FC<RandomMenuProps> = ({ data, start, limit }) => {
             });
     };
 
-    const goToStore = (id: string) => {
-        router.push(`/store/${id}`);
+    const goToStore = (companyId: string) => {
+        fetch(`/api/stores/${companyId}/id`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Store ID not found');
+                }
+                return response.json();
+            })
+            .then(storeId => {
+                router.push(`/store/${storeId}`);
+            })
+            .catch(error => {
+                console.error('Error fetching store ID:', error);
+            });
     };
+
 
     return (
         <div className="lookbook-block cos1 bg-surface md:py-20 py-10 md:mt-20 mt-10">
@@ -118,7 +131,7 @@ const RandomMenu: React.FC<RandomMenuProps> = ({ data, start, limit }) => {
                                 <div
                                     key={product.id}
                                     className="product-main cursor-pointer block"
-                                    onClick={() => goToStore(product.id)}
+                                    onClick={() => goToStore(product.companyId)}
                                 >
                                     <div className="relative overflow-hidden rounded-2xl">
                                         <div
