@@ -176,7 +176,7 @@ const Product: React.FC<ProductProps> = ({ type }) => {
   
                         {/* 결제하기 버튼 */}
                         <div
-                          className="list-action-bottom grid grid-cols-1 gap-3 px-5 absolute w-full bottom-0 max-lg:hidden"
+                          className="list-action grid grid-cols-1 gap-3 px-5 absolute w-full bottom-0 max-lg:hidden"
                           style={{ marginLeft: '-195px', marginBottom: '-240px' }}
                         >
                           <div

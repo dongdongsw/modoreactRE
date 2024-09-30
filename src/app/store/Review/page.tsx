@@ -12,6 +12,7 @@ interface ReviewType {
   createdDateTime: string;
   comments: CommentType[];
   imageUrl: string;
+  name: string;
 }
 
 interface CommentType {
@@ -26,7 +27,6 @@ const TestimonialItem: React.FC<{ companyId: string }> = ({ companyId }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // 페이지네이션 관련 상태 추가
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
   const reviewsPerPage = 4; // 페이지당 리뷰 개수
 
@@ -76,39 +76,43 @@ const TestimonialItem: React.FC<{ companyId: string }> = ({ companyId }) => {
     return <p className="error-message text-red-500">{error}</p>;
   }
 
-  // 페이지당 리뷰를 슬라이스하여 가져오기
   const indexOfLastReview = currentPage * reviewsPerPage;
   const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
   const currentReviews = reviews.slice(indexOfFirstReview, indexOfLastReview);
 
-  // 페이지 번호 리스트 생성
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(reviews.length / reviewsPerPage); i++) {
     pageNumbers.push(i);
   }
 
-  // 페이지 변경 핸들러
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
 
   return (
     <div className="testimonial-container">
-        <div className='headReview mb-4' style={{textAlign: 'center', fontSize: '30px', marginTop: '-30px'}}>리뷰 페이지</div>
+      <div className='headReview mb-4' style={{ textAlign: 'center', fontSize: '30px', marginTop: '-30px' }}>리뷰 페이지</div>
       {currentReviews.length > 0 ? (
         currentReviews.map((review: ReviewType) => (
-            
-          <div key={review.id} className="testimonial-divdidual" style={{ border: '1px solid #F7F7F7', borderRadius: '10px', backgroundColor: '#F7F7F7', padding: '20px' }}>
+          <div key={review.id} className="testimonial-divdidual" style={{ border: '1px solid #F7F7F7', borderRadius: '10px', backgroundColor: '#F7F7F7', padding: '20px', marginBottom: '20px' }}>
             
             {/* 텍스트와 이미지 부분을 flex로 배치 */}
             <div className="testimonial-main" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
               
               {/* 텍스트 부분 */}
               <div className="review-content" style={{ flex: 2, marginRight: '20px' }}>
+              <div className="menuss" style={{display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: ' 15px'}}>
+                {/* review.name을 ',' 기준으로 분리하여 각 메뉴 출력 */}
+                {review.name.split(',').map((menu, index) => (
+                  <div key={index} className="desc mt-2" style={{ border: '1px solid #000', textAlign: 'center',borderRadius: '15px',width: '100%', padding: '5px', boxShadow: '1px 1px 1px', backgroundColor: '#ffff'}}>{menu.trim()}</div> // `trim()`으로 공백 제거
+                ))}
+              </div>
                 <div className="text-button" style={{ marginBottom: '20px', fontSize: '13px' }}>{review.author}</div>
                 <div className="caption2 date text-secondary2 mt-3 mb-3">{new Date(review.createdDateTime).toLocaleDateString()}</div>
                 <div className="heading6 title mt-4">{review.title}</div>
+                
                 <div className="desc mt-2">{review.content}</div>
+                
               </div>
 
               {/* 이미지 부분 */}
@@ -145,7 +149,7 @@ const TestimonialItem: React.FC<{ companyId: string }> = ({ companyId }) => {
       )}
 
       {/* 페이지네이션 버튼 추가 */}
-      <div className="pagination mt-4" style={{textAlign: 'center'}}>
+      <div className="pagination mt-4" style={{ textAlign: 'center' }}>
         {pageNumbers.map((number) => (
           <button
             key={number}
