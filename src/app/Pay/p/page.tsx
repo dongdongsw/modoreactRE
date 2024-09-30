@@ -401,6 +401,7 @@ const Pay = () => {
       .then((response) => {
         console.log('결제된 항목 삭제 성공:', response.data);
         // 결제 완료 후 필요한 추가 작업 (예: 사용자 알림, 화면 전환 등)
+        router.push('/')
       })
       .catch((error) => {
         console.error('결제된 항목 삭제 실패:', error);
