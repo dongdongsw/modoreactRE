@@ -101,12 +101,22 @@ const TestimonialItem: React.FC<{ companyId: string }> = ({ companyId }) => {
               
               {/* 텍스트 부분 */}
               <div className="review-content" style={{ flex: 2, marginRight: '20px' }}>
-              <div className="menuss" style={{display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: ' 15px'}}>
-                {/* review.name을 ',' 기준으로 분리하여 각 메뉴 출력 */}
-                {review.name.split(',').map((menu, index) => (
-                  <div key={index} className="desc mt-2" style={{ border: '1px solid #000', textAlign: 'center',borderRadius: '15px',width: '100%', padding: '5px', boxShadow: '1px 1px 1px', backgroundColor: '#ffff'}}>{menu.trim()}</div> // `trim()`으로 공백 제거
-                ))}
-              </div>
+                <div
+                    className="menuss"
+                    style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '15px' }}
+                >
+                  {/* review.name을 ',' 기준으로 분리하여 각 메뉴 출력 */}
+                  {review.name.split(',').map((menu, index) => (
+                      <span
+                          key={index}
+                          className="tag px-4 py-1.5 rounded-full bg-opacity-10 caption1 font-semibold bg-purple text-purple"
+                          style={{ cursor: 'pointer', textAlign: 'center', display: 'inline-flex', justifyContent: 'center', alignItems: 'center' }}
+                      >
+            {menu.trim()} {/* `trim()`으로 공백 제거 */}
+        </span>
+                  ))}
+                </div>
+
                 <div className="text-button" style={{ marginBottom: '20px', fontSize: '13px' }}>{review.author}</div>
                 <div className="caption2 date text-secondary2 mt-3 mb-3">{new Date(review.createdDateTime).toLocaleDateString()}</div>
                 <div className="heading6 title mt-4">{review.title}</div>
