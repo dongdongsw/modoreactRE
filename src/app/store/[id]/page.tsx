@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation'; // usePathname 훅 사용
 import axios from 'axios';
 import TopNavOne from '@/components/Header/TopNav/TopNavOne';
-import MenuOne from '@/components/Header/Menu/MenuOne';
+import MenuYoga from '@/components/Header/Menu/MenuYoga';
 // import productData from '@/data/Product.json';
 import Footer from '@/components/Footer/Footer';
 import ShopBreadCrumbImg from "@/app/store/StoreBreadCrumbimg/storebreadcrumbIimg";
@@ -44,7 +44,7 @@ export default function Default() {
             {/* 상단 네비게이션 및 메뉴 구성 */}
             <TopNavOne props="style-one bg-black" slogan="New customers save 10% with the code GET10" />
             <div id="header" className='relative w-full'>
-                <MenuOne props="bg-transparent" />
+                <MenuYoga/>
             </div>
 
             {/* ShopBreadCrumbImg에 companyId 전달 */}
