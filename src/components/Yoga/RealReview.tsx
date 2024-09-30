@@ -1,10 +1,11 @@
-'use client'
+'use client';
 
 import React, { useEffect, useState } from 'react';
-import Slider from "react-slick";
+import Slider from 'react-slick';
 import Image from 'next/image';
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import { useRouter } from 'next/navigation';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 interface ReviewData {
     id: number;
@@ -22,7 +23,8 @@ interface ReviewData {
 const RealReview: React.FC = () => {
     const [data, setData] = useState<ReviewData[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
-    const limit = 5; // 출력할 리뷰 개수
+    const limit = 5; // Output number of reviews
+    const router = useRouter(); // Initialize useRouter hook
 
     const fetchData = async () => {
         try {
@@ -40,11 +42,24 @@ const RealReview: React.FC = () => {
         fetchData();
     }, []);
 
-    const truncateContent = (content: string, length: number) => {
-        if (content.length <= length) {
-            return content;
+    const truncateText = (text: string, length: number) => {
+        if (text.length <= length) {
+            return text;
         }
-        return `${content.slice(0, length)}... <더보기>`;
+        return `${text.slice(0, length)}...`;
+    };
+
+    const goToStore = async (companyId: string) => {
+        try {
+            const response = await fetch(`/api/stores/${companyId}/id`);
+            if (!response.ok) {
+                throw new Error('Store ID not found');
+            }
+            const storeId = await response.json();
+            router.push(`/store/${storeId}`);
+        } catch (error) {
+            console.error('Error fetching store ID:', error);
+        }
     };
 
     const settings = {
@@ -110,12 +125,16 @@ const RealReview: React.FC = () => {
                     <div className="heading4 text-center">생생 후기</div>
                     <div className="body1 text-center text-secondary mt-3">고객님들이 직접 전해주는 진짜 경험</div>
                 </div>
-
             </div>
             <div className="list-testimonial yoga md:mt-10 dots-mt40 mt-6">
                 <Slider {...settings}>
                     {data.slice(0, limit).map((review) => (
-                        <div className="item yoga h-full" key={review.id}>
+                        <div
+                            className="item yoga h-full"
+                            key={review.id}
+                            onClick={() => goToStore(review.companyId)}
+                            style={{ cursor: 'pointer' }}
+                        >
                             <div className="main bg-white py-7 px-8 rounded-[20px] h-full flex">
                                 {review.imageUrl && (
                                     <div className="bg-img flex-none flex flex-col items-center mr-4">
@@ -132,7 +151,10 @@ const RealReview: React.FC = () => {
                                     </div>
                                 )}
                                 <div className="flex-1">
-                                    <div className="content-text">{truncateContent(review.content, 30)}</div>
+                                    <div className="content-text font-bold mb-2">
+                                        {truncateText(review.name, 20)}
+                                    </div>
+                                    <div className="content-text">{truncateText(review.content, 30)}</div>
                                     {!review.imageUrl && (
                                         <div className="author text-title mt-2">{review.author || "Unknown Author"}</div>
                                     )}
