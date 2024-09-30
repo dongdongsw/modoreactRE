@@ -9,13 +9,27 @@ import Product from '../StoreMenuProduct/storemenuproduct';
 // import HandlePagination from './HandlePagination';
 import TestimonialItem from '../Review/page'; // 리뷰 컴포넌트 임포트
 import 'rc-slider/assets/index.css';
+import StoreInfo from '../Info/Information'; // StoreInfo 컴포넌트 임포트
+
+interface StoreType {
+    name: string;
+    address: string;
+    phoneNumber: string;
+    foodType: string;
+    imageUrl: string;
+    description: string;
+    type: string;
+    companyId: string;
+  }
 
 interface Props {
     dataType: string | null;
     companyId: string;
+    store: StoreType | null; // store prop 추가
+
 }
 
-const ShopBreadCrumbImg: React.FC<Props> = ({   dataType, companyId }) => {
+const ShopBreadCrumbImg: React.FC<Props> = ({   dataType, companyId, store }) => {
     const [activeTab, setActiveTab] = useState<string>('menu'); // 탭 상태 관리
 
     const handleTabChange = (tab: string) => {
@@ -87,12 +101,15 @@ const ShopBreadCrumbImg: React.FC<Props> = ({   dataType, companyId }) => {
                             </div>
                         )}
 
-                        {/* '가게 정보' 탭 (가게 정보를 나중에 추가할 수 있음) */}
                         {activeTab === '가게 정보' && (
-                            <div className="store-info-section mt-7">
-                                <p>가게 정보가 여기에 표시됩니다.</p>
-                            </div>
-                        )}
+                                    <div className="store-info-section" style={{display: 'flex', justifyContent: 'center'}}>
+                                        {store ? (
+                                        <StoreInfo store={store} />
+                                        ) : (
+                                        <p>가게 정보를 불러오는 중입니다...</p>
+                                        )}
+                                    </div>
+                                    )}
                     </div>
                 </div>
             </div>

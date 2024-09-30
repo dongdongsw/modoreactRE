@@ -9,12 +9,22 @@ import MenuYoga from '@/components/Header/Menu/MenuYoga';
 import Footer from '@/components/Footer/Footer';
 import ShopBreadCrumbImg from "@/app/store/StoreBreadCrumbimg/storebreadcrumbIimg";
 
-export default function Default() {
-    const pathname = usePathname(); // 현재 URL 경로 가져오기
-    const [companyId, setCompanyId] = useState<string | null>(null);
-    const [store, setStore] = useState<any>(null);
-    const [error, setError] = useState<string | null>(null);
+interface StoreType {
+    name: string;
+    address: string;
+    phoneNumber: string;
+    foodType: string;
+    imageUrl: string;
+    description: string;
+    type: string;
+  companyId: string;
+  }
 
+export default function Default() {
+    const pathname = usePathname(); // 현재 경로 확인
+  const [companyId, setCompanyId] = useState<string | null>(null); // companyId 상태
+  const [store, setStore] = useState<StoreType | null>(null); // store 상태
+  const [error, setError] = useState<string | null>(null); // 에러 상태
     useEffect(() => {
         // 현재 경로에서 store ID 추출
         const fetchStoreData = async () => {
@@ -52,7 +62,9 @@ export default function Default() {
                 <ShopBreadCrumbImg 
                     dataType={store?.type || ''} 
                     companyId={companyId} 
+                    store={store}
                 />
+                
             ) : (
                 <p>Loading company data...</p>
             )}
