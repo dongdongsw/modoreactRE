@@ -1,46 +1,48 @@
-import React from 'react'
-import Image from 'next/image'
+import React from 'react';
+import Image from 'next/image';
 
 const WhyChooseUs = () => {
     return (
-        <>
-            <div className="why-choose-us md:pt-20 pt-10">
-                <div className="container">
-                    <div className="content flex max-lg:flex-col items-center justify-between gap-y-8 p-8">
-                        <div className="left lg:w-1/2 sm:w-2/3 w-full lg:pr-4">
-                            <div className="bg-img">
-                                <Image
-                                    src={'/images/banner/bg-benefit-yoga.png'}
-                                    width={2000}
-                                    height={2000}
-                                    alt='bg'
-                                    className='w-full rounded-2xl'
-                                />
+        <div className="why-choose-us md:pt-4 pt-20">
+            <div className="container">
+                <div className="content flex max-lg:flex-col items-center justify-between gap-y-8 p-20">
+                    <div className="left lg:w-1/2 sm:w-2/3 w-full lg:pr-4">
+                        <Image
+                            src={'/images/banner/Why.jpg'}
+                            width={2000} // 이미지의 실제 너비
+                            height={2000} // 이미지의 실제 높이
+                            alt='bg'
+                            layout='intrinsic' // 원래 비율을 유지
+                            className='rounded-2xl object-cover w-full h-full' // 정사각형에 맞게 조정
+                        />
+                    </div>
+                    <div className="right lg:w-1/2 lg:pl-16 flex flex-col justify-start">
+                        <div className="heading4">왜 모도모도일까요?</div>
+                        <div className="list-feature mt-1 pt-6">
+                            <div className="item pb-3 border-b border-line">
+                                <div className="body1 font-semibold uppercase">• 신선한 재료</div>
+                                <div className="flex items-center mt-1 text-gray-600">
+                                    <span className="text-secondary mt-2">전문가가 선별한 신선한 재료로 도시락을 준비합니다.</span>
+                                </div>
                             </div>
-                        </div>
-                        <div className="right lg:w-1/2 lg:pl-16">
-                            <div className="heading3">The benefits and reasons you should choose us as your guide</div>
-                            <div className='text-secondary mt-5'>The garments labelled as Committed are products that have been produced using sustainable fibres or processes, reducing their environmental impact.</div>
-                            <div className="list-feature mt-6 pt-6 border-t border-line">
-                                <div className="item flex items-center justify-between pb-3 border-b border-line">
-                                    <div className="body1 font-semibold uppercase">That{String.raw`'s`} why:</div>
-                                    <div className="body1">We create special products</div>
+                            <div className="item pb-3 border-b border-line mt-3">
+                                <div className="body1 font-semibold uppercase">• 건강한 선택</div>
+                                <div className="flex items-center mt-1 text-gray-600">
+                                    <span className="text-secondary mt-2">영양을 고려한 균형 잡힌 메뉴로 건강한 식사를 제공합니다.</span>
                                 </div>
-                                <div className="item flex items-center justify-between pb-3 border-b border-line mt-3">
-                                    <div className="body1 font-semibold uppercase">we always:</div>
-                                    <div className="body1">Take care about every details</div>
-                                </div>
-                                <div className="item flex items-center justify-between pb-3 border-b border-line mt-3">
-                                    <div className="body1 font-semibold uppercase">For who:</div>
-                                    <div className="body1">Who always desire be beautiful</div>
+                            </div>
+                            <div className="item pb-3 border-line mt-3">
+                                <div className="body1 font-semibold uppercase">• 차별화된 예약 시스템</div>
+                                <div className="flex items-center mt-1 text-gray-600">
+                                    <span className="text-secondary mt-2">원하는 시간과 날짜에 맞춰 도시락을 예약하실 수 있습니다.</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </>
-    )
-}
+        </div>
+    );
+};
 
-export default WhyChooseUs
+export default WhyChooseUs;

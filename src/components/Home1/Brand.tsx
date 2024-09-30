@@ -1,117 +1,42 @@
-'use client'
+import React from 'react';
+import Image from 'next/image';
 
-import React from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination } from 'swiper/modules';
-import 'swiper/css/bundle';
-
-const Brand = () => {
-    return (
-        <>
-            <div className="brand-block md:py-[60px] py-[32px]">
-                <div className="container">
-                    <div className="list-brand">
-                        <Swiper
-                            spaceBetween={12}
-                            slidesPerView={2}
-                            loop={true}
-                            modules={[Autoplay]}
-                            autoplay={{
-                                delay: 4000,
-                            }}
-                            breakpoints={{
-                                500: {
-                                    slidesPerView: 3,
-                                    spaceBetween: 16,
-                                },
-                                680: {
-                                    slidesPerView: 4,
-                                    spaceBetween: 16,
-                                },
-                                992: {
-                                    slidesPerView: 5,
-                                    spaceBetween: 16,
-                                },
-                                1200: {
-                                    slidesPerView: 6,
-                                    spaceBetween: 16,
-                                },
-                            }}
-                        >
-                            <SwiperSlide>
-                                <div className="brand-item relative flex items-center justify-center h-[36px]">
-                                    <Image
-                                        src={'/images/brand/1.png'}
-                                        width={300}
-                                        height={300}
-                                        alt='1'
-                                        className='h-full w-auto duration-500 relative object-cover'
-                                    />
-                                </div>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <div className="brand-item relative flex items-center justify-center h-[36px]">
-                                    <Image
-                                        src={'/images/brand/2.png'}
-                                        width={300}
-                                        height={300}
-                                        alt='1'
-                                        className='h-full w-auto duration-500 relative object-cover'
-                                    />
-                                </div>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <div className="brand-item relative flex items-center justify-center h-[36px]">
-                                    <Image
-                                        src={'/images/brand/3.png'}
-                                        width={300}
-                                        height={300}
-                                        alt='1'
-                                        className='h-full w-auto duration-500 relative object-cover'
-                                    />
-                                </div>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <div className="brand-item relative flex items-center justify-center h-[36px]">
-                                    <Image
-                                        src={'/images/brand/4.png'}
-                                        width={300}
-                                        height={300}
-                                        alt='1'
-                                        className='h-full w-auto duration-500 relative object-cover'
-                                    />
-                                </div>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <div className="brand-item relative flex items-center justify-center h-[36px]">
-                                    <Image
-                                        src={'/images/brand/5.png'}
-                                        width={300}
-                                        height={300}
-                                        alt='1'
-                                        className='h-full w-auto duration-500 relative object-cover'
-                                    />
-                                </div>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <div className="brand-item relative flex items-center justify-center h-[36px]">
-                                    <Image
-                                        src={'/images/brand/6.png'}
-                                        width={300}
-                                        height={300}
-                                        alt='1'
-                                        className='h-full w-auto duration-500 relative object-cover'
-                                    />
-                                </div>
-                            </SwiperSlide>
-                        </Swiper>
-                    </div>
-                </div>
-            </div>
-        </>
-    )
+interface BrandItemProps {
+    src: string;
+    alt: string;
 }
 
-export default Brand
+const BrandItem: React.FC<BrandItemProps> = ({ src, alt }) => (
+    <div className="brand-item flex items-center justify-center w-[100px] h-[100px] bg-white rounded-[16px] overflow-hidden">
+        <Image
+            src={src}
+            width={100}
+            height={100}
+            alt={alt}
+            className='object-contain w-full h-full'
+            loading="lazy"
+            decoding="async"
+        />
+    </div>
+);
+
+const Brand: React.FC = () => {
+    return (
+        <div className="brand-block bg-surface md:py-[60px] py-[32px]">
+            <div className="heading4 text-center mb-4">Modo와 함께하고 있는 납품업체</div>
+
+            <div className="container">
+                <div className="list-brand flex justify-between items-center gap-6">
+                    <BrandItem src="/images/brand/kindergarden.jpg" alt="Kindergarden" />
+                    <BrandItem src="/images/brand/kang.png" alt="Kang" />
+                    <BrandItem src="/images/brand/gs.jpg" alt="GS" />
+                    <BrandItem src="/images/brand/hyundai.jpg" alt="Hyundai" />
+                    <BrandItem src="/images/brand/konkuk.png" alt="Konkuk" />
+                </div>
+
+            </div>
+        </div>
+    );
+}
+
+export default Brand;

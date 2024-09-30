@@ -30,7 +30,7 @@ const SliderYoga = () => {
                                     <div className="text-content sm:w-1/2 w-2/3 text-white">
                                         <div className="text-sub-display">모든 도시락 모두의 도시락</div>
                                         <div className="text-display md:mt-5 mt-2">Explore Our Modo Collection</div>
-                                        <Link href='/shop' className="button-main bg-white text-black md:mt-8 mt-3">Shop Now</Link>
+                                        <Link href='/shop' className="button-main bg-white text-black md:mt-8 mt-3">둘러보기</Link>
                                     </div>
                                     <div className="sub-img absolute left-0 top-0 w-full h-full z-[-1]">
                                         <Image

@@ -119,8 +119,12 @@ const RandomMenu: React.FC<RandomMenuProps> = ({ data, start, limit }) => {
         <div className="lookbook-block cos1 bg-surface md:py-20 py-10 md:mt-20 mt-10">
             <div className="container lg:flex items-center">
                 <div className="heading lg:w-1/4 lg:pr-[15px] max-lg:pb-8">
-                    <div className="heading3 md:pb-5 pb-3">A Full Meal, Packed with Care</div>
-                    <Link href={'/shop'} className='text-button pb-1 border-b-2 border-black duration-300 hover:border-green'>Shop Now</Link>
+                    <div className="heading5 md:pb-5 pb-3" >
+                        오늘의 추천 메뉴,<br />
+                        고민 없이 선택해보세요!
+                    </div>
+
+                    <Link href={'/shop'} className='text-button pb-1 border-b-2 border-black duration-300 hover:border-green'>구경하기</Link>
                 </div>
                 <div className="list-product hide-product-sold lg:w-3/4 lg:pl-[15px]">
                     <div className={`list-product grid lg:grid-cols-3 sm:grid-cols-3 grid-cols-1 sm:gap-[30px] gap-[20px] mt-7`}>
