@@ -19,7 +19,7 @@ interface ReviewData {
     name: string;
 }
 
-const Testimonial: React.FC = () => {
+const RealReview: React.FC = () => {
     const [data, setData] = useState<ReviewData[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const limit = 5; // 출력할 리뷰 개수
@@ -107,9 +107,10 @@ const Testimonial: React.FC = () => {
         <div className="testimonial-block yoga bg-surface md:pt-20 md:pb-32 pt-12 pb-24">
             <div className="container">
                 <div className="heading">
-                    <div className="heading3 text-center">The Ultimate Guide to Guest Reviews</div>
-                    <div className="body1 text-center text-secondary mt-3">Discover What Our Guests Really Think About Their Stay</div>
+                    <div className="heading4 text-center">생생 후기</div>
+                    <div className="body1 text-center text-secondary mt-3">고객님들이 직접 전해주는 진짜 경험</div>
                 </div>
+
             </div>
             <div className="list-testimonial yoga md:mt-10 dots-mt40 mt-6">
                 <Slider {...settings}>
@@ -155,4 +156,4 @@ const Testimonial: React.FC = () => {
     );
 }
 
-export default Testimonial;
+export default RealReview;

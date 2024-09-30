@@ -7,7 +7,7 @@ import SliderYoga from '@/components/Slider/SliderYoga'
 import productData from '@/data/Product.json'
 import WhyChooseUs from '@/components/Yoga/WhyChooseUs'
 import dataTestimonial from '@/data/Testimonial.json'
-import Testimonial from '@/components/Yoga/Testimonial'
+import RealReview from '@/components/Yoga/RealReview'
 import Brand from '@/components/Home1/Brand'
 import Footer from '@/components/Footer/Footer'
 import ModalNewsletter from '@/components/Modal/ModalNewsletter'
@@ -79,7 +79,7 @@ export default function HomeYoga() {
            <RandomMenu data={productData} start={8} limit={12} />
            <EventInsightnews data={eventData} start={0} limit={3} />
             <WhyChooseUs />
-            <Testimonial data={dataTestimonial} start={0} limit={6} />
+            <RealReview data={dataTestimonial} start={0} limit={6} />
             <Brand />
             <Footer />
             <ModalNewsletter />

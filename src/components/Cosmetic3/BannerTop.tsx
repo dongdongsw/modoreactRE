@@ -1,10 +1,12 @@
-import React from 'react'
-import Marquee from 'react-fast-marquee'
+import React from 'react';
+import Marquee from 'react-fast-marquee';
+import {FaBowlFood} from "react-icons/fa6";
+import {FaUtensils} from "react-icons/fa";
 
 interface Props {
-    props: string
-    textColor: string
-    bgLine: string
+    props: string;
+    textColor: string;
+    bgLine: string;
 }
 
 const BannerTop: React.FC<Props> = ({ props, textColor, bgLine }) => {
@@ -12,22 +14,22 @@ const BannerTop: React.FC<Props> = ({ props, textColor, bgLine }) => {
         <>
             <div className={`banner-top ${props}`}>
                 <Marquee>
-                    <div className={`heading5 md:px-[110px] px-12 ${textColor}`}>Get Glowing Skin</div>
-                    <div className={`icon-leaves md:text-[32px] text-[24px]`}></div>
-                    <div className={`heading5 md:px-[110px] px-12 ${textColor}`}>Learn Skincare Tips</div>
-                    <div className={`icon-double-leaves md:text-[32px] text-[24px]`}></div>
-                    <div className={`heading5 md:px-[110px] px-12 ${textColor}`}>Subscribe for Exclusive Offers</div>
-                    <div className={`icon-leaves md:text-[32px] text-[24px]`}></div>
-                    <div className={`heading5 md:px-[110px] px-12 ${textColor}`}>Get Glowing Skin</div>
-                    <div className={`icon-double-leaves md:text-[32px] text-[24px]`}></div>
-                    <div className={`heading5 md:px-[110px] px-12 ${textColor}`}>Learn Skincare Tips</div>
-                    <div className={`icon-leaves md:text-[32px] text-[24px]`}></div>
-                    <div className={`heading5 md:px-[110px] px-12 ${textColor}`}>Subscribe for Exclusive Offers</div>
-                    <div className={`icon-double-leaves md:text-[32px] text-[24px]`}></div>
+                    <div className={`heading6 md:px-[110px] px-12 ${textColor}`}>Welcome</div>
+                    <FaBowlFood className="md:text-[32px] text-[24px] text-gray-500" />
+                    <div className={`heading6 md:px-[110px] px-12 ${textColor}`}>모든 도시락</div>
+                    <FaUtensils className="md:text-[32px] text-[24px] text-gray-500" />
+                    <div className={`heading6 md:px-[110px] px-12 ${textColor}`}>모두의 도시락</div>
+                    <FaBowlFood className="md:text-[32px] text-[24px] text-gray-500" />
+                    <div className={`heading6 md:px-[110px] px-12 ${textColor}`}>모든 도시락</div>
+                    <FaUtensils className="md:text-[32px] text-[24px] text-gray-500" />
+                    <div className={`heading6 md:px-[110px] px-12 ${textColor}`}>모두의 도시락</div>
+                    <FaBowlFood className="md:text-[32px] text-[24px] text-gray-500" />
+                    <div className={`heading6 md:px-[110px] px-12 ${textColor}`}>Modo Modo</div>
+                    <FaUtensils className="md:text-[32px] text-[24px] text-gray-500" />
                 </Marquee>
             </div>
         </>
-    )
+    );
 }
 
-export default BannerTop
+export default BannerTop;
