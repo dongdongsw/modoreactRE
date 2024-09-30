@@ -41,14 +41,17 @@ const ShopBreadCrumbImg: React.FC<Props> = ({   dataType, companyId, store }) =>
         <>
             <div className="breadcrumb-block style-img">
                 <div className="breadcrumb-main bg-linear overflow-hidden">
-                    <div className="container lg:pt-[134px] pt-24 pb-10 relative">
+                    <div className="container lg:pt-[134px] pt-24 pb-7 relative">
                         <div className="main-content w-full h-full flex flex-col items-center justify-center relative z-[1]">
                             <div className="text-content">
                                 <div className="heading2 text-center">{dataType === null ? 'Shop' : dataType}</div>
+                                <div className="heading3 text-center" style={{fontFamily : 'DalseoDarling'}}>
+                                    {store?.name}
+                                </div>
                                 <div className="link flex items-center justify-center gap-1 caption1 mt-3">
                                     <Link href={'/'}>Homepage</Link>
                                     <Icon.CaretRight size={14} className='text-secondary2' />
-                                    <div className='text-secondary2 capitalize'>{dataType === null ? 'Shop' : dataType}</div>
+                                    <div className='text-secondary2 capitalize'>{store?.name}</div>
                                 </div>
                             </div>
                             {/* 탭 메뉴 */}
@@ -64,15 +67,16 @@ const ShopBreadCrumbImg: React.FC<Props> = ({   dataType, companyId, store }) =>
                                 ))}
                             </div>
                         </div>
-                        <div className="bg-img absolute top-2 -right-6 max-lg:bottom-0 max-lg:top-auto w-1/3 max-lg:w-[26%] z-[0] max-sm:w-[45%]">
+                        <div className="bg-img absolute top-0 -right-6 max-lg:bottom-0 max-lg:top-auto w-1/4 max-lg:w-[26%] z-[0] max-sm:w-[45%]">
                             <Image
-                                src={'/images/slider/bg1-1.png'}
+                                src={store?.imageUrl || '이미지 중비중입니다'}
                                 width={1000}
                                 height={1000}
-                                alt=''
-                                className=''
+                                alt={store ? store.name : 'default image'} // alt 속성도 동적으로 설정
+                                className=""
                             />
-                        </div>
+                            </div>
+
                     </div>
                 </div>
             </div>

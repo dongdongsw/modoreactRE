@@ -106,15 +106,37 @@ const TestimonialItem: React.FC<{ companyId: string }> = ({ companyId }) => {
                     style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '15px', marginBottom: '15px'  }}
                 >
                   {/* review.name을 ',' 기준으로 분리하여 각 메뉴 출력 */}
-                  {review.name.split(',').map((menu, index) => (
-                      <span
-                          key={index}
-                          className="tag px-4 py-1.5 rounded-full bg-opacity-10 caption1 font-semibold bg-purple text-purple"
-                          style={{  textAlign: 'center', display: 'inline-flex', justifyContent: 'center', alignItems: 'center' }}
-                      >
-            {menu.trim()} {/* `trim()`으로 공백 제거 */}
-        </span>
-                  ))}
+                  {review.name && typeof review.name === 'string' && review.name.includes(',') ? (
+  review.name.split(',').map((menu, index) => (
+    <span
+      key={index}
+      className="tag px-4 py-1.5 rounded-full bg-opacity-10 caption1 font-semibold bg-purple text-purple"
+      style={{
+        textAlign: 'center',
+        display: 'inline-flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      {menu.trim()}
+    </span>
+  ))
+) : (
+  review.name && typeof review.name === 'string' && (
+    <span
+      className="tag px-4 py-1.5 rounded-full bg-opacity-10 caption1 font-semibold bg-purple text-purple"
+      style={{
+        textAlign: 'center',
+        display: 'inline-flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      {review.name.trim()}
+    </span>
+  )
+)}
+
                 </div>
 
                 <div className="text-button" style={{ marginBottom: '20px', fontSize: '13px' }}>{review.author}</div>
@@ -126,18 +148,20 @@ const TestimonialItem: React.FC<{ companyId: string }> = ({ companyId }) => {
               </div>
 
               {/* 이미지 부분 */}
-              <div className="product-img" style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', width: '200px', height: '200px', overflow: 'hidden' }}>
-                <Image
-                  src={review.imageUrl || ' '}
-                  alt='Review Image'
-                  width={220}
-                  height={400}
-                  fetchPriority="high"
-                  unoptimized={true}
-                  onError={(e) => console.error("Image failed to load for URL:", review.imageUrl)}
-                  style={{ objectFit: 'cover' }}
-                />
-              </div>
+              {review.imageUrl ? (
+                <div className="product-img" style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', width: '200px', height: '200px', overflow: 'hidden' }}>
+                  <Image
+                    src={review.imageUrl}
+                    alt="review image"
+                    width={220}
+                    height={400}
+                    fetchPriority="high"
+                    unoptimized={true}
+                    onError={(e) => console.error("Image failed to load for URL:", review.imageUrl)}
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
+              ) : null}
             </div>
 
             {/* 댓글 섹션을 testimonial-main 블록의 하단에 배치 */}
