@@ -62,7 +62,7 @@ const Dashboard = () => {
                                 <div className="heading flex flex-col items-center justify-center">
                                     <div className="avatar">
                                         <Image
-                                            src={'/images/avatar/1.png'}
+                                            src={'/images/avatar/personDash.png'}
                                             width={300}
                                             height={300}
                                             alt="avatar"
