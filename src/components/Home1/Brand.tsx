@@ -26,7 +26,7 @@ const Brand: React.FC = () => {
             <div className="heading4 text-center mb-4">Modo와 함께하고 있는 납품업체</div>
 
             <div className="container">
-                <div className="list-brands flex justify-between items-center gap-6">
+                <div className="list-brands flex justify-between items-center gap-6 mt-10">
                     <BrandItem src="/images/brand/kindergarden.jpg" alt="Kindergarden" />
                     <BrandItem src="/images/brand/kang.png" alt="Kang" />
                     <BrandItem src="/images/brand/gs.jpg" alt="GS" />
