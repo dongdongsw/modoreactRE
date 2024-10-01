@@ -1,11 +1,11 @@
-'use client'
+'use client';
 
-import React, { useEffect, useState } from 'react'
-import Link from 'next/link'
-import Image from 'next/image'
+import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import { useModalWishlistContext } from '@/context/ModalWishlistContext'
-import { useWishlist } from '@/context/WishlistContext'
+import { useModalWishlistContext } from '@/context/ModalWishlistContext';
+import { useWishlist } from '@/context/WishlistContext';
 import axios from 'axios';
 
 interface FavoriteStore {
@@ -21,6 +21,8 @@ const ModalWishlist = () => {
 
     const [favoriteStores, setFavoriteStores] = useState<FavoriteStore[]>([]);
     const [favoritesError, setFavoritesError] = useState<string | null>(null);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
+    const [nickname, setNickname] = useState<string | null>(null);
 
     const fetchImageUrl = async (companyId: string) => {
         try {
@@ -32,7 +34,25 @@ const ModalWishlist = () => {
         }
     };
 
+    const fetchUserData = async () => {
+        try {
+            const externalIdResponse = await axios.get('/login/user/externalId');
+
+            if (externalIdResponse.status === 200 && externalIdResponse.data) {
+                setNickname(externalIdResponse.data);
+                setIsAuthenticated(true);
+            } else {
+                setIsAuthenticated(false);
+            }
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+            setIsAuthenticated(false);
+        }
+    };
+
     useEffect(() => {
+        fetchUserData();
+
         const fetchFavoriteStores = async () => {
             try {
                 const response = await axios.get('/favorites/favoriteStores');
@@ -72,10 +92,9 @@ const ModalWishlist = () => {
                         return { ...store, imageUrl };
                     }));
 
-                    console.log('Updated favorite stores after removal:', storesWithImages); // 데이터를 콘솔에 출력
+                    console.log('Updated favorite stores after removal:', storesWithImages);
                     setFavoriteStores(storesWithImages);
 
-                    // Update localStorage and sync with StoreList component
                     const updatedFavorites = new Set(updatedStores.map((store: FavoriteStore) => store.companyId));
                     localStorage.setItem('favorites', JSON.stringify(Array.from(updatedFavorites)));
 
@@ -100,7 +119,7 @@ const ModalWishlist = () => {
             <div className={`modal-wishlist-block`} onClick={closeModalWishlist}>
                 <div
                     className={`modal-wishlist-main py-6 ${isModalOpen ? 'open' : ''}`}
-                    onClick={(e) => { e.stopPropagation() }}
+                    onClick={(e) => { e.stopPropagation(); }}
                 >
                     <div className="heading px-6 pb-3 flex items-center justify-between relative">
                         <div className="heading5">가게 즐겨찾기</div>
@@ -113,7 +132,9 @@ const ModalWishlist = () => {
                     </div>
                     <div className="list-product px-6">
                         {favoritesError && <p>Error: {favoritesError}</p>}
-                        {favoriteStores.length > 0 ? (
+                        {!isAuthenticated ? (
+                            <p>로그인 후 진행해주세요.</p>
+                        ) : favoriteStores.length > 0 ? (
                             favoriteStores.map((store) => (
                                 <div key={store.companyId} className='item py-5 flex items-center justify-between gap-3 border-b border-line'>
                                     <div className="infor flex items-center gap-5">
@@ -129,7 +150,7 @@ const ModalWishlist = () => {
                                 </div>
                             ))
                         ) : (
-                            <p>즐겨찾기 항목이 없습니다.</p>
+                            <p>즐겨찾기한 가게가 없습니다.</p>
                         )}
                     </div>
                     <div className="footer-modal p-6 border-t bg-white border-line absolute bottom-0 left-0 w-full text-center">
@@ -139,7 +160,7 @@ const ModalWishlist = () => {
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
 export default ModalWishlist;
