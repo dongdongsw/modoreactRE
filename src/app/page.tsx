@@ -82,7 +82,6 @@ export default function HomeYoga() {
             <RealReview data={dataTestimonial} start={0} limit={6} />
             <Brand />
             <Footer />
-            <ModalNewsletter />
         </>
     )
 }
