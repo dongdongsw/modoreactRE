@@ -30,6 +30,7 @@ const MenuYoga = () => {
     const { openModalSearch } = useModalSearchContext();
     const [nickname, setNickname] = useState('');
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [userRole, setUserRole] = useState('');
 
     const handleOpenSubNavMobile = (index: number) => {
         setOpenSubNavMobile(openSubNavMobile === index ? null : index);
@@ -53,20 +54,30 @@ const MenuYoga = () => {
     }, [lastScrollPosition]);
 
     useEffect(() => {
-        const fetchExternalId = async () => {
+        const fetchUserData = async () => {
             try {
-                const response = await axios.get('login/user/externalId');
-                if (response.status === 200 && response.data) {
-                    setNickname(response.data); // externalId를 닉네임으로 설정
+                const [externalIdResponse, roleResponse] = await Promise.all([
+                    axios.get('/login/user/externalId'),
+                    axios.get('/login/user/role')
+                ]);
+
+                if (externalIdResponse.status === 200 && externalIdResponse.data) {
+                    setNickname(externalIdResponse.data); // externalId를 닉네임으로 설정
                     setIsAuthenticated(true);
                 }
+
+                if (roleResponse.status === 200 && roleResponse.data) {
+                    const { role } = roleResponse.data;
+                    setUserRole(role);
+                }
             } catch (error) {
-                console.error('External ID not found', error);
+                console.error('Error fetching user data:', error);
             }
         };
 
-        fetchExternalId();
+        fetchUserData();
     }, []);
+
 
     const handleGenderClick = (gender: string) => {
         router.push(`/shop/breadcrumb1?gender=${gender}`);
@@ -134,15 +145,27 @@ const MenuYoga = () => {
                                         REGISTER STORE
                                     </Link>
 
-                                    <Link href="/pages/ManageStore" className={`text-button-uppercase duration-300 h-full flex items-center justify-center 
-                                        ${pathname === '/pages/ManageStore' ? 'active' : ''}`}>
-                                        ManageStore
-                                    </Link>
-                                                
-                                    <Link href="/pages/dashboard" className={`text-button-uppercase duration-300 h-full flex items-center justify-center 
-                                        ${pathname === '/pages/dashboard' ? 'active' : ''}`}>
-                                        Dashboard
-                                    </Link>
+                                {userRole === 'ROLE_ADMIN' && (
+                                    <li>
+                                        <Link
+                                            href="/pages/ManageStore"
+                                            className={`text-button-uppercase duration-300 h-full flex items-center justify-center 
+                                ${pathname === '/pages/ManageStore' ? 'active' : ''}`}
+                                        >
+                                            ManageStore
+                                        </Link>
+                                    </li>
+                                )}
+
+                                {(userRole === 'ROLE_ADMIN' || userRole === 'ROLE_OWNER') && (
+                                    <li>
+                                        <Link href="/pages/dashboard" className={`text-button-uppercase duration-300 h-full flex items-center justify-center 
+        ${pathname === '/pages/dashboard' ? 'active' : ''}`}>
+                                            Dashboard
+                                        </Link>
+                                    </li>
+                                )}
+
                                            
                                     
 
@@ -265,16 +288,27 @@ const MenuYoga = () => {
                                                     RegisterStore
                                                 </Link>
                                             </li>
-                                            <li>
-                                                <Link href="/pages/ManageStore" className={`text-secondary duration-300 ${pathname === '/pages/ManageStore' ? 'active' : ''}`}>
-                                                     ManageStore
-                                                </Link>
-                                            </li>
-                                            <li>
-                                                <Link href="/pages/dashboard" className={`text-secondary duration-300 ${pathname === '/pages/dashboard' ? 'active' : ''}`}>
-                                                    Dashboard
-                                                </Link>
-                                            </li>
+                                            {userRole === 'ROLE_ADMIN' && (
+                                                <li>
+                                                    <Link
+                                                        href="/pages/ManageStore"
+                                                        className={`text-secondary duration-300 ${pathname === '/pages/ManageStore' ? 'active' : ''}`}
+                                                    >
+                                                        ManageStore
+                                                    </Link>
+                                                </li>
+                                            )}
+                                            {(userRole === 'ROLE_ADMIN' || userRole === 'ROLE_OWNER') && (
+                                                <li>
+                                                    <Link
+                                                        href="/pages/dashboard"
+                                                        className={`text-secondary duration-300 ${pathname === '/pages/dashboard' ? 'active' : ''}`}
+                                                    >
+                                                        Dashboard
+                                                    </Link>
+                                                </li>
+                                            )}
+
                                         </ul>
                                     </div>
                                 </li>
@@ -1210,11 +1244,13 @@ const MenuYoga = () => {
                                                             Customer Feedbacks
                                                         </Link>
                                                     </li>
-                                                    <li>
-                                                        <Link href="/pages/dashboard" className={`text-secondary duration-300 ${pathname === '/pages/dashboard' ? 'active' : ''}`}>
-                                                            Dashboard
-                                                        </Link>
-                                                    </li>
+                                                    {userRole !== 'ROLE_USER' && (
+                                                        <li>
+                                                            <Link href="/pages/dashboard" className={`text-secondary duration-300 ${pathname === '/pages/dashboard' ? 'active' : ''}`}>
+                                                                Dashboard
+                                                            </Link>
+                                                        </li>
+                                                    )}
                                                 </ul>
                                             </div>
                                         </div>

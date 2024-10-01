@@ -11,6 +11,7 @@ import { RestDayContent } from '@/app/pages/dashboard/RestDay';
 import MenuOne from '@/components/Header/Menu/MenuOne';
 import Image from 'next/image';
 import * as Icon from '@phosphor-icons/react/dist/ssr';
+import MenuYoga from "@/components/Header/Menu/MenuYoga";
 
 const Dashboard = () => {
     const [activeTab, setActiveTab] = useState<string>('ordernow');
@@ -51,7 +52,7 @@ const Dashboard = () => {
     return (
         <>
             <div id="header" className="relative w-full">
-                <MenuOne props="bg-transparent" />
+                <MenuYoga />
             </div>
             <div className="profile-block md:py-20 py-10">
                 <div className="container">
