@@ -6,8 +6,7 @@ import MenuYoga from '@/components/Header/Menu/MenuYoga';
 import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
 import BlogItem from '../EventListItem'; // BlogItem을 가져와 렌더링
 import Footer from '@/components/Footer/Footer';
-import HandlePagination from '@/components/Other/HandlePagination';
-import { usePathname } from 'next/navigation';
+
 import Link from 'next/link';
 import axios from 'axios';
 
@@ -20,12 +19,12 @@ interface EventData {
 }
 
 const BlogGrid = () => {
-    const pathname = usePathname()
+    
     const [userRole, setUserRole] = useState('');
     const [events, setEvents] = useState<EventData[]>([]); // 여러 데이터를 받을 상태로 변경
     const [loading, setLoading] = useState(true); // 로딩 상태 추가
-    const currentPage = 0; // 페이지네이션 관련 설정
-    const pageCount = 1; // 예시로 설정 (추후 필요에 따라 수정 가능)
+    const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태
+    const itemsPerPage = 9; // 페이지당 표시할 공지사항 수
 
     useEffect(() => {
         // 서버에서 여러 개의 데이터 가져오기
@@ -46,6 +45,21 @@ const BlogGrid = () => {
                 console.error('Error fetching user role:', error);
             });   
     }, []);
+
+    // 페이지네이션에 사용할 데이터 추출
+    const indexOfLastNotice = currentPage * itemsPerPage;
+    const indexOfFirstNotice = indexOfLastNotice - itemsPerPage;
+    const currentEvents = events.slice(indexOfFirstNotice, indexOfLastNotice);
+
+    // 페이지네이션 버튼 생성
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(events.length / itemsPerPage); i++) {
+        pageNumbers.push(i);
+    }
+
+    const handlePageChange = (pageNumber: number) => {
+        setCurrentPage(pageNumber);
+    };
 
     if (loading) return <div>Loading...</div>; // 데이터 로드 전 처리
 
@@ -69,15 +83,25 @@ const BlogGrid = () => {
                 <div className="container">
                     <div className="list-blog grid lg:grid-cols-3 sm:grid-cols-2 md:gap-[42px] gap-8">
                         {/* 여러 BlogItem 컴포넌트를 렌더링 */}
-                        {events.map((event) => (
+                        {currentEvents.map((event) => (
                             <BlogItem key={event.id} event={event} type='style-one' />
                         ))}
                     </div>
-                    {pageCount > 1 && (
-                        <div className="list-pagination w-full flex items-center justify-center md:mt-10 mt-6">
-                            <HandlePagination pageCount={pageCount} onPageChange={() => {}} />
-                        </div>
-                    )}
+                    {/* 페이지네이션 버튼 추가 */}
+                    <div className="pagination flex justify-center mt-10">
+                                <ul className="flex space-x-4">
+                                    {pageNumbers.map((number) => (
+                                        <li key={number}>
+                                            <button
+                                                onClick={() => handlePageChange(number)}
+                                                className={`px-4 py-2 ${currentPage === number ? 'bg-secondary text-white' : 'bg-gray-200'} rounded`}
+                                            >
+                                                {number}
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
                 </div>
             </div>
             <Footer />
