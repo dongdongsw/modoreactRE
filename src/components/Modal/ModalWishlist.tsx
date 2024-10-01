@@ -22,6 +22,7 @@ const ModalWishlist = () => {
     const [favoriteStores, setFavoriteStores] = useState<FavoriteStore[]>([]);
     const [favoritesError, setFavoritesError] = useState<string | null>(null);
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
+    const [nickname, setNickname] = useState<string | null>(null);
 
     const fetchImageUrl = async (companyId: string) => {
         try {
@@ -33,16 +34,29 @@ const ModalWishlist = () => {
         }
     };
 
+    const fetchUserData = async () => {
+        try {
+            const externalIdResponse = await axios.get('/login/user/externalId');
+
+            if (externalIdResponse.status === 200 && externalIdResponse.data) {
+                setNickname(externalIdResponse.data);
+                setIsAuthenticated(true);
+            } else {
+                setIsAuthenticated(false);
+            }
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+            setIsAuthenticated(false);
+        }
+    };
+
     useEffect(() => {
+        fetchUserData();
+
         const fetchFavoriteStores = async () => {
             try {
                 const response = await axios.get('/favorites/favoriteStores');
                 const stores = response.data;
-
-                if (!stores || stores.length === 0) {
-                    setIsAuthenticated(false);
-                    return;
-                }
 
                 const storesWithImages = await Promise.all(stores.map(async (store: FavoriteStore) => {
                     const imageUrl = await fetchImageUrl(store.companyId);
@@ -136,7 +150,7 @@ const ModalWishlist = () => {
                                 </div>
                             ))
                         ) : (
-                            <p>즐겨찾기 항목이 없습니다.</p>
+                            <p>즐겨찾기한 가게가 없습니다.</p>
                         )}
                     </div>
                     <div className="footer-modal p-6 border-t bg-white border-line absolute bottom-0 left-0 w-full text-center">
