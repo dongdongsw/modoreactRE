@@ -91,7 +91,6 @@ const TestimonialItem: React.FC<{ companyId: string }> = ({ companyId }) => {
 
   return (
     <div className="testimonial-container">
-      <div className='headReview mb-4' style={{ textAlign: 'center', fontSize: '30px', marginTop: '-30px' }}>리뷰 페이지</div>
       {currentReviews.length > 0 ? (
         currentReviews.map((review: ReviewType) => (
           <div key={review.id} className="testimonial-divdidual" style={{ border: '1px solid #F7F7F7', borderRadius: '10px', backgroundColor: '#F7F7F7', padding: '20px', marginBottom: '20px' }}>
@@ -103,17 +102,17 @@ const TestimonialItem: React.FC<{ companyId: string }> = ({ companyId }) => {
               <div className="review-content" style={{ flex: 2, marginRight: '20px'}}>
                 <div
                     className="menuss"
-                    style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '15px', marginBottom: '15px'  }}
+                    style={{ display: 'flex', flexWrap: 'wrap',  gap: '15px', marginBottom: '15px'  }}
                 >
                   {/* review.name을 ',' 기준으로 분리하여 각 메뉴 출력 */}
                   {review.name && typeof review.name === 'string' && review.name.includes(',') ? (
   review.name.split(',').map((menu, index) => (
     <span
       key={index}
-      className="tag px-4 py-1.5 rounded-full bg-opacity-10 caption1 font-semibold bg-purple text-purple"
+      className="tag px-5 py-1.5 rounded-full bg-opacity-10 caption1 font-semibold bg-purple text-purple"
       style={{
         textAlign: 'center',
-        display: 'inline-flex',
+        display: 'inline-block',
         justifyContent: 'center',
         alignItems: 'center',
       }}
@@ -127,7 +126,7 @@ const TestimonialItem: React.FC<{ companyId: string }> = ({ companyId }) => {
       className="tag px-4 py-1.5 rounded-full bg-opacity-10 caption1 font-semibold bg-purple text-purple"
       style={{
         textAlign: 'center',
-        display: 'inline-flex',
+        display: 'inline-block',
         justifyContent: 'center',
         alignItems: 'center',
       }}

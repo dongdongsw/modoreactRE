@@ -153,7 +153,7 @@ const Product: React.FC<ProductProps> = ({ type }) => {
                 onMouseLeave={() => setHoveredItem(null)}
                 onClick={() => handleMenuClick(item)}
               >
-                <div className="product-thumb bg-white relative overflow-hidden rounded-2xl flex-grow">
+                <div className="product-thumb bg-white relative overflow-hidden rounded-2xl flex-grow" style={{boxShadow:'5px 5px 5px #ccc'}}>
                   <div className="list-action-right absolute top-3 right-3 max-lg:hidden">
                     {hoveredItem === item.id && (
                       <>
@@ -211,9 +211,9 @@ const Product: React.FC<ProductProps> = ({ type }) => {
                   </div>
                 </div>
   
-                <div className="product-infor mt-4 lg:mb-7">
-                  <div className="product-price text-title duration-300">{item.name}</div>
-                  <div className="product-price text-title duration-300">{item.price}원</div>
+                <div className="product-infor mt-2 lg:mb-7">
+                  <div className="product-price text-title duration-300  mb-1 text-center" style={{fontWeight:'weight'}}>{item.name}</div>
+                  <div className="product-price text-title duration-300 text-center">{item.price}원</div>
                 </div>
               </div>
             ))

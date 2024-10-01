@@ -37,11 +37,11 @@ const StoreInfo: React.FC<Props> = ({ store }) => {
           marginBottom: '60px',
         }}
       >
-        <h1 style={{ fontSize: '30px', fontWeight: 'bold', color:'#737373'  }}>가게 소개</h1>
-        <PushPin size={30} color='#737373' />
+        <h1 style={{ fontSize: '30px', fontWeight: 'bold', color:'#333333'  }}>가게 소개</h1>
+        <PushPin size={30} color='#333333' />
       </div>
-      <p style={{ marginBottom: '20px', fontSize: '20px', color:'#737373' }}>{store.description}</p>
-      <hr style={{ marginBottom: '20px', width: '100%' , color:'#737373'}} />
+      <p style={{ marginBottom: '20px', fontSize: '20px', color:'#333333' }}>{store.description}</p>
+      <hr style={{ marginBottom: '20px', width: '100%' , color:'#333333'}} />
 
       {/* 가게 정보 섹션 */}
       <div
@@ -53,24 +53,24 @@ const StoreInfo: React.FC<Props> = ({ store }) => {
           
         }}
       >
-        <h1 style={{ fontSize: '30px', fontWeight: 'bold', color:'#737373' }}>가게 정보</h1>
-        <Info size={30} color='#737373' />
+        <h1 style={{ fontSize: '30px', fontWeight: 'bold', color:'#333333' }}>가게 정보</h1>
+        <Info size={30} color='#333333' />
       </div>
 
       {/* 가게 세부 정보 */}
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-        <h2 style={{ fontSize: '25px', color:'#737373'}}>상호명</h2>
-        <p style={{ fontSize: '25px' , color:'#737373'}}>{store.name}</p>
+        <h2 style={{ fontSize: '25px', color:'#333333'}}>상호명</h2>
+        <p style={{ fontSize: '25px' , color:'#333333'}}>{store.name}</p>
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-        <h2 style={{ fontSize: '25px' , color:'#737373'}}>주소</h2>
-        <p style={{ fontSize: '25px' , color:'#737373'}}>{store.address}</p>
+        <h2 style={{ fontSize: '25px' , color:'#333333'}}>주소</h2>
+        <p style={{ fontSize: '25px' , color:'#333333'}}>{store.address}</p>
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-        <h2 style={{ fontSize: '25px' , color:'#737373'}}>전화번호</h2>
-        <p style={{ fontSize: '25px' , color:'#737373'}}>{store.phoneNumber}</p>
+        <h2 style={{ fontSize: '25px' , color:'#333333'}}>전화번호</h2>
+        <p style={{ fontSize: '25px' , color:'#333333'}}>{store.phoneNumber}</p>
       </div>
     </div>
   );
