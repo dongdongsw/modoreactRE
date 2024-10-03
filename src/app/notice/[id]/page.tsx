@@ -107,11 +107,11 @@ const NoticeDetail = () => {
                             {notice.imagePath && (
                                 <div className="bg-img md:py-10 py-6">
                                     <Image
-                                        src={notice.imagePath}
-                                        width={5000}
-                                        height={4000}
-                                        alt={notice.title}
-                                        className='w-full object-cover rounded-3xl'
+                                    src={notice.imagePath}
+                                    width={5000}
+                                    height={4000}
+                                    alt={notice.title} // alt 값은 title로 변경
+                                    className='w-full object-cover rounded-3xl'
                                     />
                                 </div>
                             )}

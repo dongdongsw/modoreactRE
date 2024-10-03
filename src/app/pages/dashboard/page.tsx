@@ -8,7 +8,6 @@ import { MenuContent } from '@/app/pages/dashboard/Menu';
 import { ReviewContent } from '@/app/pages/dashboard/Review';
 import { AssignmentContent } from '@/app/pages/dashboard/Assignment';
 import { RestDayContent } from '@/app/pages/dashboard/RestDay';
-import MenuOne from '@/components/Header/Menu/MenuOne';
 import Image from 'next/image';
 import * as Icon from '@phosphor-icons/react/dist/ssr';
 import MenuYoga from "@/components/Header/Menu/MenuYoga";

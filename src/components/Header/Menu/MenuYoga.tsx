@@ -169,7 +169,7 @@ const MenuYoga = () => {
                                            
                                     
 
-                                <li className='h-full'>
+                              {/*}  <li className='h-full'>
                                     <Link href="#!" className='text-button-uppercase duration-300 h-full flex items-center justify-center'>
                                         Shop
                                     </Link>
@@ -181,14 +181,7 @@ const MenuYoga = () => {
                                                     <div className="nav-item">
                                                         <div className="text-button-uppercase pb-2">Shop Layout</div>
                                                         <ul>
-                                                            <li>
-                                                                <Link
-                                                                    href={'/shop/default'}
-                                                                    className={`link text-secondary duration-300 cursor-pointer ${pathname === '/shop/default' ? 'active' : ''}`}
-                                                                >
-                                                                    Shop Default
-                                                                </Link>
-                                                            </li>
+                                                            
                                                             <li>
                                                                 <Link
                                                                     href={'/shop'}
@@ -197,43 +190,14 @@ const MenuYoga = () => {
                                                                     Shop Square
                                                                 </Link>
                                                             </li>
-                                                            <li>
-                                                                <Link
-                                                                    href={'/checkout'}
-                                                                    className={`link text-secondary duration-300 ${pathname === '/checkout' ? 'active' : ''}`}
-                                                                >
-                                                                    Checkout
-                                                                </Link>
-                                                            </li>
-                                                            <li>
-                                                                <Link
-                                                                    href={'/checkout2'}
-                                                                    className={`link text-secondary duration-300 ${pathname === '/checkout2' ? 'active' : ''}`}
-                                                                >
-                                                                    Checkout Style 2
-                                                                </Link>
-                                                            </li>
+                                                            
+                                                            
                                                         </ul>
                                                     </div>
                                                     <div className="nav-item">
                                                         <div className="text-button-uppercase pb-2">Products Pages</div>
                                                         <ul>
-                                                            <li>
-                                                                <Link
-                                                                    href={'/wishlist'}
-                                                                    className={`link text-secondary duration-300 ${pathname === '/wishlist' ? 'active' : ''}`}
-                                                                >
-                                                                    Wish List
-                                                                </Link>
-                                                            </li>
-                                                            <li>
-                                                                <Link
-                                                                    href={'/search-result'}
-                                                                    className={`link text-secondary duration-300 ${pathname === '/search-result' ? 'active' : ''}`}
-                                                                >
-                                                                    Search Result
-                                                                </Link>
-                                                            </li>
+                                                           
                                                             <li>
                                                                 <Link
                                                                     href={'/my-account'}
@@ -249,7 +213,7 @@ const MenuYoga = () => {
                                             </div>
                                         </div>
                                     </div>
-                                </li>
+                                </li>*/}
                                 
                                 
                                 <li className='h-full relative'>
@@ -258,32 +222,16 @@ const MenuYoga = () => {
                                     </Link>
                                     <div className="sub-menu py-3 px-5 -left-10 absolute bg-white rounded-b-xl">
                                         <ul className='w-full'>
-                                            <li>
-                                                <Link href="/pages/about" className={`text-secondary duration-300 ${pathname === '/pages/about' ? 'active' : ''}`}>
-                                                    About Us
-                                                </Link>
-                                            </li>
-                                            <li>
-                                                <Link href="/pages/contact" className={`text-secondary duration-300 ${pathname === '/pages/contact' ? 'active' : ''}`}>
-                                                    Contact Us
-                                                </Link>
-                                            </li>
+                                            
+                                            
                                             <li>
                                                 <Link href="/pages/page-not-found" className={`text-secondary duration-300 ${pathname === '/pages/page-not-found' ? 'active' : ''}`}>
                                                     404
                                                 </Link>
                                             </li>
-                                            <li>
-                                                <Link href="/faqs/FaQsListPage" className={`text-secondary duration-300 ${pathname === '/faqs/FaQsListPage' ? 'active' : ''}`}>
-                                                    FAQs
-                                                </Link>
-                                            </li>
-                                            <li>
-                                                <Link href="/pages/customer-feedbacks" className={`text-secondary duration-300 ${pathname === '/pages/customer-feedbacks' ? 'active' : ''}`}>
-                                                    Customer Feedbacks
-                                                </Link>
-                                            </li>
-                                            <li>
+                                           
+                                            
+                                          {/*  <li>
                                                 <Link href="/pages/RegisterStore" className={`text-secondary duration-300 ${pathname === '/pages/RegisterStore' ? 'active' : ''}`}>
                                                     RegisterStore
                                                 </Link>
@@ -307,7 +255,7 @@ const MenuYoga = () => {
                                                         Dashboard
                                                     </Link>
                                                 </li>
-                                            )}
+                                            )}*/}
 
                                         </ul>
                                     </div>

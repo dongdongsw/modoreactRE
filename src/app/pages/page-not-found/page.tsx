@@ -3,16 +3,16 @@ import React from 'react'
 import Image from 'next/image';
 import Link from 'next/link';
 import TopNavOne from '@/components/Header/TopNav/TopNavOne'
-import MenuOne from '@/components/Header/Menu/MenuOne'
 import Footer from '@/components/Footer/Footer'
 import * as Icon from "@phosphor-icons/react/dist/ssr";
+import MenuYoga from '@/components/Header/Menu/MenuYoga';
 
 const PageNotFound = () => {
     return (
         <>
             <TopNavOne props="style-one bg-black" slogan="New customers save 10% with the code GET10" />
             <div id="header" className='relative w-full'>
-                <MenuOne props="bg-white" />
+                <MenuYoga/>
             </div>
             <div className='page-not-found md:py-20 py-10 bg-linear md:mt-[74px] mt-14'>
                 <div className="container">
