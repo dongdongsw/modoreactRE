@@ -7,7 +7,7 @@ import TopNavOne from '@/components/Header/TopNav/TopNavOne';
 import MenuYoga from '@/components/Header/Menu/MenuYoga';
 // import productData from '@/data/Product.json';
 import Footer from '@/components/Footer/Footer';
-import ShopBreadCrumbImg from "@/app/store/StoreBreadCrumbimg/storebreadcrumbIimg";
+import ShopBreadCrumbImg from "@/app/store/StoreBreadCrumbImg/storebreadcrumbIimg";
 
 interface StoreType {
     name: string;
