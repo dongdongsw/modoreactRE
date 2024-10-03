@@ -86,8 +86,9 @@ const EventDetail = () => {
                             <button onClick={handleDelete} className='button-main'>삭제</button>
                         }
                     </div>
-                <div className="bg-img flex justify-center items-center md:mt-[74px] mt-14">
-                    {event.imagePath ? (
+                 {/* 이미지가 있을 때만 이미지 컨테이너를 렌더링 */}
+                 {event.imagePath && (
+                    <div className="bg-img flex justify-center items-center md:mt-[74px] mt-14">
                         <Image
                             src={event.imagePath}
                             width={5000}
@@ -95,8 +96,8 @@ const EventDetail = () => {
                             alt="Event Image"
                             className='w-full min-[1600px]:h-[800px] xl:h-[1200px] lg:h-[1500px] sm:w-[1000px] sm:h-[1500px] h-[260px] object-cover'
                         />
-                    ) : null}
-</div>
+                    </div>
+                )}
 
                 <div className="container md:pt-20 pt-10">
                     <div className="blog-content flex items-center justify-center">

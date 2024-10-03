@@ -93,7 +93,7 @@ const CartContent: React.FC = () => {
                         <div className="infor flex items-center gap-5">
                             <div className="bg-img">
                                 <Image
-                                    src={item.imageUrl || '/default-image.png'} // 이미지 URL이 없으면 기본 이미지 사용
+                                    src={item.imageUrl || '이미지 준비 중 입니다.'} // 이미지 URL이 없으면 기본 이미지 사용
                                     width={100}
                                     height={100}
                                     alt={item.name}

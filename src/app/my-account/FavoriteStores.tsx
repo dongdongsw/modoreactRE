@@ -88,7 +88,10 @@ const FavoriteStoresContent: React.FC = () => {
                 <ul className="favorites-list">
                     {favoriteStores.map((store: FavoriteStore) => (
                         <li key={store.companyId} className="favorite-item py-5 flex items-center gap-4 border-b border-line">
-                            <img src={store.imageUrl} alt={store.name} className="store-image w-16 h-16 object-cover rounded-lg" />
+                            <img src={store.imageUrl || '이미지 준비 중 입니다.'} 
+                            alt={store.name} 
+                            className="store-image w-16 h-16 object-cover rounded-lg" 
+                            />
                             <div className="flex-1">
                                 <div className="store-name text-button">{store.name}</div>
                                 <div className="food-type text-sm text-gray-500 mt-1">{store.foodType}</div>

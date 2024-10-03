@@ -19,6 +19,7 @@ const NoticeForm = () => {
     const [author, setAuthor] = useState('Default Author'); // Default author setting
     const [category, setCategory] = useState('Notice'); // Default category setting
     const [image, setImage] = useState<File | null>(null);
+    
 
     useEffect(() => {
         if (id) {
@@ -31,7 +32,7 @@ const NoticeForm = () => {
                     setCategory(notice.category);
                 })
                 .catch(error => {
-                    console.error('Error fetching notice:', error);
+                    alert('서버와 연결하는데 실패했습니다.'); 
                 });
         }
     }, [id]);
@@ -56,7 +57,7 @@ const NoticeForm = () => {
                 window.location.href = '/notice/NoticeListPage'; // Navigating after the form is submitted
             })
             .catch(error => {
-                console.error('Error saving notice:', error);
+                alert('저장하는데 실패 했습니다.'); 
             });
     };
 

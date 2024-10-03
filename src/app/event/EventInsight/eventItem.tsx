@@ -31,7 +31,7 @@ const EventItem: React.FC<BlogProps> = ({ event, type }) => {
                     <div className="blog-main h-full block">
                         <div className="blog-thumb rounded-[20px] overflow-hidden">
                             <Image
-                                src={event.imagePath || '/images/default.jpg'}
+                                src={event.imagePath || ' '}
                                 width={2000}
                                 height={1500}
                                 alt='event-img'

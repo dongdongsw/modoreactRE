@@ -4,7 +4,6 @@ import React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import './EventList.css';
-import Link from 'next/link';
 
 
 interface BlogProps {
@@ -44,7 +43,7 @@ const BlogItem: React.FC<BlogProps> = ({ type, event }) => {
                     <div className="blog-main h-full block">
                         <div className="blog-thumb rounded-[20px] overflow-hidden">
                             <Image
-                                src={event.imagePath || '/images/default.jpg'}
+                                src={event.imagePath || ' '}
                                 alt={event.title}
                                 width={2000}
                                 height={1500}

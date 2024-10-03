@@ -108,35 +108,35 @@ const TestimonialItem: React.FC<{ companyId: string }> = ({ companyId }) => {
                 >
                   {/* review.name을 ',' 기준으로 분리하여 각 메뉴 출력 */}
                   {review.name && typeof review.name === 'string' && review.name.includes(',') ? (
-  review.name.split(',').map((menu, index) => (
-    <span
-      key={index}
-      className="tag px-5 py-1.5 rounded-full bg-opacity-10 caption1 font-semibold bg-purple text-purple"
-      style={{
-        textAlign: 'center',
-        display: 'inline-block',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      {menu.trim()}
-    </span>
-  ))
-) : (
-  review.name && typeof review.name === 'string' && (
-    <span
-      className="tag px-4 py-1.5 rounded-full bg-opacity-10 caption1 font-semibold bg-purple text-purple"
-      style={{
-        textAlign: 'center',
-        display: 'inline-block',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      {review.name.trim()}
-    </span>
-  )
-)}
+                  review.name.split(',').map((menu, index) => (
+                    <span
+                      key={index}
+                      className="tag px-5 py-1.5 rounded-full bg-opacity-10 caption1 font-semibold bg-purple text-purple"
+                      style={{
+                        textAlign: 'center',
+                        display: 'inline-block',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}
+                    >
+                      {menu.trim()}
+                    </span>
+                  ))
+                ) : (
+                  review.name && typeof review.name === 'string' && (
+                    <span
+                      className="tag px-4 py-1.5 rounded-full bg-opacity-10 caption1 font-semibold bg-purple text-purple"
+                      style={{
+                        textAlign: 'center',
+                        display: 'inline-block',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}
+                    >
+                      {review.name.trim()}
+                    </span>
+                  )
+                )}
 
                 </div>
 

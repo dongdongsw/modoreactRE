@@ -19,20 +19,32 @@ interface NoticeData {
 }
 
 const NoticeDetail = () => {
-    const pathname = usePathname();  // usePathname으로 현재 경로 가져오기
-    const router = useRouter();  
-    const id = pathname.split('/').pop();  // URL에서 마지막 부분을 id로 사용
-    const [notice, setNotice] = useState<NoticeData | null>(null);  // NoticeData 타입 지정
+    const pathname = usePathname();
+    const router = useRouter();
+    const id = pathname.split('/').pop();
+    const [notice, setNotice] = useState<NoticeData | null>(null);
     const [userRole, setUserRole] = useState('');
+    const [loading, setLoading] = useState(true); // 로딩 상태 관리 추가
 
     useEffect(() => {
+        setLoading(true);
+
         // 공지사항 데이터 가져오기
         axios.get(`/api/notice/${id}`)
             .then(response => {
-                setNotice(response.data);
+                if (response.data) {
+                    setNotice(response.data);
+                } else {
+                    
+                    alert('해당 공지사항을 찾을 수 없습니다.'); 
+                }
             })
             .catch(error => {
-                console.error('Error fetching notice:', error);
+                alert('공지사항을 가져오는 도중 오류가 발생했습니다.'); 
+
+            })
+            .finally(() => {
+                setLoading(false); // 로딩 완료
             });
 
         // 사용자 권한 정보 가져오기
@@ -42,7 +54,7 @@ const NoticeDetail = () => {
                 setUserRole(role);
             })
             .catch(error => {
-                console.error('Error fetching user role:', error);
+                alert('사용자 권한 정보를 가져오는 도중 오류가 발생했습니다.'); 
             });
     }, [id]);
 
@@ -52,12 +64,19 @@ const NoticeDetail = () => {
                 router.push('/notice/NoticeListPage');  // 페이지 이동
             })
             .catch(error => {
-                console.error('Error deleting notice:', error);
+                alert('공지사항 삭제 도중 오류가 발생했습니다.'); 
+                
             });
     };
 
+    if (loading) {
+        return <div>Loading...</div>; // 로딩 중일 때 표시
+    }
+
+    
+
     if (!notice) {
-        return <div>Loading...</div>;
+        return <div>공지사항을 찾을 수 없습니다.</div>; // 공지사항이 null인 경우 표시
     }
 
     return (
@@ -84,17 +103,18 @@ const NoticeDetail = () => {
                                     <div className="caption1 text-secondary">{notice.date}</div>
                                 </div>
                             </div>
-                            <div className="bg-img md:py-10 py-6">
-                                {notice.imagePath ? (
+                             {/* 이미지가 있는 경우에만 렌더링 */}
+                            {notice.imagePath && (
+                                <div className="bg-img md:py-10 py-6">
                                     <Image
-                                    src={notice.imagePath}
-                                    width={5000}
-                                    height={4000}
-                                    alt={notice.title} // alt 값은 title로 변경
-                                    className='w-full object-cover rounded-3xl'
+                                        src={notice.imagePath}
+                                        width={5000}
+                                        height={4000}
+                                        alt={notice.title}
+                                        className='w-full object-cover rounded-3xl'
                                     />
-                                ) : null}
                                 </div>
+                            )}
                             <div className="content">
                                 <div className="body1">{notice.content}</div>
                             </div>

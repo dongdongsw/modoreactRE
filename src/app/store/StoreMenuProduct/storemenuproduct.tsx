@@ -201,7 +201,7 @@ const Product: React.FC<ProductProps> = ({ type }) => {
   
                   <div className="product-img" style={{ width: '100%', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                     <Image
-                      src={item.imageUrl}
+                      src={item.imageUrl || '이미지 준비 중입니다.'}
                       alt={item.name}
                       width={500}
                       height={500}

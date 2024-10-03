@@ -31,7 +31,7 @@ const BlogList = () => {
                 setLoading(false); // 로딩 완료
             })
             .catch((error) => {
-                console.error('Error fetching notices:', error);
+                alert('공지사항 목록을 불러 오는 것에 실패 했습니다.');
                 setLoading(false); // 에러 시에도 로딩 상태 변경
             });
 
@@ -41,7 +41,7 @@ const BlogList = () => {
                 setUserRole(role);
             })
             .catch(error => {
-                console.error('Error fetching user role:', error);
+                alert('사용자 정보를 불러오는데 실패했습니다.');
             });
     }, []);
 
