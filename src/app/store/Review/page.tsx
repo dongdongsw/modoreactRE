@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
 import './TestimonialItem.css';
@@ -12,6 +12,7 @@ interface ReviewType {
   content: string;
   author: string;
   createdDateTime: string;
+  updatedDateTime?: string;
   comments: CommentType[];
   imageUrl: string;
   name: string;
@@ -21,23 +22,25 @@ interface CommentType {
   id: string;
   author: string;
   content: string;
-  date: string;
+  createdAt: string;
+  updatedAt?: string;
 }
 
 const TestimonialItem: React.FC<{ companyId: string }> = ({ companyId }) => {
   const [reviews, setReviews] = useState<ReviewType[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [summary, setSummary] = useState<string | null>(null); // 리뷰 요약을 저장하는 상태
-
-  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
-  const reviewsPerPage = 4; // 페이지당 리뷰 개수
+  const [currentPage, setCurrentPage] = useState(1);
+  const reviewsPerPage = 4;
+  const [summary, setSummary] = useState<string | null>(null);
+  const [summaryFetched, setSummaryFetched] = useState(false);
+  const prevCompanyIdRef = useRef<string | null>(null);
 
   useEffect(() => {
     const fetchReviews = async () => {
       try {
         if (!companyId) {
-          setError("Invalid companyId provided.");
+          setError('유효하지 않은 companyId입니다.');
           return;
         }
 
@@ -48,7 +51,7 @@ const TestimonialItem: React.FC<{ companyId: string }> = ({ companyId }) => {
           );
 
           const reviewsWithComments = await Promise.all(
-              sortedReviews.map(async (review: any) => {
+              sortedReviews.map(async (review: ReviewType) => {
                 const commentsResponse = await axios.get(`/api/review/${review.id}/comments`);
                 return { ...review, comments: commentsResponse.data };
               })
@@ -60,34 +63,35 @@ const TestimonialItem: React.FC<{ companyId: string }> = ({ companyId }) => {
         }
       } catch (error) {
         console.error('리뷰 데이터를 불러오는 데 실패했습니다.', error);
-        setError('Failed to load reviews.');
+        setError('리뷰를 불러오는 데 실패했습니다.');
       } finally {
         setLoading(false);
       }
     };
 
-    if (companyId) {
+    if (companyId && companyId !== prevCompanyIdRef.current) {
       fetchReviews();
+      prevCompanyIdRef.current = companyId;
     }
   }, [companyId]);
 
   useEffect(() => {
     const fetchSummary = async () => {
-      if (reviews.length >= 10 && !loading) {
+      if (reviews.length >= 10 && !summaryFetched) {
         try {
           const summaryResponse = await axios.post('/api/v1/chat-gpt/summarize', {
             data: reviews.map((review) => review.content),
           });
           setSummary(summaryResponse.data.answer);
+          setSummaryFetched(true);
         } catch (error) {
           console.error('요약을 가져오는 데 실패했습니다.', error);
         }
       }
     };
 
-    // 모든 리뷰가 로딩된 후 요약을 요청
     fetchSummary();
-  }, [reviews, loading]);
+  }, [reviews, summaryFetched]);
 
   if (loading) {
     return <p>리뷰 데이터를 불러오는 중입니다...</p>;
@@ -120,62 +124,42 @@ const TestimonialItem: React.FC<{ companyId: string }> = ({ companyId }) => {
         ) : reviews.length < 10 ? (
             <p>요약을 진행하기에 충분한 리뷰가 작성되지 않았습니다.</p>
         ) : (
-            <p>Loading review summary...</p>
+            <p>리뷰 요약을 로딩 중입니다...</p>
         )}
 
         {currentReviews.length > 0 ? (
             currentReviews.map((review: ReviewType) => (
                 <div key={review.id} className="testimonial-divdidual" style={{ border: '1px solid #F7F7F7', borderRadius: '10px', backgroundColor: '#F7F7F7', padding: '20px', marginBottom: '20px' }}>
-                  {/* 텍스트와 이미지 부분을 flex로 배치 */}
                   <div className="testimonial-main" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                    {/* 텍스트 부분 */}
-                    <div className="review-content" style={{ flex: 2, marginRight: '20px'}}>
-
-                      <div
-                          className="menuss"
-                          style={{ display: 'flex', flexWrap: 'wrap',  gap: '15px', marginBottom: '15px'  }}
-                      >
-                        {/* review.name을 ',' 기준으로 분리하여 각 메뉴 출력 */}
+                    <div className="review-content" style={{ flex: 2, marginRight: '20px' }}>
+                      <div className="menuss" style={{ display: 'flex', flexWrap: 'wrap', gap: '15px', marginBottom: '15px' }}>
                         {review.name && typeof review.name === 'string' && review.name.includes(',') ? (
                             review.name.split(',').map((menu, index) => (
-                                <span
-                                    key={index}
-                                    className="tag px-5 py-1.5 rounded-full bg-opacity-10 caption1 font-semibold bg-purple text-purple"
-                                    style={{
-                                      textAlign: 'center',
-                                      display: 'inline-block',
-                                      justifyContent: 'center',
-                                      alignItems: 'center',
-                                    }}
-                                >
-                                  {menu.trim()}
-                                </span>
+                                <span key={index} className="tag px-5 py-1.5 rounded-full bg-opacity-10 caption1 font-semibold bg-purple text-purple" style={{ textAlign: 'center', display: 'inline-block', justifyContent: 'center', alignItems: 'center' }}>
+                        {menu.trim()}
+                      </span>
                             ))
                         ) : (
                             review.name && typeof review.name === 'string' && (
-                                <span
-                                    className="tag px-4 py-1.5 rounded-full bg-opacity-10 caption1 font-semibold bg-purple text-purple"
-                                    style={{
-                                      textAlign: 'center',
-                                      display: 'inline-block',
-                                      justifyContent: 'center',
-                                      alignItems: 'center',
-                                    }}
-                                >
-                                  {review.name.trim()}
-                                </span>
+                                <span className="tag px-4 py-1.5 rounded-full bg-opacity-10 caption1 font-semibold bg-purple text-purple" style={{ textAlign: 'center', display: 'inline-block', justifyContent: 'center', alignItems: 'center' }}>
+                        {review.name.trim()}
+                      </span>
                             )
                         )}
                       </div>
 
-                      <div className="text-button" style={{ marginBottom: '20px', fontSize: '13px' }}>{review.author}</div>
-                      <div className="caption2 date text-secondary2 mt-3 mb-3">{new Date(review.createdDateTime).toLocaleDateString()}</div>
+                      <div className="text-button" style={{fontSize: '13px' }}>{review.author}</div>
+                      <div className="caption2 date text-secondary2 mt-3 mb-3">
+                        {review.updatedDateTime ? (
+                            `${new Date(review.updatedDateTime).toLocaleDateString()} (수정됨)`
+                        ) : (
+                            new Date(review.createdDateTime).toLocaleDateString()
+                        )}
+                      </div>
                       <div className="heading6 title mt-4">{review.title}</div>
-
                       <div className="desc mt-2">{review.content}</div>
                     </div>
 
-                    {/* 이미지 부분 */}
                     {review.imageUrl ? (
                         <div className="product-img" style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', width: '200px', height: '200px', overflow: 'hidden' }}>
                           <Image
@@ -185,21 +169,27 @@ const TestimonialItem: React.FC<{ companyId: string }> = ({ companyId }) => {
                               height={400}
                               fetchPriority="high"
                               unoptimized={true}
-                              onError={(e) => console.error("Image failed to load for URL:", review.imageUrl)}
+                              onError={(e) => console.error('Image failed to load for URL:', review.imageUrl)}
                               style={{ objectFit: 'cover' }}
                           />
                         </div>
                     ) : null}
                   </div>
 
-                  {/* 댓글 섹션을 testimonial-main 블록의 하단에 배치 */}
                   <div className="comments-section mt-4 mb-4" style={{ overflow: 'hidden' }}>
                     {review.comments && review.comments.length > 0 && (
                         review.comments.map((comment: CommentType) => (
                             <div key={comment.id} className="comment-item" style={{ padding: '10px' }}>
-                              <hr style={{ margin: '10px 0', color: '#ccc' }} /> {/* hr 스타일 조정 */}
+                              <hr style={{ margin: '10px 0', color: '#ccc' }} />
                               <div className="text-button comment-author mt-3">사장님</div>
-                              <div className="body1 comment-content mt-1">{comment.content}</div>
+                              <div className="caption2 date text-secondary2 mt-2">
+                                {comment.updatedAt ? (
+                                    `${new Date(comment.updatedAt!).toLocaleDateString()} (수정됨)`
+                                ) : (
+                                    new Date(comment.createdAt).toLocaleDateString()
+                                )}
+                              </div>
+                              <div className="desc mt-2">{comment.content}</div>
                             </div>
                         ))
                     )}
@@ -232,6 +222,6 @@ const TestimonialItem: React.FC<{ companyId: string }> = ({ companyId }) => {
         </div>
       </div>
   );
-}
+};
 
 export default TestimonialItem;
