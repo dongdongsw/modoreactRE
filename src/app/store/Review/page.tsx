@@ -90,7 +90,9 @@ const TestimonialItem: React.FC<{ companyId: string }> = ({ companyId }) => {
       }
     };
 
-    fetchSummary();
+    if (reviews.length >= 10 && !summaryFetched) {
+      fetchSummary();
+    }
   }, [reviews, summaryFetched]);
 
   if (loading) {
