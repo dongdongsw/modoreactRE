@@ -4,8 +4,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
 import './TestimonialItem.css';
+import ShopBreadCrumbImg from "@/app/store/StoreBreadCrumbImg/storebreadcrumbIimg";
 
+type ReviewSummary = {
+  [key: string]: string;
+};
 interface ReviewType {
+  companyId: string;
+  storeId: number;
   id: string;
   star: number;
   title: string;
@@ -32,7 +38,7 @@ const TestimonialItem: React.FC<{ companyId: string }> = ({ companyId }) => {
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const reviewsPerPage = 4;
-  const [summary, setSummary] = useState<string | null>(null);
+  const [summary, setSummary] = useState<ReviewSummary>({}); // 초기값을 빈 객체로 설정
   const [summaryFetched, setSummaryFetched] = useState(false);
   const prevCompanyIdRef = useRef<string | null>(null);
 
@@ -76,24 +82,44 @@ const TestimonialItem: React.FC<{ companyId: string }> = ({ companyId }) => {
   }, [companyId]);
 
   useEffect(() => {
-    const fetchSummary = async () => {
-      if (reviews.length >= 10 && !summaryFetched) {
-        try {
-          const summaryResponse = await axios.post('/api/v1/chat-gpt/summarize', {
-            data: reviews.map((review) => review.content),
-          });
-          setSummary(summaryResponse.data.answer);
-          setSummaryFetched(true);
-        } catch (error) {
-          console.error('요약을 가져오는 데 실패했습니다.', error);
+    const fetchReviews = async () => {
+      try {
+        if (!companyId) {
+          setError('유효하지 않은 companyId입니다.');
+          return;
         }
+
+        const reviewsResponse = await axios.get(`/api/review/listByCompany/${companyId}`);
+        if (reviewsResponse.data && reviewsResponse.data.length > 0) {
+          const sortedReviews = reviewsResponse.data.sort(
+              (a: any, b: any) => new Date(b.createdDateTime).getTime() - new Date(a.createdDateTime).getTime()
+          );
+
+          const reviewsWithComments = await Promise.all(
+              sortedReviews.map(async (review: ReviewType) => {
+                const commentsResponse = await axios.get(`/api/review/${review.id}/comments`);
+                return { ...review, comments: commentsResponse.data };
+              })
+          );
+
+          setReviews(reviewsWithComments);
+        } else {
+          setReviews([]);
+        }
+      } catch (error) {
+        console.error('리뷰 데이터를 불러오는 데 실패했습니다.', error);
+        setError('리뷰를 불러오는 데 실패했습니다.');
+      } finally {
+        setLoading(false);
       }
     };
 
-    if (reviews.length >= 10 && !summaryFetched) {
-      fetchSummary();
+    if (companyId && companyId !== prevCompanyIdRef.current) {
+      fetchReviews();
+      prevCompanyIdRef.current = companyId;
     }
-  }, [reviews, summaryFetched]);
+  }, [companyId]);
+
 
   if (loading) {
     return <p>리뷰 데이터를 불러오는 중입니다...</p>;
@@ -118,17 +144,6 @@ const TestimonialItem: React.FC<{ companyId: string }> = ({ companyId }) => {
 
   return (
       <div className="testimonial-container">
-        {summary ? (
-            <div>
-              <h3>요약된 리뷰:</h3>
-              <p>{summary}</p>
-            </div>
-        ) : reviews.length < 10 ? (
-            <p>요약을 진행하기에 충분한 리뷰가 작성되지 않았습니다.</p>
-        ) : (
-            <p>리뷰 요약을 로딩 중입니다...</p>
-        )}
-
         {currentReviews.length > 0 ? (
             currentReviews.map((review: ReviewType) => (
                 <div key={review.id} className="testimonial-divdidual" style={{ border: '1px solid #F7F7F7', borderRadius: '10px', backgroundColor: '#F7F7F7', padding: '20px', marginBottom: '20px' }}>
