@@ -11,6 +11,8 @@ import axios from 'axios';
 interface FavoriteStore {
     companyId: string;
     name: string;
+    id: string; // store의 id 값을 저장할 필드 추가
+
     imageUrl?: string;
     foodType: string;
 }
@@ -23,6 +25,19 @@ const ModalWishlist = () => {
     const [favoritesError, setFavoritesError] = useState<string | null>(null);
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
     const [nickname, setNickname] = useState<string | null>(null);
+    const [hoveredItem, setHoveredItem] = useState<string | null>(null); // 마우스가 올라간 항목의 ID 저장
+
+
+    // Store ID를 조회하는 함수
+    const fetchStoreIdByCompanyId = async (companyId: string) => {
+    try {
+        const response = await axios.get(`/api/stores/${companyId}/id`);
+        return response.data; // store의 id 값 반환
+    } catch (error) {
+        console.error(`Error fetching store ID for companyId ${companyId}:`, error);
+        return null;
+    }
+};
 
     const fetchImageUrl = async (companyId: string) => {
         try {
@@ -136,26 +151,37 @@ const ModalWishlist = () => {
                             <p>로그인 후 진행해주세요.</p>
                         ) : favoriteStores.length > 0 ? (
                             favoriteStores.map((store) => (
-                                <div key={store.companyId} className='item py-5 flex items-center justify-between gap-3 border-b border-line'>
-                                    <div className="infor flex items-center gap-5">
-                                        <img src={store.imageUrl} alt={store.name} className="w-16 h-16 object-cover rounded-md" />
-                                        <div>
+                                <Link href={`/store/${store.id}`} key={store.companyId}> {/* storeId를 사용하여 동적 경로 설정 */}
+
+                                <div key={store.companyId} className='item py-5 mb-3 flex items-center justify-between gap-3 border-b border-line cursor-pointer' 
+                                style={{
+                                    border:'1px solid #ccc', 
+                                    boxShadow:'2px 2px 2px 2px #ccc', 
+                                    borderRadius:'15px',
+                                    backgroundColor: hoveredItem === store.companyId ? '#f0f0f0' : 'white', // 상태에 따라 색상 변경
+                                    }}
+                                    onMouseEnter={() => setHoveredItem(store.companyId)} // 마우스가 올라간 경우
+                                        onMouseLeave={() => setHoveredItem(null)} // 마우스가 떠난 경우
+                                        >
+                                    <div className="infor flex items-center gap-5" >
+                                        <img src={store.imageUrl} alt={store.name} className="w-16 h-16 object-cover rounded-md ml-3"  />
+                                        <div >
                                             <div className="name text-button">{store.name}</div>
                                             <div className="text-sm text-gray-500 mt-1">{store.foodType}</div>
                                         </div>
                                     </div>
-                                    <div className="remove-wishlist-btn caption1 font-semibold text-red underline cursor-pointer" onClick={() => handleRemoveFavorite(store.companyId)}>
+                                    <div className="remove-wishlist-btn caption1 font-semibold text-red underline cursor-pointer mr-3" onClick={() => handleRemoveFavorite(store.companyId)}>
                                         Remove
                                     </div>
                                 </div>
+                                </Link>
                             ))
                         ) : (
                             <p>즐겨찾기한 가게가 없습니다.</p>
                         )}
                     </div>
                     <div className="footer-modal p-6 border-t bg-white border-line absolute bottom-0 left-0 w-full text-center">
-                        <Link href={'/wishlist'} onClick={closeModalWishlist} className='button-main w-full text-center uppercase'>View All Wish List</Link>
-                        <div onClick={closeModalWishlist} className="text-button-uppercase mt-4 text-center has-line-before cursor-pointer inline-block">Or continue shopping</div>
+                        <Link href={'/shop'} onClick={closeModalWishlist} className='button-main w-full text-center uppercase'>스토어 리스트로 이동</Link>
                     </div>
                 </div>
             </div>
