@@ -33,6 +33,11 @@ const BlogItem: React.FC<BlogProps> = ({ type, event }) => {
         return date.toISOString().split('T')[0]; // 'T'로 나눈 후 첫 번째 부분만 사용
     };
 
+    // 제목이 90자 이상일 경우 '...'으로 줄이기
+    const truncateTitle = (title: string, maxLength: number) => {
+        return title.length > maxLength ? `${title.substring(0, maxLength)}...` : title;
+    };
+
     return (
         <>
             {type === "style-one" ? (
@@ -53,7 +58,8 @@ const BlogItem: React.FC<BlogProps> = ({ type, event }) => {
                             />
                         </div>
                         <div className="blog-infor mt-7">
-                            <div className="heading6 blog-title mt-3 duration-300">{event.title}</div>
+                            <div className="heading6 blog-title mt-3 duration-300">{truncateTitle(event.title, 30)}
+                            </div>
                             <div className="body1 text-secondary mt-4">{event.content}</div>
                             <div className="blog-date caption1 text-secondary">{formatDate(event.createdDate)}</div>
                             
