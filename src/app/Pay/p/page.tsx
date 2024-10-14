@@ -54,6 +54,7 @@ const Pay = () => {
   const isSingleItemMode = searchParams.get('singleItemMode') === 'true'; // query string에서 값 추출
   const singleItemMerchanUid = searchParams.get('singleItemMerchanUid');
   const [isMounted, setIsMounted] = useState(false); // 클라이언트에서만 동작하도록 상태 추가
+  const [activeTab, setActiveTab] = useState('range'); // 초기 탭은 'range'
 
   useEffect(() => {
     setIsMounted(true); // 컴포넌트가 클라이언트에 마운트되면 상태를 true로 설정
@@ -493,7 +494,9 @@ const Pay = () => {
     return null; // 서버사이드 렌더링 시 아무것도 렌더링하지 않음
   }
 
-
+  const handleTabChange = (tabName:string) => {
+    setActiveTab(tabName); // 탭 변경
+  };
 
 
   return (
@@ -507,7 +510,11 @@ const Pay = () => {
             <div className="container mx-auto h-full">
               <div className="header-main flex items-center justify-between h-full">
                 <Link href={'/'} className='flex items-center'>
-                  <div className="heading4">Modo Modo</div>
+                <div className="heading4" style={{    
+                                background: 'linear-gradient(to left, #acd4c8 ,   #000000)',
+                                color: 'transparent',
+                                WebkitBackgroundClip: 'text'
+                              }}>Modo Modo</div>
                 </Link>
                 <div className="pay-container">
                   <div className="step-indicator-container">
@@ -523,23 +530,58 @@ const Pay = () => {
           </div>
         </div>
 
-        <div className="checkout-block relative md:pt-[74px] pt-[56px]">
-          <div className="content-main flex max-lg:flex-col-reverse justify-between">
-            <div className="left flex lg:justify-end w-full">
-              <div className="lg:max-w-[670px] flex-shrink-0 w-full lg:pt-20 pt-12 lg:pr-[70px] pl-[16px] max-lg:pr-[16px]">
-                <div className="login flex justify-between gap-4">
-                  <h4 className="heading4">메뉴 선택</h4>
-                </div>
-                  <CompanySelector
-                      categorizedItems={categorizedItems}
-                      activeCompany={activeCompany}
-                      setActiveCompany={setActiveCompany}
-                      selectedItem={selectedItem}
-                      setSelectedItem={setSelectedItem}
-                      fetchRestDays={fetchRestDays} // fetchRestDays 함수 전달
-                    />
-                  <div className="information md:mt-10 mt-6">
-                    <h4 className="heading4">날짜 선택</h4>
+        <div className="paymainContainer">
+        <div>
+      
+          <div className="paymainContainer1">
+            {/* 탭 버튼 */}
+            <div className="tab-buttons">
+              <button
+                className={activeTab === 'range' ? 'active' : ''}
+                onClick={() => handleTabChange('range')}
+              >
+                Range Selection
+              </button>
+              <button
+                className={activeTab === 'daily' ? 'active' : ''}
+                onClick={() => handleTabChange('daily')}
+              >
+                Daily Selection
+              </button>
+            </div>
+            <div className="paymainContainer2">
+              <div className="paymainmenu">
+                <h4 className="heading4" 
+                    style={{
+                      color:'#000000',  
+                      
+                    // background: 'linear-gradient(to left,#DDE9B5 ,   #acd4c8)',
+                    //  WebkitBackgroundClip: 'text'
+                      }}>
+                        메뉴 선택
+                        </h4>
+                  
+                    <CompanySelector
+                        categorizedItems={categorizedItems}
+                        activeCompany={activeCompany}
+                        setActiveCompany={setActiveCompany}
+                        selectedItem={selectedItem}
+                        setSelectedItem={setSelectedItem}
+                        fetchRestDays={fetchRestDays} // fetchRestDays 함수 전달
+                      />
+              </div>
+            <div>
+                    <h4 className="heading4"
+                    style={{
+                      // fontSize:'26px',
+                      // fontWeight:'500',
+                      color:'#000000',  
+                      marginLeft:'20px'
+                      // marginBottom:'13px',
+                    // background: 'linear-gradient(to left,#DDE9B5 ,   #acd4c8)',
+                    //  WebkitBackgroundClip: 'text'
+                      }}>
+                        날짜 선택</h4>
                     <div className="deli_type">
                       <DateSelector
                         selectedItem={selectedItem}
@@ -552,44 +594,57 @@ const Pay = () => {
                         isDailySelectionActive={isDailySelectionActive}
                         restDays={restDays} // 쉬는 날 정보 전달
                       />
-                    </div>                
-                  </div>   
-                </div>
-              </div>
-              <div className="right justify-start flex-shrink-0 lg:w-[47%] bg-surface lg:py-20 py-12">
-                <div className="lg:sticky lg:top-24 h-fit lg:max-w-[606px] w-full flex-shrink-0 lg:pl-[80px] pr-[16px] max-lg:pl-[16px]">
-                  <div className="list_prd flex flex-col gap-7">
-                    <div className="item flex items-center justify-between gap-6">
-                            
+                      
                     </div>
-                                
-                    <RangeSelection
-                      selectedItem={selectedItem}
-                      selectedDates={selectedDates}
-                      handleMealCountChange={handleMealCountChange}
-                      mealCounts={mealCounts}
-                      setIsRangeSelectionActive={setIsRangeSelectionActive}
-                      setIsDailySelectionActive={setIsDailySelectionActive}
-                      saveDatesToLocalStorage={saveDatesToLocalStorage}
-                      setSelectedDates={setSelectedDates}
-                     />  
-                  </div>
-                  <DailySelection
-                    selectedItem={selectedItem}
-                    selectedDays={selectedDays}
-                    handleMealCountChange={handleMealCountChange}
-                    mealCounts={mealCounts}
-                    setIsRangeSelectionActive={setIsRangeSelectionActive}
-                    setIsDailySelectionActive={setIsDailySelectionActive}
-                    saveDatesToLocalStorage={saveDatesToLocalStorage}
-                    setSelectedDays={setSelectedDays}
-                  />
-                  <NextStepButton onNext={handleNextStep} />          
+                    <div className="desc">
+                      <div style={{color:'#ccc', fontWeight:'bold'}}>◯오늘 날짜</div>    
+                      <div style={{color:'#0EAE7A', fontWeight:'bold'}}>◯선택된 날짜</div>                
+                      <div style={{color:'red', fontWeight:'bold'}}>◯쉬는 날</div>                
+                    </div>
+                  </div>   
+               
+              
+                <div>
+                  
+                    
+                <div className="paymaindateselect">
+        {activeTab === 'range' && (
+          <RangeSelection
+            selectedItem={selectedItem}
+            selectedDates={selectedDates}
+            handleMealCountChange={handleMealCountChange}
+            mealCounts={mealCounts}
+            setIsRangeSelectionActive={setIsRangeSelectionActive}
+            setIsDailySelectionActive={setIsDailySelectionActive}
+            saveDatesToLocalStorage={saveDatesToLocalStorage}
+            setSelectedDates={setSelectedDates}
+          />
+        )}
+        
+        {activeTab === 'daily' && (
+          <DailySelection
+            selectedItem={selectedItem}
+            selectedDays={selectedDays}
+            handleMealCountChange={handleMealCountChange}
+            mealCounts={mealCounts}
+            setIsRangeSelectionActive={setIsRangeSelectionActive}
+            setIsDailySelectionActive={setIsDailySelectionActive}
+            saveDatesToLocalStorage={saveDatesToLocalStorage}
+            setSelectedDays={setSelectedDays}
+          />
+        )}
+      </div>
+                    
+                  </div> 
+                  <div></div>
+                  <div></div>
+
+                  <NextStepButton onNext={handleNextStep} />      
                 </div>
-              </div>
-            </div>
-          </div>
-          
+                </div>
+
+                </div>
+                </div>
           <div className="copyright caption1 md:mt-20 mt-12 py-3 border-t border-line">©2024 Anvogue. All Rights Reserved.</div>
 
           
@@ -603,7 +658,11 @@ const Pay = () => {
               <div className="container mx-auto h-full">
                 <div className="header-main flex items-center justify-between h-full">
                   <Link href={'/'} className='flex items-center'>
-                    <div className="heading4">Modo Modo</div>
+                  <div className="heading4" style={{    
+                                background: 'linear-gradient(to left, #acd4c8 ,   #000000)',
+                                color: 'transparent',
+                                WebkitBackgroundClip: 'text'
+                              }}>Modo Modo</div>
                   </Link>
                   <div className="pay-container">
                     <div className="step-indicator-container">

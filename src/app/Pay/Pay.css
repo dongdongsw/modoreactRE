@@ -1,15 +1,67 @@
-.pay-container {
-  padding: 20px;
-  gap: 20px;
-  display: grid;  
-  grid-template-columns: repeat(5, 1fr);
+.paymainContainer{
+  padding: 50px;
+  display: flex;
+  justify-content: center;
+}
+.paymainmenu{
+  border-right: 1px solid #ccc;
 
 }
 
-.company-selector {
- 
-  margin-left: 50px;
-  width: 250px;
+.paymainContainer1 {
+  padding: 100px;
+
+}
+.paymainContainer2 {
+  display: grid;  
+  width: 100%;
+  max-width: 1401px;
+  grid-template-columns: 350px 500px 450px;
+border: 1px solid #ccc;
+border-radius: 10px;
+padding: 2%;
+height: auto;
+box-shadow: 2px 2px 2px #a5a3a3;
+    border-right: 1px solid #ccc;
+
+}
+
+.tab-buttons{
+  text-align: end;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin-left: 71%;
+  margin-right: 2%;
+}
+
+.tab-buttons button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  cursor: pointer;
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  padding: 3px;
+  text-align: center;
+  width: 95%;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.tab-buttons .active {
+  background-color: #0EAE7A;
+  color: #fff;
+  font-weight: bold;
+  border-top: 0px solid #000000;
+  border-left: 0px solid #000000;
+  border-right: 0px solid #000000;
+}
+
+
+.paymaindateselect{
+  padding-left: 1%;
+  padding-right: 3%;
+  height: 100%;
 }
 
 .step-indicator-container {
@@ -19,46 +71,24 @@
   margin-right: 100px;
 }
 
-.company-button {
-  margin-bottom: 10px;
-  padding: 10px;
-  width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #f5f5f5;
-  cursor: pointer;
-  font-size: 14px;
-}
 
-.company-button.active {
-  background-color: #000000;
-  color: white;
-}
-
-.company-items {
-  margin-top: 10px;
-  padding-left: 10px;
-  border-left: 2px solid #ddd;
-}
-
-.date-selector {
-
-  align-items: right;
-  width: 600px;
-    
-}
-
-.date-selector h3 {
-  margin-bottom: 20px;
-  font-size: 18px;
+/*날짜 선택 디자인 */
+.desc{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+width: 400px;
+margin-left: 8%;
+padding: 5px;
+gap: 10px;
+text-align: center;
 }
 
 .react-datepicker {
   font-size: 16px;
-  width: 100%;
+  width: 95%;
   max-width: 600px; /* 최대 폭 설정 */
-  border-radius: 8px;
-  border: 1px solid #ddd;
+  border-radius: 20px;
+  border: none;
 }
 
 .heading4{
@@ -66,9 +96,11 @@
 }
 
 .react-datepicker__header {
-  background-color: #C6C6C6;
-  font-size: 20px; /* 월/연도 텍스트 크기 */
+  background: none;
+  font-size: 12px; /* 월/연도 텍스트 크기 */
   padding-top: 10px;
+ 
+  border: none;
 }
 
 .react-datepicker__month-container {
@@ -78,55 +110,68 @@
 .react-datepicker__current-month {
   font-size: 22px;
   margin-bottom: 10px;
-  color: #fff;
+  color: #000000;
+  
 }
 
-.react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
-  font-size: 25px; /* 요일 및 날짜 텍스트 크기 */
-  width: 70px; /* 날짜 셀 크기 */
-  height: 70px;
+
+ .react-datepicker__day, .react-datepicker__time-name {
+  font-size: 20px; /* 요일 및 날짜 텍스트 크기 */
+  width: 50px; /* 날짜 셀 크기 */
+  height: 50px;
   line-height: 48px;
-  margin: 2px;
-  border-radius: 30%; /* 원형으로 날짜 표시 */
+  margin: 5px;
+  border-radius: 50%; /* 원형으로 날짜 표시 */
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  
+}
+
+.react-datepicker__navigation{
+  margin-right: 60px;
+  margin-left: 330px;
 }
 
 .react-datepicker__navigation-icon::before{
-  border-color: #ffffff;
+  border-color: #000000;
     border-style: solid;
     border-width: 3px 3px 0 0;
     content: "";
     display: block;
-    height: 20px;
+    height: 15px;
     position: absolute;
     top: 6px;
-    width: 20px;
-  
+    width: 15px;
+    margin-top: 5px;
+    
 }
 
 .react-datepicker__day-name{
 font-size: 25px;
-font-weight: bold;
-    width: 70px;
-    height: 70px;
+font-weight: normal;
+    width: 55px;
+    height: 55px;
     line-height: 48px;
-    margin: 2px;
+    margin: 2.5px;
     border-radius: 30%;
     display: inline-flex;
     justify-content: center;
     align-items: center;
+    border:none;
+    margin-top: 25px;
 }
 
 
 h2.react-datepicker__current-month {
-font-size: 40px;
+font-size: 25px;
+font-weight: normal;
+text-align: center;
 }
 
 
 .react-datepicker__day--highlighted{
-  background-color: #000000;
+  background: #0EAE7A;  
   color: #ffffff;
 }
 
@@ -137,27 +182,58 @@ font-size: 40px;
 }
 
 .react-datepicker__day--today{
-  background-color: #ccc;
-  color: #ffffff;
+  border:1px solid #ccc;
+  background-color: #dde9b500;
+}
+.react-datepicker__day--keyboard-selected{
+  border:1px solid #ccc;
 }
 
-.react-datepicker__day--selected, .react-datepicker__day--in-range, .react-datepicker__day--keyboard-selected {
-  background-color: #000000;
-  color: rgb(255, 255, 255);
+.react-datepicker__day--selected, .react-datepicker__day--in-range {
+  background-color: #0EAE7A;
+  color: #ffffff;
+  
 }
 
 .react-datepicker__day--selected:hover, .react-datepicker__day--in-range:hover {
   background-color: #45a049;
+  
 }
 
 .react-datepicker__day--today {
-  font-weight: bold;
-  color: #ffffff;
+  color: #000000;
 }
 
 .react-datepicker__day:hover {
   background-color: #eee;
   cursor: pointer;
+  border-radius: 50%;
+}
+.mld{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  text-align: center; 
+  
+}
+
+.mld1{
+  flex: 1;
+  width: 60px;
+  margin-left: 45px;
+  padding: 5px;
+  
+}
+.mld2{
+  flex: 1;
+  width: 60px;
+  margin-left: 30px;
+  padding: 5px;
+}
+.mld3{
+  flex: 1;
+  width: 60px;
+  margin-left: 10px;
+  padding: 5px;
 }
 
 .extra-section {
@@ -177,7 +253,7 @@ font-size: 40px;
   background-color: #4CAF50;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 45px;
   cursor: pointer;
 }
 
@@ -187,11 +263,11 @@ font-size: 40px;
 }
 
 .selection-box {
-  border: 1px solid #555;
+  border: 1px solid ;
   padding: 10px;
   margin-top: 10px;
   background-color: #f8f8f8;
-  border-radius: 5px;
+  border-radius: 50%;
   color: rgb(16, 16, 16);
 }
 
@@ -257,7 +333,7 @@ font-size: 40px;
 }
 
 .step.active .step-number {
-  background-color: #000000;
+  background: linear-gradient(to left,#DDE9B5 ,   #acd4c8);  
   color: white;
 }
 
@@ -265,7 +341,8 @@ font-size: 40px;
   width: 30px;
   height: 30px;
   margin: 0 auto;
-  background-color: #ccc;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
   color: #333;
   border-radius: 50%;
   display: flex;
@@ -286,7 +363,8 @@ font-size: 40px;
   right: -50%;
   width: 100%;
   height: 2px;
-  background-color: #ccc;
+  background-color: #ffffff;
+  border: 2px solid #ccc;
   z-index: -1;
 }
 
@@ -300,7 +378,7 @@ font-size: 40px;
 }
 
 .step.active::after {
-  background-color: #000000;
+  background: linear-gradient(to left,#DDE9B5 ,   #acd4c8);  
 }
 
 /* StepIndicator.css 또는 다른 CSS 파일 */

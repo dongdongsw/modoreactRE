@@ -1,42 +1,30 @@
 
 .dailySelection {
-  background-color: #f9f9f9;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  margin-top: 30px;
+  height: 100%;
+  max-height: 1000px;
+  border-left: 1px solid #ccc;
+
 }
 
-.dailyButton {
-  background-color: #000000;
-  color: white;
-  border: none;
+
+.dailyButton:hover {
+  background: #000000;
+}
+
+
+
+.resetButton {
+  background-color: #cccccc00;
+  color: #0EAE7A;
+  border: 1px solid #ccc;
   border-radius: 15px;
   padding: 10px 20px;
   font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-bottom: 15px;
-}
+  font-weight: bold;
 
-.dailyButton:hover {
-  background-color: #ccc;
-}
-
-.dailyButton.active {
-  background-color: #000000;
-}
-
-.resetButton {
-  background-color: #ccc;
-  color: white;
-  border: none;
-  border-radius: 15px;
-  padding: 10px 20px;
-  font-size: 14px;
   cursor: pointer;
   margin-left: 10px;
-  transition: background-color 0.3s ease;
 }
 
 .resetButton:hover {
@@ -46,10 +34,31 @@
 .selectionBox {
   background-color: #fff;
   padding: 15px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  margin-top: 20px;
+  
+  height: 400px;
+  overflow-y: auto; /* 높이를 초과하면 스크롤 생성 */
+
 }
+
+/* 스크롤바 스타일링 (Webkit 기반 브라우저) */
+.selectionBox::-webkit-scrollbar {
+  width: 8px; /* 스크롤바 너비 */
+}
+
+.selectionBox::-webkit-scrollbar-track {
+  background: #f1f1f1; /* 스크롤바 트랙 (배경) */
+}
+
+.selectionBox::-webkit-scrollbar-thumb {
+  background-color: #888; /* 스크롤바 핸들 */
+  border-radius: 10px; /* 스크롤바 핸들의 둥근 모서리 */
+  border: 2px solid #f1f1f1; /* 핸들 주위의 공간 */
+}
+
+.selectionBox::-webkit-scrollbar-thumb:hover {
+  background: #555; /* 스크롤바 핸들 hover 시 색상 */
+}
+/**/
 
 .selectionBox h4 {
   font-size: 18px;
@@ -59,10 +68,10 @@
 .selectedDate {
   background-color: #ffffff;
   padding: 10px;
-  border-radius: 6px;
   margin-bottom: 10px;
   display: flex;
   flex-direction: column;
+  border-bottom:1px solid #ccc;
 }
 
 .mealButtonsInline {
@@ -85,7 +94,6 @@
 .mealSection button {
   background-color: #00000000;
   color: rgb(0, 0, 0);
-  border: solid 1px black;
   border-radius: 10%;
   width: 30px;
   height: 30px;

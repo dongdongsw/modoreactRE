@@ -113,7 +113,11 @@ const MenuYoga = () => {
                             <i className="icon-category text-2xl"></i>
                         </div>
                         <Link href={'/'} className='flex items-center'>
-                            <div className="heading4">Modo Modo</div>
+                            <div className="heading4" style={{    
+                                background: 'linear-gradient(to left, #000000 ,   #000000)',
+                                color: 'transparent',
+                                WebkitBackgroundClip: 'text'
+                              }}>Modo Modo</div>
                         </Link>
                         <div className="menu-main h-full max-lg:hidden">
                             <ul className='flex items-center gap-8 h-full'>

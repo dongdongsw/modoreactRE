@@ -1,19 +1,21 @@
 .rangeSelection {
-    background-color: #f9f9f9;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    
+    height: 100%;
+  max-height: 1000px;
+  width: 100%;
+  border-left: 1px solid #ccc;
   }
   
-  .rangeButton {
-    background-color: #000000;
-    color: white;
-    border: none;
+  .rangeButton, .dailyButton {
+    background-color: #fff;  
+    color: #0EAE7A;
+    border: 1px solid #ccc;
     border-radius: 15px;
     padding: 10px 20px;
     font-size: 16px;
-    cursor: pointer;
+    font-weight:bold;
+    margin-left: 190px;
+   cursor: pointer;
     transition: background-color 0.3s ease;
     margin-bottom: 15px;
   }
@@ -22,33 +24,15 @@
     background-color: #ccc;
   }
 
-  .rangeButton.active {
-    background-color: #000000;
-  }
   
-  .resetButton {
-    background-color: #ccc;
-    color: white;
-    border: none;
-    border-radius: 15px;
-    padding: 10px 20px;
-    font-size: 14px;
-    cursor: pointer;
-    margin-left: 10px;
-    transition: background-color 0.3s ease;
-  }
+  
+  
 
   .resetButton:hover {
     background-color: #c82333;
   }
   
-  .selectionBox {
-    background-color: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    margin-top: 20px;  
-  }
+
 
   .selectionBox h4 {
     font-size: 18px;
@@ -58,7 +42,6 @@
   .selectedDate {
     background-color: #f1f1f1;
     padding: 10px;
-    border-radius: 6px;
     margin-bottom: 10px;
     display: flex;
     flex-direction: column;

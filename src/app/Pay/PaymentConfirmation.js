@@ -75,7 +75,7 @@ const PaymentConfirmation = ({ itemsToPay, totalAmount, onPayment, onCancel }) =
             <div className="left flex lg:justify-end w-full">
               <div className="lg:max-w-[670px] flex-shrink-0 w-full lg:pt-20 pt-12 lg:pr-[70px] pl-[16px] max-lg:pr-[16px]">
                 <div className="login flex justify-between gap-4">
-                  <h4 className="heading4">배송 정보 선택</h4>
+                  <h4 className="heading4" >배송 정보 선택</h4>
                 </div>
                 
                 <select
@@ -115,10 +115,10 @@ const PaymentConfirmation = ({ itemsToPay, totalAmount, onPayment, onCancel }) =
                 </div>
                 </div>
             </div>
-            <div className="right justify-start flex-shrink-0 lg:w-[47%] bg-surface lg:py-20 py-12">
+            <div className="right justify-start flex-shrink-0 lg:w-[47%] lg:py-20 py-12">
                 <div className="lg:sticky lg:top-24 h-fit lg:max-w-[606px] w-full flex-shrink-0 lg:pl-[80px] pr-[16px] max-lg:pl-[16px]">
                     <div className="list_prd flex flex-col gap-7">
-                        <h4 className="heading4">결제 금액 확인서</h4>
+                        <h4 className="heading4" >결제 금액 확인서</h4>
                         <hr id="hz"></hr>
                         <div className="itemsList">
                              {itemsToPay.map((item, index) => (
@@ -130,9 +130,9 @@ const PaymentConfirmation = ({ itemsToPay, totalAmount, onPayment, onCancel }) =
                                       
                                         {/* 열림 상태에 따라 Phosphor 아이콘 변경 */}
                                         {activeIndices.includes(index) ? (
-                                                <Icon.CaretDown size={24} weight="bold" />
+                                                <Icon.CaretDown size={24} weight="bold" color='#ccc'/>
                                             ) : (
-                                                <Icon.CaretRight size={24} weight="bold" />
+                                                <Icon.CaretRight size={24} weight="bold" color='#ccc' />
                                             )}
                                     </div>
 

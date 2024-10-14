@@ -61,7 +61,7 @@
   .confirmButton {
     width: 100%;
     padding: 10px;
-    background-color: #ccc;
+    background: linear-gradient(to left,#DDE9B5 ,   #acd4c8);  
     color: white;
     border: none;
     border-radius: 5px;
@@ -101,7 +101,7 @@
   }
  
   #hz{
-    border-top: 2px solid #000000; /* 선의 굵기와 색상 설정 */
+    border-top: 2px solid #ccc; /* 선의 굵기와 색상 설정 */
 
   }
 

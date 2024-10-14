@@ -19,6 +19,7 @@ const DailySelection = ({ selectedItem, selectedDays, handleMealCountChange, mea
 
   return (
     <div className="dailySelection">
+      <div className="dailySelectionButton">
       <button 
         onClick={() => {
           setIsDailySelectionActive(true);
@@ -26,9 +27,21 @@ const DailySelection = ({ selectedItem, selectedDays, handleMealCountChange, mea
         }} 
         className={`dailyButton ${selectedDays[selectedItem] ? 'active' : ''}`}
       >
-        일일 기간
+        일일
       </button>
       <button onClick={handleDailyReset} className="resetButton">초기화 </button>
+      </div>
+      <div className='mld'>
+        <div className='mld1'>
+          <span>아침</span>
+        </div>
+        <div className='mld2'>
+          <span>점심</span>
+        </div>
+        <div className='mld3'>
+          <span>저녁</span>
+        </div>
+      </div>
       <div className="selectionBox">
         
         {selectedItem && selectedDays[selectedItem] && selectedDays[selectedItem].length > 0 ? (
@@ -37,22 +50,25 @@ const DailySelection = ({ selectedItem, selectedDays, handleMealCountChange, mea
               {formatDate(date)} {/* 날짜 포맷팅 */}
               <div className="mealButtonsInline">
                 <div className="mealSection">
-                  <span>아침</span>
-                  <button onClick={() => handleMealCountChange(selectedItem, formatDate(date), 'breakfast', (mealCounts[selectedItem]?.[formatDate(date)]?.breakfast || 0) + 1)}>+</button>
+                <button onClick={() => handleMealCountChange(selectedItem, formatDate(date), 'breakfast', Math.max(0, (mealCounts[selectedItem]?.[formatDate(date)]?.breakfast || 0) - 1))} style={{color:'#CCCCCC'}}>-</button>
+
                   <span>{(mealCounts[selectedItem]?.[formatDate(date)]?.breakfast || 0)}</span>
-                  <button onClick={() => handleMealCountChange(selectedItem, formatDate(date), 'breakfast', Math.max(0, (mealCounts[selectedItem]?.[formatDate(date)]?.breakfast || 0) - 1))}>-</button>
+                  <button onClick={() => handleMealCountChange(selectedItem, formatDate(date), 'breakfast', (mealCounts[selectedItem]?.[formatDate(date)]?.breakfast || 0) + 1)} style={{color:'#CCCCCC'}}>+</button>
+
                 </div>
                 <div className="mealSection">
-                  <span>점심</span>
-                  <button onClick={() => handleMealCountChange(selectedItem, formatDate(date), 'lunch', (mealCounts[selectedItem]?.[formatDate(date)]?.lunch || 0) + 1)}>+</button>
+                <button onClick={() => handleMealCountChange(selectedItem, formatDate(date), 'lunch', Math.max(0, (mealCounts[selectedItem]?.[formatDate(date)]?.lunch || 0) - 1))} style={{color:'#CCCCCC'}}>-</button>
+
                   <span>{(mealCounts[selectedItem]?.[formatDate(date)]?.lunch || 0)}</span>
-                  <button onClick={() => handleMealCountChange(selectedItem, formatDate(date), 'lunch', Math.max(0, (mealCounts[selectedItem]?.[formatDate(date)]?.lunch || 0) - 1))}>-</button>
+                  <button onClick={() => handleMealCountChange(selectedItem, formatDate(date), 'lunch', (mealCounts[selectedItem]?.[formatDate(date)]?.lunch || 0) + 1)} style={{color:'#CCCCCC'}}>+</button>
+
                 </div>
                 <div className="mealSection">
-                  <span>저녁</span>
-                  <button onClick={() => handleMealCountChange(selectedItem, formatDate(date), 'dinner', (mealCounts[selectedItem]?.[formatDate(date)]?.dinner || 0) + 1)}>+</button>
+                <button onClick={() => handleMealCountChange(selectedItem, formatDate(date), 'dinner', Math.max(0, (mealCounts[selectedItem]?.[formatDate(date)]?.dinner || 0) - 1))} style={{color:'#CCCCCC'}}>-</button>
+
                   <span>{(mealCounts[selectedItem]?.[formatDate(date)]?.dinner || 0)}</span>
-                  <button onClick={() => handleMealCountChange(selectedItem, formatDate(date), 'dinner', Math.max(0, (mealCounts[selectedItem]?.[formatDate(date)]?.dinner || 0) - 1))}>-</button>
+                  <button onClick={() => handleMealCountChange(selectedItem, formatDate(date), 'dinner', (mealCounts[selectedItem]?.[formatDate(date)]?.dinner || 0) + 1)} style={{color:'#CCCCCC'}}>+</button>
+
                 </div>
               </div>
             </div>
