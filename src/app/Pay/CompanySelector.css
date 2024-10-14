@@ -21,7 +21,7 @@
   }
   
   .companyButton.active {
-    color: #000000;
+    color: #0EAE7A;
     border-radius: 10px;
     width: 87%;
 
@@ -44,8 +44,16 @@
     margin-top: 10px;
     text-align: left;
     margin-left: 40px;
+    overflow: hidden;
+    max-height: 0;
+
+    transition: max-height 0.3s ease-out; /* 애니메이션 시간 및 효과 설정 */
   }
   
+  .companyItems.active {
+    max-height: 500px; /* 슬라이드 시 확장할 최대 높이 설정 (적절한 값으로 조정 가능) */
+  }
+
   .cartItem {
     margin: 5px 15px 0;
     margin-top: 10px;

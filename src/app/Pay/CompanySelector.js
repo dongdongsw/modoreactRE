@@ -48,54 +48,50 @@ const CompanySelector = ({ categorizedItems, activeCompany, setActiveCompany, se
   }, [categorizedItems]); // categorizedItems가 변경될 때마다 실행
   
   return (
-    <div className="companySelector"> {/* 일반 className 사용 */}
-      
+    <div className="companySelector">
       {Object.keys(categorizedItems).map((companyId, index) => (
         <div key={companyId}>
           <div className="compaanySelector2">
-          
-          <button
-            onClick={() => {
-              handleCompanySelection(companyId)
-            handleToggle(index)
-            }}
-            className={`companyButton ${activeCompany === companyId ? 'active' : ''}`} 
-          >
-            <div></div>
-            {companyNames[companyId] || '로딩 중...'}
-            {/* 열림 상태에 따라 Phosphor 아이콘 변경 */}
-            {activeIndex === index ? (
-              <Icon.CaretDown className='companyIcon' size={20} weight="bold" color='#000000'/>
-            ) : (
-              <Icon.CaretRight className='companyIcon' size={20} weight="bold" color='#000000' />
-                )}
+            <button
+              onClick={() => {
+                handleCompanySelection(companyId);
+                handleToggle(index);
+              }}
+              className={`companyButton ${activeCompany === companyId ? 'active' : ''}`}
+            >
+              <div></div>
+              {companyNames[companyId] || '로딩 중...'}
+              {activeIndex === index ? (
+                <Icon.CaretDown className='companyIcon' size={20} weight="bold" color='#0EAE7A' />
+              ) : (
+                <Icon.CaretRight className='companyIcon' size={20} weight="bold" color='#000000' />
+              )}
             </button>
           </div>
-          {activeCompany === companyId && activeIndex === index && (
-            <div className="companyItems">
-              {categorizedItems[companyId].map((item) => (
-                <div key={item.merchanUid} className="cartItem">
-                  <input
-                    type="radio"
-                    name="selectedItem"
-                    onChange={() => setSelectedItem(item.merchanUid)}
-                    checked={selectedItem === item.merchanUid}
-                    
-                    
-                  />
-                   
-                   
-                  <label> {item.name} : {item.price} 원</label>
-                  
-                </div>
-              ))}
-              {/* 여기서 결제 버튼을 추가합니다 */}
-            </div>
-          )}
+          <div className={`companyItems ${activeIndex === index ? 'active' : ''}`}>
+            {activeCompany === companyId && (
+              <div>
+                {categorizedItems[companyId].map((item) => (
+                  <div key={item.merchanUid} className="cartItem">
+                    <div className="menuselect">
+                      <input
+                        type="radio"
+                        name="selectedItem"
+                        onChange={() => setSelectedItem(item.merchanUid)}
+                        checked={selectedItem === item.merchanUid}
+                      />
+                      <label> {item.name} : {item.price} 원</label>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       ))}
     </div>
   );
+  
 };
 
 export default CompanySelector;

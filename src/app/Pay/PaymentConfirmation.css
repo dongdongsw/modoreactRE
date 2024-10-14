@@ -1,7 +1,52 @@
-.paymentConfirmation {
-    padding: 20px;
-    border: 1px solid #ccc;
-    margin-top: 20px;
+.paymainconfrimContainer {
+  padding: 50px;
+  display: flex;
+  justify-content: center;
+  max-height: 992px;
+height: 100%;
+  }
+  
+  .paymainconfirmContainer1{
+    padding: 100px 100px 0px 100px;
+    max-width: 1501px;
+    width: 100%;
+    margin-top: 33px;
+    max-height: 760px;
+    height: auto; /* 높이를 자동으로 설정하여 콘텐츠에 맞게 확장 */
+    min-height: 760px; /* 최소 높이 지정 */
+    display: flex; /* 플렉스 레이아웃이 적용된다면 */
+    flex-direction: column; /* 세로 방향으로 콘텐츠 배치 */
+  }
+
+  .paymainconfirmContainer2{
+    display: grid;  
+  width: 100%;
+  gap: 20px; /* 그리드 항목 사이의 간격 */
+
+  grid-template-columns: 600px 600px;
+  grid-template-rows: 513px 70px; /* 각 행의 높이를 150px로 고정 */
+
+border: 1px solid #ccc;
+border-radius: 10px;
+padding: 2%;
+height: 100%;
+box-shadow: 15px 15px 15px #e2dede;
+    border-right: 1px solid #ccc;
+max-height: 790px;
+height: 100%;
+  }
+
+  .addressSelectMenu {
+    border-right: 1px solid #e0e0e0;
+    padding-right: 30px;
+    margin-top: 10px;
+  }
+  
+  .paymainconfirmpay {
+    justify-self: center;
+    margin-top: 10px;
+    width: 100%;
+    margin-left: 30px;
   }
   
   .addressSelection {
@@ -10,119 +55,149 @@
   
   .addressSelect {
     width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #d6d4d4;
-    text-align: center;
-    border-radius: 15px;
-    font-size: 20px;
+    padding: 15px;
+    border: 1px solid #0EAE7A;
+    border-radius: 5px;
+    font-size: 16px;
     font-weight: bold;
-    
+    text-align: center;
   }
-  
-
   
   .addressInfo {
     display: grid;
-    grid-template-columns: 1fr 3fr; /* 아침, 점심, 저녁을 같은 비율로 정렬 */
-    gap: 10px; /* 칸 사이의 간격 조절 */
-    margin-top: 30px;
-    border: 1px solid #d6d4d4;
-    border-radius: 15px;
-    padding: 15px 100px 15px;
+    grid-template-columns: 1fr 1fr; /* 좌우로 구분하여 정보 표시 */
+    gap: 10px;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #f9f9f9; /* 배경 색상 추가로 정보 구분 */
     font-weight: bold;
-    
-
   }
-
-  .addressInfo-a {
-    margin-top: 30px;
-
-  }
-
   
-
-  .addressInfo-b{
+  .confirmButton-container {
     margin-top: 30px;
-
-  } 
-
-  .addressInfo-c {
-    margin-top: 30px;
-    margin-bottom: 30px;
-  }
-
-  .confirmButton-container{
-    margin-top: 20px;
-
+    text-align: center;
   }
   
   .confirmButton {
     width: 100%;
-    padding: 10px;
-    background: linear-gradient(to left,#DDE9B5 ,   #acd4c8);  
+    padding: 15px;
+    background-color: #0EAE7A;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
-    font-size: 20px;
-    
+    font-size: 18px;
   }
-
-  .confirmButton:hover{
-    background-color: #000000;
-
+  
+  .confirmButton:hover {
+    background-color: #008b5a; /* hover 시 더 진한 초록색 */
   }
-
+  
   .item-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 15px;
   }
   
   .icon {
-    font-size: 18px; /* 아이콘 크기 */
+    font-size: 18px;
     margin-left: 10px;
   }
   
-
-  
   .itemsList {
     margin-top: 20px;
-    
   }
   
   .itemDetail {
     margin-bottom: 20px;
     padding-bottom: 10px;
-    
+    max-height: 350px;
+    overflow-y: auto;
   }
- 
-  #hz{
-    border-top: 2px solid #ccc; /* 선의 굵기와 색상 설정 */
-
+  
+  /* 구분선 스타일 */
+  #hz {
+    border-top: 2px solid #4b4d4c;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
-
-  .heading5{
+  
+  .heading5 {
     margin-left: 20px;
     margin-top: 10px;
     margin-bottom: 10px;
   }
   
+  .totalAmount {
+    margin-top: 20px;
+    font-size: 24px; /* 결제 금액을 더 강조 */
+    font-weight: bold;
+    text-align: end;
+    border-top: 2px solid #ddd;
+    padding-top: 10px;
+  }
+  
+  .confirmationButtons {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .cancelButton,
+  .payButton {
+    margin-top: 6px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 107.2px;
+    height: 46px;
+  }
+  
+  .cancelButton {
+    background-color: #ccc;
+    color: white;
+  }
+  .confirmationButtons1{
+    margin-top: 20px;
+    display: flex;
+    justify-content: end;
+    margin-right: -20px;
+  }
+  
+  .payButton {
+    background-color: #000000;
+    color: white;
+    
+  }
+  
+  .payButton:hover {
+    background-color: #353735;
+  }
+  
+  .cancelButton:hover {
+    background-color: #000;
+  }
+
   .dateDetail {
     display: grid;
     grid-template-columns: 150px 1fr; /* 날짜는 150px, 식사는 나머지 공간을 차지 */
     margin-left: 20px;
     gap: 10px; /* 열 사이의 간격 조절 */
     font-weight: bold;
+    
 
   }
-  
+
   .dateDetail-meal {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 아침, 점심, 저녁을 같은 비율로 정렬 */
+    grid-template-columns: repeat(1, 1fr); /* 아침, 점심, 저녁을 같은 비율로 정렬 */
     gap: 10px; /* 칸 사이의 간격 조절 */
     font-weight: bold;
 
@@ -140,42 +215,3 @@
     align-self: stretch;    /* 부모의 너비에 맞춰 스트레치 */
     display: block;         /* block 요소로 처리 */
   }
-  
-  .totalAmount {
-    margin-top: 20px;
-    font-size: 18px;
-    font-weight: bold;
-  }
-  
-  .confirmationButtons {
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .cancelButton, .payButton {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .cancelButton {
-    background-color: #ccc;
-    color: white;
-  }
-  
-  .payButton {
-    background-color: #000000;
-    color: white;
-  }
-  
-  .payButton:hover {
-    background-color: #353735;
-  }
-  
-  .cancelButton:hover {
-    background-color: #000000;
-  }
-  

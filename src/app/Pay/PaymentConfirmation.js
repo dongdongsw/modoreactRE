@@ -70,108 +70,120 @@ const PaymentConfirmation = ({ itemsToPay, totalAmount, onPayment, onCancel }) =
     
     return (
         <>
-        <div className="checkout-block relative md:pt-[74px] pt-[56px]">
-          <div className="content-main flex max-lg:flex-col-reverse justify-between">
-            <div className="left flex lg:justify-end w-full">
-              <div className="lg:max-w-[670px] flex-shrink-0 w-full lg:pt-20 pt-12 lg:pr-[70px] pl-[16px] max-lg:pr-[16px]">
-                <div className="login flex justify-between gap-4">
-                  <h4 className="heading4" >배송 정보 선택</h4>
+            <div className="paymainconfrimContainer">
+                <div className="paymainconfirmContainer1">
+                    <div className="paymainconfirmContainer2">
+                        {/* 첫 번째 그리드 항목: 배송 정보 선택 */}
+                        <div className="addressSelectMenu">
+                            <div className="login flex justify-between gap-4">
+                                <h4 className="heading4">배송 정보 선택</h4>
+                            </div>
+                            <select
+                                value={selectedAddress}
+                                onChange={(e) => setSelectedAddress(e.target.value)}
+                                className="addressSelect"
+                            >
+                                {addresses.map((address, index) => (
+                                    <option key={index} value={address.fullAddress}>
+                                        {address.fullAddress}
+                                    </option>
+                                ))}
+                            </select>
+    
+                            <div className="addressInfo">
+                                <div className="addressInfo-a">
+                                    <p>주소:</p>
+                                    <p>{selectedAddress}</p>
+                                </div>
+                                <div className="addressInfo-b">
+                                    <p>전화번호:</p>
+                                    <p>{phoneNumber}</p>
+                                </div>
+                                <div className="addressInfo-c">
+                                    <p>이메일:</p>
+                                    <p>{email}</p>
+                                </div>
+                            </div>
+                            <div className="confirmButton-container">
+                                <button onClick={handleAddressConfirmation} className="confirmButton">주소 확인</button>
+                            </div>
+                        </div>
+    
+                        {/* 두 번째 그리드 항목: 결제 금액 확인 */}
+                        <div className="paymainconfirmpay">
+                            <h4 className="heading4">결제 금액 확인서</h4>
+                            <hr id="hz" />
+                            <div className="itemsList">
+                                {itemsToPay.map((item, index) => (
+                                    <div key={index} className="itemDetail">
+                                        <div
+                                            className="item-header"
+                                            onClick={() => handleToggle(index)}
+                                            style={{
+                                                cursor: 'pointer',
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'center',
+                                            }}
+                                        >
+                                            <h5 className="heading5">{item.name}</h5>
+                                            {activeIndices.includes(index) ? (
+                                                <Icon.CaretDown size={24} weight="bold" color="#0EAE7A" />
+                                            ) : (
+                                                <Icon.CaretRight size={24} weight="bold" color="#ccc" />
+                                            )}
+                                        </div>
+                                        {activeIndices.includes(index) && (
+                                            <>
+                                                {item.dates.map((dateDetail, idx) => (
+                                                    <div key={idx} className="dateDetail">
+                                                        <p>{dateDetail.date}</p>
+                                                        <div className="dateDetail-meal">
+                                                            {dateDetail.meals.breakfast > 0 && (
+                                                                <p>
+                                                                    아침 : {item.price}원 x {dateDetail.meals.breakfast}개
+                                                                </p>
+                                                            )}
+                                                            {dateDetail.meals.lunch > 0 && (
+                                                                <p>
+                                                                    점심 : {item.price}원 x {dateDetail.meals.lunch}개
+                                                                </p>
+                                                            )}
+                                                            {dateDetail.meals.dinner > 0 && (
+                                                                <p>
+                                                                    저녁 : {item.price}원 x {dateDetail.meals.dinner}개
+                                                                </p>
+                                                            )}
+                                                        </div>
+                                                        <div className="dateDetail-meal-line" />
+                                                    </div>
+                                                ))}
+                                            </>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                            <hr id="hz" />
+    
+                            <div className="totalAmount">
+                                <h4 className="heading4">총 결제금액: {totalAmount} 원</h4>
+                                <div className="totalAmountLine"></div> {/* 선을 위한 div 추가 */}
+
+                            </div>
+    
+                            
+                    </div>
+                    <div className="confirmationButtons">
+                        <button onClick={onCancel} className="cancelButton">이전 단계</button>
+                    </div>
+                    <div className="confirmationButtons1">
+                        <button onClick={handlePayment} className="payButton">결제하기</button>
+                    </div>
+
+                        </div>
                 </div>
                 
-                <select
-                    value={selectedAddress}
-                    onChange={(e) => setSelectedAddress(e.target.value)}
-                    className="addressSelect"
-                >
-                    {addresses.map((address, index) => (
-                        <option key={index} value={address.fullAddress}>
-                            {address.fullAddress}
-                        </option>
-                    ))}
-                </select>
-                <div className="addressInfo">
-                    <div className="addressInfo-a">
-                        <p>주소:</p>
-                    </div>
-                    <div className="addressInfo-a">
-                        <p>{selectedAddress}</p>
-                    </div>
-                    <div className="addressInfo-b">
-                        <p>전화번호:</p>
-                    </div>
-                    <div className="addressInfo-b">
-                        <p>{phoneNumber}</p>
-                    </div>
-                    <div className="addressInfo-c">
-                        <p>이메일:</p>
-                    </div>
-                    <div className="addressInfo-c">
-                        <p>{email}</p>
-                    </div>
-
-                </div>
-                <div className='confirmButton-container'> 
-                    <button onClick={handleAddressConfirmation} className="confirmButton">주소 확인</button>
-                </div>
-                </div>
             </div>
-            <div className="right justify-start flex-shrink-0 lg:w-[47%] lg:py-20 py-12">
-                <div className="lg:sticky lg:top-24 h-fit lg:max-w-[606px] w-full flex-shrink-0 lg:pl-[80px] pr-[16px] max-lg:pl-[16px]">
-                    <div className="list_prd flex flex-col gap-7">
-                        <h4 className="heading4" >결제 금액 확인서</h4>
-                        <hr id="hz"></hr>
-                        <div className="itemsList">
-                             {itemsToPay.map((item, index) => (
-                                <div key={index} className="itemDetail">
-                                    <div className="item-header" onClick={() => handleToggle(index)} style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                      <h5 className="heading5">
-                                        {item.name}
-                                      </h5>
-                                      
-                                        {/* 열림 상태에 따라 Phosphor 아이콘 변경 */}
-                                        {activeIndices.includes(index) ? (
-                                                <Icon.CaretDown size={24} weight="bold" color='#ccc'/>
-                                            ) : (
-                                                <Icon.CaretRight size={24} weight="bold" color='#ccc' />
-                                            )}
-                                    </div>
-
-                                    {/* 열림 상태가 true인 항목만 보여주기 */}
-                                    {activeIndices.includes(index) && (
-                                      <>
-                                        {item.dates.map((dateDetail, idx) => (
-                                            <div key={idx} className="dateDetail">
-                                                <p>{dateDetail.date}</p>
-                                                <div className="dateDetail-meal">
-                                                {dateDetail.meals.breakfast > 0 && <p> 아침 : {item.price}원 x {dateDetail.meals.breakfast}개</p>}
-                                                {dateDetail.meals.lunch > 0 && <p> 점심 : {item.price}원 x {dateDetail.meals.lunch}개</p>}
-                                                {dateDetail.meals.dinner > 0 && <p> 저녁 : {item.price}원 x {dateDetail.meals.dinner}개</p>}
-                                                </div>
-                                                <div className="dateDetail-meal-line">
-                                                </div>
-                                            </div>
-                                        ))}
-                                      </>
-                                    )}
-                                </div>
-                             ))}
-                        </div>
-                        <hr id="hz"></hr>
-
-                        <div className="totalAmount">
-                          <h4 className="heading4">총 결제금액: {totalAmount} 원</h4>
-                        </div>
-
-                        <div className="confirmationButtons">
-                            <button onClick={onCancel} className="cancelButton">이전 단계</button>
-                            <button onClick={handlePayment} className="payButton">결제하기</button>
-                        </div>
-                    </div>
-                  
-                </div>
-              </div>
-            </div>
-          </div>
         </>
     );
 };

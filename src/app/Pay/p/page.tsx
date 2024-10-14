@@ -531,24 +531,24 @@ const Pay = () => {
         </div>
 
         <div className="paymainContainer">
-        <div>
+          <div>
       
-          <div className="paymainContainer1">
+            <div className="paymainContainer1">
             {/* 탭 버튼 */}
-            <div className="tab-buttons">
-              <button
-                className={activeTab === 'range' ? 'active' : ''}
-                onClick={() => handleTabChange('range')}
-              >
-                Range Selection
-              </button>
-              <button
-                className={activeTab === 'daily' ? 'active' : ''}
-                onClick={() => handleTabChange('daily')}
-              >
-                Daily Selection
-              </button>
-            </div>
+              <div className="tab-buttons">
+                <button
+                  className={activeTab === 'range' ? 'active' : ''}
+                  onClick={() => handleTabChange('range')}
+                >
+                  Range Selection
+                </button>
+                <button
+                  className={activeTab === 'daily' ? 'active' : ''}
+                  onClick={() => handleTabChange('daily')}
+                >
+                  Daily Selection
+                </button>
+              </div>
             <div className="paymainContainer2">
               <div className="paymainmenu">
                 <h4 className="heading4" 
