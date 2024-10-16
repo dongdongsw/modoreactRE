@@ -1,6 +1,6 @@
 'use client';
 
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import * as Icon from "@phosphor-icons/react/dist/ssr";
@@ -22,6 +22,7 @@ interface StoreType {
     type: string;
     companyId: string;
 }
+
 interface CommentType {
     id: string;
     author: string;
@@ -44,14 +45,17 @@ interface ReviewType {
     imageUrl: string;
     name: string;
 }
+
 interface Props {
     dataType: string | null;
     companyId: string;
     store: StoreType | null; // store prop 추가
 }
+
 type ReviewSummary = {
     [key: string]: string; // storeId를 키로 하고 요약을 값으로 가지는 객체
 };
+
 const ShopBreadCrumbImg: React.FC<Props> = ({ dataType, companyId, store }) => {
     const { favorites, addFavorite, removeFavorite } = useFavorites();
     const isLiked = favorites.has(companyId);
@@ -65,6 +69,7 @@ const ShopBreadCrumbImg: React.FC<Props> = ({ dataType, companyId, store }) => {
     const handleTabChange = (tab: string) => {
         setActiveTab(tab);
     };
+
     const handleLikeToggle = async () => {
         if (isLiked) {
             await removeFavorite(companyId);
@@ -72,11 +77,26 @@ const ShopBreadCrumbImg: React.FC<Props> = ({ dataType, companyId, store }) => {
             await addFavorite(companyId);
         }
     };
+
     useEffect(() => {
         const fetchReviews = async () => {
             try {
                 if (!companyId) {
                     setError('유효하지 않은 companyId입니다.');
+                    return;
+                }
+
+                const cacheKey = `reviews_${companyId}`;
+                const cacheTimeKey = `cacheTime_${companyId}`;
+                const cacheDuration = 24 * 60 * 60 * 1000; // 24시간
+
+                const cachedData = localStorage.getItem(cacheKey);
+                const cachedTime = localStorage.getItem(cacheTimeKey);
+                const now = new Date().getTime();
+
+                if (cachedData && cachedTime && (now - Number(cachedTime) < cacheDuration)) {
+                    setReviews(JSON.parse(cachedData));
+                    setLoading(false);
                     return;
                 }
 
@@ -94,45 +114,8 @@ const ShopBreadCrumbImg: React.FC<Props> = ({ dataType, companyId, store }) => {
                     );
 
                     setReviews(reviewsWithComments);
-                } else {
-                    setReviews([]);
-                }
-            } catch (error) {
-                console.error('리뷰 데이터를 불러오는 데 실패했습니다.', error);
-                setError('리뷰를 불러오는 데 실패했습니다.');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        if (companyId && companyId !== prevCompanyIdRef.current) {
-            fetchReviews();
-            prevCompanyIdRef.current = companyId;
-        }
-    }, [companyId]);
-
-    useEffect(() => {
-        const fetchReviews = async () => {
-            try {
-                if (!companyId) {
-                    setError('유효하지 않은 companyId입니다.');
-                    return;
-                }
-
-                const reviewsResponse = await axios.get(`/api/review/listByCompany/${companyId}`);
-                if (reviewsResponse.data && reviewsResponse.data.length > 0) {
-                    const sortedReviews = reviewsResponse.data.sort(
-                        (a: any, b: any) => new Date(b.createdDateTime).getTime() - new Date(a.createdDateTime).getTime()
-                    );
-
-                    const reviewsWithComments = await Promise.all(
-                        sortedReviews.map(async (review: ReviewType) => {
-                            const commentsResponse = await axios.get(`/api/review/${review.id}/comments`);
-                            return { ...review, comments: commentsResponse.data };
-                        })
-                    );
-
-                    setReviews(reviewsWithComments);
+                    localStorage.setItem(cacheKey, JSON.stringify(reviewsWithComments));
+                    localStorage.setItem(cacheTimeKey, now.toString());
                 } else {
                     setReviews([]);
                 }
@@ -152,7 +135,12 @@ const ShopBreadCrumbImg: React.FC<Props> = ({ dataType, companyId, store }) => {
 
     useEffect(() => {
         const fetchSummary = async () => {
-            setLoading(true); // 요약을 가져오는 동안 로딩 중으로 설정
+            if (reviews.length < 10) {
+                setSummary({});
+                return;
+            }
+
+            setLoading(true);
             const storeReviews: { [key: string]: string[] } = {};
 
             // 리뷰를 가게별로 그룹화
@@ -188,13 +176,7 @@ const ShopBreadCrumbImg: React.FC<Props> = ({ dataType, companyId, store }) => {
             setLoading(false);
         };
 
-        const intervalId = setInterval(() => {
-            fetchSummary();
-        }, 60000); // 1분마다 호출
-
         fetchSummary();
-
-        return () => clearInterval(intervalId);
     }, [reviews]);
 
 
@@ -205,86 +187,103 @@ const ShopBreadCrumbImg: React.FC<Props> = ({ dataType, companyId, store }) => {
         <>
             <div className="breadcrumb-block style-img">
                 <div className="breadcrumb-main bg-linear overflow-hidden">
-                    <div className="container lg:pt-[134px] pt-24 pb-7 relative">
-                        {/* 요약 리뷰 출력 */}
-                        <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginBottom: '1rem' }}>
-                            {loading ? (
-                                <p>요약을 생성 중입니다...</p>
-                            ) : (
-                                <div>
-                                    {Object.keys(summary).length === 0 ? (
-                                        <p>요약을 진행할만큼 충분한 리뷰가 작성되지 않았습니다.</p>
-                                    ) : (
-                                        Object.entries(summary).map(([storeId, summaryText]) => (
-                                            <div key={storeId}>
-                                                <h3>AI가 분석한 키워드</h3>
-                                                <div>
-                                                    {(typeof summaryText === 'string' ? summaryText.split(',') : []).map((text, index) => (
-                                                        <div
-                                                            key={index}
-                                                            style={{
-                                                                backgroundColor: 'white',
-                                                                borderRadius: '15px',
-                                                                padding: '8px 12px',
-                                                                margin: '5px 0', // 위아래 간격만 추가
-                                                                boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
-                                                            }}
-                                                        >
-                                                            {text.trim()}
-                                                        </div>
-                                                    ))}
+                    <div className="container lg:py-[30px] py-10 relative">
+                        {/* 전체 Flex 컨테이너 */}
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            {/* 왼쪽 AI 요약 출력 */}
+                            <div style={{ flex: '0 0 30%', marginRight: '1rem' }}>
+                                {loading ? (
+                                    <p>요약을 생성 중입니다...</p>
+                                ) : (
+                                    <div>
+                                        {Object.keys(summary).length === 0 ? (
+                                            <p>요약을 위한 충분한 리뷰가 작성되지 않았습니다.</p>
+                                        ) : (
+                                            Object.entries(summary).map(([storeId, summaryText]) => (
+                                                <div key={storeId}>
+                                                    {summaryText !== null && summaryText !== "null" && summaryText.trim() !== '' ? (
+                                                        <>
+                                                            <h3><strong>AI가 분석한 키워드</strong></h3>
+                                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                                                                {(typeof summaryText === 'string' ? summaryText.split(',') : []).map((text, index) => (
+                                                                    <div
+                                                                        key={index}
+                                                                        style={{
+                                                                            backgroundColor: 'white',
+                                                                            borderRadius: '15px',
+                                                                            padding: '8px 12px',
+                                                                            display: 'inline-block',
+                                                                            margin: '0',
+                                                                            boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+                                                                            width: 'fit-content',
+                                                                        }}
+                                                                    >
+                                                                        {text.trim()}
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </>
+                                                    ) : (
+                                                        <h3><strong>AI 요약을 준비중입니다.</strong></h3>
+                                                    )}
+
+
                                                 </div>
-                                            </div>
-                                        ))
-                                    )}
-                                </div>
-
-                            )}
-                        </div>
-
-                        <div className="main-content w-full h-full flex flex-col items-center justify-center relative z-[1]">
-                            <div className="text-content">
-                                <div className="heading2 text-center">{dataType === null ? 'Shop' : dataType}</div>
-                                <div className="heading3 text-center" style={{ fontFamily: 'DalseoDarling' }}>
-                                    {store?.name}
-                                </div>
-                                <div className="link flex items-center justify-center gap-1 caption1 mt-3">
-                                    <Link href={'/'}>Homepage</Link>
-                                    <Icon.CaretRight size={14} className='text-secondary2' />
-                                    <div className='text-secondary2 capitalize'>{store?.name}</div>
-                                </div>
-                            </div>
-                            {/* 좋아요 버튼 */}
-                            <div className="like-button mt-4 flex justify-center">
-                                <button onClick={handleLikeToggle} className="flex items-center gap-2">
-                                    <div className="bg-white rounded-full p-2 flex justify-center items-center">
-                                        {isLiked ? <FaHeart color="red" /> : <FaRegHeart color="gray" />}
+                                            ))
+                                        )}
                                     </div>
-                                    <span className="text-secondary2 capitalize">
-                                    {isLiked ? '즐겨찾기 취소' : '즐겨찾기에 추가'}
-                                </span>
-                                </button>
+                                )}
                             </div>
-                            {/* 탭 메뉴 */}
-                            <div className="list-tab flex flex-wrap items-center justify-center gap-y-5 gap-8 lg:mt-[70px] mt-12 overflow-hidden">
-                                {['menu', '리뷰', '가게 정보'].map((item, index) => (
-                                    <div
-                                        key={index}
-                                        className={`tab-item text-button-uppercase cursor-pointer has-line-before line-2px ${activeTab === item ? 'active' : ''}`}
-                                        onClick={() => handleTabChange(item)}
-                                    >
-                                        {item}
+
+                            {/* 중앙 콘텐츠 영역 */}
+                            <div style={{ flex: '1', textAlign: 'center' }}>
+                                <div className="text-content">
+                                    <div className="heading2">{dataType === null ? 'Shop' : dataType}</div>
+                                    <div className="heading3" style={{ fontFamily: 'DalseoDarling' }}>
+                                        {store?.name}
                                     </div>
-                                ))}
+                                    <div className="link flex items-center justify-center gap-1 caption1 mt-3">
+                                        <Link href={'/'}>Homepage</Link>
+                                        <Icon.CaretRight size={14} className='text-secondary2' />
+                                        <div className='text-secondary2 capitalize'>{store?.name}</div>
+                                    </div>
+                                </div>
+                                {/* 좋아요 버튼 */}
+                                <div className="like-button mt-4 flex justify-center">
+                                    <button onClick={handleLikeToggle} className="flex items-center gap-2">
+                                        <div className="bg-white rounded-full p-2 flex justify-center items-center">
+                                            {isLiked ? <FaHeart color="red" /> : <FaRegHeart color="gray" />}
+                                        </div>
+                                        <span className="text-secondary2 capitalize">
+                                        {isLiked ? '즐겨찾기 취소' : '즐겨찾기에 추가'}
+                                    </span>
+                                    </button>
+                                </div>
+                                {/* 탭 메뉴 */}
+                                <div className="list-tab flex flex-wrap items-center justify-center gap-y-5 gap-8 lg:mt-[70px] mt-12 overflow-hidden">
+                                    {['menu', '리뷰', '가게 정보'].map((item, index) => (
+                                        <div
+                                            key={index}
+                                            className={`tab-item text-button-uppercase cursor-pointer has-line-before line-2px ${activeTab === item ? 'active' : ''}`}
+                                            onClick={() => handleTabChange(item)}
+                                        >
+                                            {item}
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                        <div className="bg-img absolute top-0 -right-6 max-lg:bottom-0 max-lg:top-auto w-1/4 max-lg:w-[26%] z-[0] max-sm:w-[45%]">
-                            <Image
-                                src={store?.imageUrl || '이미지 준비 중입니다'}
-                                width={1000}
-                                height={1000}
-                                alt={store ? store.name : 'default image'}
-                            />
+
+                            {/* 오른쪽 이미지 영역 */}
+                            <div style={{ flex: '0 0 30%', marginLeft: '1rem', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                                <div style={{ width: '70%', height: '0', paddingBottom: '70%', position: 'relative' }}>
+                                    <Image
+                                        src={store?.imageUrl || '이미지 준비 중입니다'}
+                                        layout="fill"
+                                        objectFit="cover"
+                                        alt={store ? store.name : 'default image'}
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -306,8 +305,9 @@ const ShopBreadCrumbImg: React.FC<Props> = ({ dataType, companyId, store }) => {
                                 <TestimonialItem companyId={companyId} />
                             </div>
                         )}
+                        {/* '가게 정보' 탭 */}
                         {activeTab === '가게 정보' && (
-                            <div className="store-info-section" style={{ display: 'flex', justifyContent: 'center' }}>
+                            <div className="store-info-section flex justify-center">
                                 {store ? (
                                     <StoreInfo store={store} />
                                 ) : (
