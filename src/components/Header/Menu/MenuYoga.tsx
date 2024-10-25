@@ -300,7 +300,6 @@ const MenuYoga = () => {
                                 </div>
                                 <div className="cart-icon flex items-center relative cursor-pointer" onClick={openModalCart}>
                                     <Icon.Handbag size={24} color='black' />
-                                    <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-black w-4 h-4 flex items-center justify-center rounded-full">{cartState.cartArray.length}</span>
                                 </div>
                             </div>
                         </div>
