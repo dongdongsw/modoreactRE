@@ -193,17 +193,41 @@ const ShopBreadCrumbImg: React.FC<Props> = ({ dataType, companyId, store }) => {
                             {/* 왼쪽 AI 요약 출력 */}
                             <div style={{ flex: '0 0 30%', marginRight: '1rem' }}>
                                 {loading ? (
-                                    <p>요약을 생성 중입니다...</p>
+                                    <div
+                                        style={{
+                                            backgroundColor: 'white',
+                                            borderRadius: '15px',
+                                            padding: '8px 12px',
+                                            display: 'inline-block',
+                                            margin: '0',
+                                            boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+                                            width: 'fit-content',
+                                        }}
+                                    >
+                                        <strong>🤖 요약 생성 중입니다...</strong>
+                                    </div>
                                 ) : (
                                     <div>
                                         {Object.keys(summary).length === 0 ? (
-                                            <p>요약을 위한 충분한 리뷰가 작성되지 않았습니다.</p>
+                                            <div
+                                                style={{
+                                                    backgroundColor: 'white',
+                                                    borderRadius: '15px',
+                                                    padding: '8px 12px',
+                                                    display: 'inline-block',
+                                                    margin: '0',
+                                                    boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+                                                    width: 'fit-content',
+                                                }}
+                                            >
+                                                <strong>🤖 AI<br />리뷰를 모으는 중입니다!</strong>
+                                            </div>
                                         ) : (
                                             Object.entries(summary).map(([storeId, summaryText]) => (
                                                 <div key={storeId}>
                                                     {summaryText !== null && summaryText !== "null" && summaryText.trim() !== '' ? (
                                                         <>
-                                                            <h3><strong>AI가 분석한 키워드</strong></h3>
+                                                            <h3 style={{ marginBottom: '0.5rem' }}><strong>🤖 AI가 분석했어요!</strong></h3>
                                                             <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
                                                                 {(typeof summaryText === 'string' ? summaryText.split(',') : []).map((text, index) => (
                                                                     <div
@@ -218,16 +242,26 @@ const ShopBreadCrumbImg: React.FC<Props> = ({ dataType, companyId, store }) => {
                                                                             width: 'fit-content',
                                                                         }}
                                                                     >
-                                                                        {text.trim()}
+                                                                        <strong>{text.trim()}</strong>
                                                                     </div>
                                                                 ))}
                                                             </div>
                                                         </>
                                                     ) : (
-                                                        <h3><strong>AI 요약을 준비중입니다.</strong></h3>
+                                                        <div
+                                                            style={{
+                                                                backgroundColor: 'white',
+                                                                borderRadius: '15px',
+                                                                padding: '8px 12px',
+                                                                display: 'inline-block',
+                                                                margin: '0',
+                                                                boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+                                                                width: 'fit-content',
+                                                            }}
+                                                        >
+                                                            <strong>🤖 AI 요약을 준비중입니다.</strong>
+                                                        </div>
                                                     )}
-
-
                                                 </div>
                                             ))
                                         )}
