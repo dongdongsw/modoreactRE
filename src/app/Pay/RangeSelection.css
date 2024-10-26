@@ -8,7 +8,7 @@
   
   .rangeButton, .dailyButton {
     background-color: #fff;  
-    color: #0EAE7A;
+    color: #000000;
     border: 1px solid #ccc;
     border-radius: 15px;
     padding: 10px 20px;
@@ -21,7 +21,10 @@
   }
   
   .rangeButton:hover {
-    background-color: #ccc;
+    background-color: #ffffff;
+    color: #0EAE7A;
+    border: 1px solid #0EAE7A;
+
   }
 
   

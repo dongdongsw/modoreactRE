@@ -9,14 +9,16 @@
 
 
 .dailyButton:hover {
-  background: #000000;
+  background: #ffffff;
+  color: #0EAE7A;
+    border: 1px solid #0EAE7A;
 }
 
 
 
 .resetButton {
   background-color: #cccccc00;
-  color: #0EAE7A;
+  color: #000000;
   border: 1px solid #ccc;
   border-radius: 15px;
   padding: 10px 20px;
@@ -28,7 +30,10 @@
 }
 
 .resetButton:hover {
-  background-color: #c82333;
+  background-color: #ffffff;
+  color: #0EAE7A;
+  border: 1px solid #0EAE7A;
+
 }
 
 .selectionBox {
@@ -107,7 +112,9 @@
 }
 
 .mealSection button:hover {
-  background-color: #ccc;
+  background-color: #ffffff;
+  color: #0EAE7A !important;
+
 }
 
 .mealSection button:disabled {

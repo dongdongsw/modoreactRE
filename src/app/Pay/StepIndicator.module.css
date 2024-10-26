@@ -30,7 +30,7 @@
   
   .step .step-label {
     font-size: 14px;
-    color: #666;
+    color: #0EAE7A;
   }
   
   .step::after {
@@ -47,12 +47,7 @@
   .step:last-child::after {
     display: none;
   }
-  
-  .step.active .step-label {
-    font-weight: bold;
-    color: #007bff;
-  }
-  
+
   .step.active::after {
     background-color: #007bff;
   }

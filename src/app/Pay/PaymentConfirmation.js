@@ -92,16 +92,15 @@ const PaymentConfirmation = ({ itemsToPay, totalAmount, onPayment, onCancel }) =
     
                             <div className="addressInfo">
                                 <div className="addressInfo-a">
-                                    <p>주소:</p>
-                                    <p>{selectedAddress}</p>
+                                    <p>주소: {selectedAddress}</p>
                                 </div>
                                 <div className="addressInfo-b">
-                                    <p>전화번호:</p>
-                                    <p>{phoneNumber}</p>
+                                    <p>전화번호: {phoneNumber}</p>
+                                    
                                 </div>
                                 <div className="addressInfo-c">
-                                    <p>이메일:</p>
-                                    <p>{email}</p>
+                                    <p>이메일: {email}</p>
+                                    
                                 </div>
                             </div>
                             <div className="confirmButton-container">
@@ -128,7 +127,7 @@ const PaymentConfirmation = ({ itemsToPay, totalAmount, onPayment, onCancel }) =
                                         >
                                             <h5 className="heading5">{item.name}</h5>
                                             {activeIndices.includes(index) ? (
-                                                <Icon.CaretDown size={24} weight="bold" color="#0EAE7A" />
+                                                <Icon.CaretDown size={24} weight="bold" color="#ccc" />
                                             ) : (
                                                 <Icon.CaretRight size={24} weight="bold" color="#ccc" />
                                             )}

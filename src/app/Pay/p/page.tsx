@@ -15,7 +15,10 @@ import NextStepButton from '../NextStepButton';
 import PaymentConfirmation from '../PaymentConfirmation';
 import StepIndicator from '../StepIndicator';
 import { useCart } from '@/context/CartContext'
-import { useModalCartContext } from '@/context/ModalCartContext'
+
+import { useModalWishlistContext } from '@/context/ModalWishlistContext';
+import useLoginPopup from '@/store/useLoginPopup';
+
 
 import '../Pay.css';
 
@@ -46,7 +49,13 @@ interface Meals {
 type MealType = 'breakfast' | 'lunch' | 'dinner';
 
 const Pay = () => {
-  const { openModalCart } = useModalCartContext()
+  const { openLoginPopup, handleLoginPopup } = useLoginPopup();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { openModalWishlist } = useModalWishlistContext();
+  const [nickname, setNickname] = useState('');
+
+
+
   const { cartState } = useCart();
   const router = useRouter();
   const pathname = usePathname(); // 현재 경로(pathname) 추출
@@ -499,6 +508,20 @@ const Pay = () => {
   };
 
 
+  const handleLogout = () => {
+    axios.get('/login/logout')
+        .then(response => {
+            setNickname('');
+            setIsAuthenticated(false);
+            alert(response.data.message);
+            window.location.href = "http://localhost:3000";
+        })
+        .catch(error => {
+            console.error('There was an error logging out!', error);
+        });
+};
+
+
   return (
     <>
     
@@ -508,10 +531,10 @@ const Pay = () => {
         <div id="header" className='relative w-full'>
           <div className={`header-menu style-one fixed top-0 left-0 right-0 w-full md:h-[74px] h-[56px]`}>
             <div className="container mx-auto h-full">
-              <div className="header-main flex items-center justify-between h-full">
+              <div className="header-main flex items-center gap-12 h-full">
                 <Link href={'/'} className='flex items-center'>
                 <div className="heading4" style={{    
-                                background: 'linear-gradient(to left, #acd4c8 ,   #000000)',
+                                backgroundColor: '#000000',
                                 color: 'transparent',
                                 WebkitBackgroundClip: 'text'
                               }}>Modo Modo</div>
@@ -521,10 +544,38 @@ const Pay = () => {
                     <StepIndicator currentStep={currentStep} />
                   </div>
                 </div>
-                <button className="max-md:hidden cart-icon flex items-center relative h-fit cursor-pointer" onClick={openModalCart}>
-                  <Icon.Handbag size={24} color='black' />
-                  <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-black w-4 h-4 flex items-center justify-center rounded-full">{cartState.cartArray.length}</span>
-                </button>
+                <div className="list-action flex items-center gap-4">
+                                <div className="user-icon flex items-center justify-center cursor-pointer">
+                                    <Icon.SignIn size={24} color='black' onClick={handleLoginPopup} />
+                                    <div className={`login-popup absolute top-[74px] w-[320px] p-7 rounded-xl bg-white box-shadow-sm ${openLoginPopup ? 'open' : ''}`}>
+                                        {isAuthenticated ? (
+                                            <button onClick={handleLogout} className="button-main w-full text-center">
+                                                Logout
+                                            </button>
+                                        ) : (
+                                            <>
+                                                <Link href="http://localhost:8080/oauth2/authorization/kakao" className="button-main w-full text-center">Login</Link>
+                                                <div className="text-secondary text-center mt-3 pb-4">
+                                                    Don’t have an account?
+                                                    <Link href={'/login/signup'} className='text-black pl-1 hover:underline'>Sign Up</Link>
+                                                </div>
+                                            </>
+                                        )}
+                                        <div className="bottom pt-4 border-t border-line"></div>
+                                        <Link href={'#!'} className='body1 hover:underline'>Support</Link>
+                                    </div>
+                                </div>
+                                <div className="max-md:hidden wishlist-icon flex items-center cursor-pointer">
+                                    <Link href={'/my-account'} className={`link text-secondary duration-300 ${pathname === '/my-account' ? 'active' : ''}`}>
+                                                         
+                                    <Icon.User size={24} color='black' />
+                                    </Link>
+                                </div>
+                                <div className="max-md:hidden wishlist-icon flex items-center cursor-pointer" onClick={openModalWishlist}>
+                                    <Icon.Heart size={24} color='black' />
+                                </div>
+                                
+                            </div>
               </div>
             </div>
           </div>
@@ -656,10 +707,10 @@ const Pay = () => {
           <div id="header" className='relative w-full'>
             <div className={`header-menu style-one fixed top-0 left-0 right-0 w-full md:h-[74px] h-[56px]`}>
               <div className="container mx-auto h-full">
-                <div className="header-main flex items-center justify-between h-full">
+                <div className="header-main flex items-center gap-12 h-full">
                   <Link href={'/'} className='flex items-center'>
                   <div className="heading4" style={{    
-                                background: 'linear-gradient(to left, #acd4c8 ,   #000000)',
+                                backgroundColor: '#000000',
                                 color: 'transparent',
                                 WebkitBackgroundClip: 'text'
                               }}>Modo Modo</div>
@@ -669,15 +720,38 @@ const Pay = () => {
                       <StepIndicator currentStep={currentStep} />
                     </div>
                   </div>
-                  <button
-                    className="max-md:hidden cart-icon flex items-center relative h-fit cursor-pointer"
-                    onClick={openModalCart}
-                  >
-                    <Icon.Handbag size={24} color='black' />
-                    <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-black w-4 h-4 flex items-center justify-center rounded-full">
-                      {cartState.cartArray.length}
-                    </span>
-                  </button>
+                  <div className="list-action flex items-center gap-4">
+
+                  <div className="user-icon flex items-center justify-center cursor-pointer">
+                                    <Icon.SignIn size={24} color='black' onClick={handleLoginPopup} />
+                                    <div className={`login-popup absolute top-[74px] w-[320px] p-7 rounded-xl bg-white box-shadow-sm ${openLoginPopup ? 'open' : ''}`}>
+                                        {isAuthenticated ? (
+                                            <button onClick={handleLogout} className="button-main w-full text-center">
+                                                Logout
+                                            </button>
+                                        ) : (
+                                            <>
+                                                <Link href="http://localhost:8080/oauth2/authorization/kakao" className="button-main w-full text-center">Login</Link>
+                                                <div className="text-secondary text-center mt-3 pb-4">
+                                                    Don’t have an account?
+                                                    <Link href={'/login/signup'} className='text-black pl-1 hover:underline'>Sign Up</Link>
+                                                </div>
+                                            </>
+                                        )}
+                                        <div className="bottom pt-4 border-t border-line"></div>
+                                        <Link href={'#!'} className='body1 hover:underline'>Support</Link>
+                                    </div>
+                                </div>
+                                <div className="max-md:hidden wishlist-icon flex items-center cursor-pointer">
+                                    <Link href={'/my-account'} className={`link text-secondary duration-300 ${pathname === '/my-account' ? 'active' : ''}`}>
+                                                         
+                                    <Icon.User size={24} color='black' />
+                                    </Link>
+                                </div>
+                                <div className="max-md:hidden wishlist-icon flex items-center cursor-pointer" onClick={openModalWishlist}>
+                                    <Icon.Heart size={24} color='black' />
+                                </div>
+                                </div> 
                 </div>
               </div>
             </div>

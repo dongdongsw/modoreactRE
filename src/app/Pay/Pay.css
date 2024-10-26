@@ -7,6 +7,9 @@
   border-right: 1px solid #ccc;
 
 }
+.pay-container{
+margin-left: 45px;
+}
 
 .paymainContainer1 {
   padding: 100px;
@@ -49,12 +52,12 @@ box-shadow: 15px 15px 15px #e2dede;
 }
 
 .tab-buttons .active {
-  background-color: #0EAE7A;
-  color: #fff;
+  background-color: #ffffff;
+  color: #000000;
   font-weight: bold;
-  border-top: 0px solid #000000;
-  border-left: 0px solid #000000;
-  border-right: 0px solid #000000;
+  border-top: 1px solid #000000;
+  border-left: 1px solid #000000;
+  border-right: 1px solid #000000;
 }
 
 
@@ -246,21 +249,6 @@ text-align: center;
   width: 400px;
 }
 
-.range-button,
-.daily-button {
-  margin-top: 10px;
-  padding: 10px 20px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 45px;
-  cursor: pointer;
-}
-
-.range-button.active,
-.daily-button.active {
-  background-color: #45a049;
-}
 
 .selection-box {
   border: 1px solid ;
@@ -333,8 +321,9 @@ text-align: center;
 }
 
 .step.active .step-number {
-  background: linear-gradient(to left,#DDE9B5 ,   #acd4c8);  
+  background-color: #000000;  
   color: white;
+  border: none;
 }
 
 .step .step-number {
@@ -342,18 +331,21 @@ text-align: center;
   height: 30px;
   margin: 0 auto;
   background-color: #ffffff;
-  border: 1px solid #ccc;
   color: #333;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 5px;
+  border: 1px solid #ccc;
+
 }
 
 .step .step-label {
   font-size: 14px;
   color: #666;
+  
+  
 }
 
 .step::after {
@@ -364,21 +356,27 @@ text-align: center;
   width: 100%;
   height: 2px;
   background-color: #ffffff;
-  border: 2px solid #ccc;
+  border: 1px solid #ccc;
   z-index: -1;
 }
 
 .step:last-child::after {
   display: none;
+  
 }
 
 .step.active .step-label {
   font-weight: bold;
   color: #000000;
+  display: inline-block; /* Ensures the width adjusts to the content */
+
+
 }
 
+
 .step.active::after {
-  background: linear-gradient(to left,#DDE9B5 ,   #acd4c8);  
+  background-color: #000000;  
+  border:none;
 }
 
 /* StepIndicator.css 또는 다른 CSS 파일 */
