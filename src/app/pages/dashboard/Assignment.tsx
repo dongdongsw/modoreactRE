@@ -255,11 +255,11 @@ export const AssignmentContent: React.FC = () => {
                         </button>
                     )}
                 </h2>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '30px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '30px', maxHeight: '500px', overflowY: 'auto'}}>
                     {storeInfo.isEditing ? (
                         <>
                             <div style={{ marginBottom: '15px', textAlign: 'left', width: '80%', backgroundColor: 'transparent', padding: '10px', borderRadius: '8px' }}>
-                                <label htmlFor="name">Store Name:</label>
+                                <label htmlFor="name">가게명:</label>
                                 <input
                                     id="name"
                                     type="text"
@@ -271,7 +271,7 @@ export const AssignmentContent: React.FC = () => {
                                 />
                             </div>
                             <div style={{ marginBottom: '15px', textAlign: 'left', width: '80%', backgroundColor: 'transparent', padding: '10px', borderRadius: '8px' }}>
-                                <label htmlFor="address">Store Address:</label>
+                                <label htmlFor="address">가게 주소:</label>
                                 <input
                                     id="address"
                                     type="text"
@@ -298,7 +298,7 @@ export const AssignmentContent: React.FC = () => {
 
                             </div>
                             <div style={{ marginBottom: '15px', textAlign: 'left', width: '80%', backgroundColor: 'transparent', padding: '10px', borderRadius: '8px' }}>
-                                <label htmlFor="phoneNumber">Phone Number:</label>
+                                <label htmlFor="phoneNumber">전화번호:</label>
                                 <input
                                     id="phoneNumber"
                                     type="text"
@@ -310,7 +310,7 @@ export const AssignmentContent: React.FC = () => {
                                 />
                             </div>
                             <div style={{ marginBottom: '15px', textAlign: 'left', width: '80%', backgroundColor: 'transparent', padding: '10px', borderRadius: '8px' }}>
-                                <label htmlFor="foodType">Food Type:</label>
+                                <label htmlFor="foodType">음식 종류:</label>
                                 <input
                                     id="foodType"
                                     type="text"
@@ -322,7 +322,7 @@ export const AssignmentContent: React.FC = () => {
                                 />
                             </div>
                             <div style={{ marginBottom: '15px', textAlign: 'left', width: '80%', backgroundColor: 'transparent', padding: '10px', borderRadius: '8px' }}>
-                                <label htmlFor="image">Image:</label>
+                                <label htmlFor="image">이미지:</label>
                                 <input
                                     id="image"
                                     type="file"
@@ -334,7 +334,7 @@ export const AssignmentContent: React.FC = () => {
                                     className="button-main px-4 py-2 bg-green-500 text-white rounded-lg mt-10"
                                     onClick={handleImageUpload}
                                 >
-                                    Upload Image
+                                    이미지 업로드
                                 </button>
                                 {storeInfo.imageUrl && (
                                     <div style={{ margin: '20px 0', cursor: 'pointer' }} onClick={toggleImage}>
@@ -352,7 +352,7 @@ export const AssignmentContent: React.FC = () => {
                             </div>
 
                             <div style={{ marginBottom: '15px', textAlign: 'left', width: '80%', backgroundColor: 'transparent', padding: '10px', borderRadius: '8px' }}>
-                                <label htmlFor="description">Description:</label>
+                                <label htmlFor="description">설명:</label>
                                 <textarea
                                     id="description"
                                     name="description"
@@ -364,8 +364,8 @@ export const AssignmentContent: React.FC = () => {
                                 />
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%', marginTop: '15px', padding: '10px', borderTop: '1px solid #ddd' }}>
-                                <button className="button-main px-4 py-2 bg-green-500 text-white rounded-lg mt-10" onClick={handleSaveClick}>Save</button>
-                                <button style={{ marginLeft: '5px' }} className="button-main px-4 py-2 bg-gray-400 text-white rounded-lg mt-10" onClick={handleCancelClick}>Cancel</button>
+                                <button className="button-main px-4 py-2 bg-green-500 text-white rounded-lg mt-10" onClick={handleSaveClick}>저장</button>
+                                <button style={{ marginLeft: '5px' }} className="button-main px-4 py-2 bg-gray-400 text-white rounded-lg mt-10" onClick={handleCancelClick}>취소</button>
                             </div>
                         </>
                     ) : (

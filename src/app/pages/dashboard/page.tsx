@@ -57,7 +57,10 @@ const Dashboard = () => {
                 <div className="container">
                     <div className="content-main flex w-full">
                         <div className="left md:w-1/5 w-full md:px-2">
-                            <div className="user-info lg:px-7 px-4 lg:py-10 py-5 md:rounded-[20px] rounded-xl w-full h-full" style={{ backgroundColor: '#333' }}>
+                            <div
+                                className="user-info lg:px-7 px-4 lg:py-10 py-5 md:rounded-[20px] rounded-xl w-full h-full"
+                                style={{ backgroundColor: '#333', height: '650px' }}
+                            >
                                 <div className="heading flex flex-col items-center justify-center">
                                     <div className="avatar">
                                         <Image
