@@ -14,6 +14,7 @@ const eventInsight: React.FC<Props> = ({ data, start, limit }) => {
         (a: eventType, b: eventType) => new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime()
     );
 
+
     return (
         <>
             <div className="news-block md:pt-20 pt-10">

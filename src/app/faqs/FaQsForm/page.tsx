@@ -114,7 +114,7 @@ const FaQsForm = () => {
                                         </select>
                                     </div>
 
-                                    <div className="Ev-form">
+                                    {/* <div className="Ev-form">
                                         <label className="Ev-form-label">이미지 업로드:</label>
                                         <input
                                             className="border-line px-4 py-3 w-full rounded-lg"
@@ -122,7 +122,7 @@ const FaQsForm = () => {
                                             type="file"
                                             onChange={(e) => setImage(e.target.files?.[0] || null)}
                                         />
-                                    </div>
+                                    </div> */}
                                     <div className="Ev-form">
                                         <label className="Ev-form-label">내용:</label>
                                         <textarea

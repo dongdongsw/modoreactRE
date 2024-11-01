@@ -170,8 +170,16 @@ const ModalWishlist = () => {
                                             <div className="text-sm text-gray-500 mt-1">{store.foodType}</div>
                                         </div>
                                     </div>
-                                    <div className="remove-wishlist-btn caption1 font-semibold text-red underline cursor-pointer mr-3" onClick={() => handleRemoveFavorite(store.companyId)}>
+                                    {/* <div className="remove-wishlist-btn caption1 font-semibold text-red underline cursor-pointer mr-3" onClick={() => handleRemoveFavorite(store.companyId)}>
                                         Remove
+                                    </div> */}
+                                    <div
+                                        className="text-xl bg-white w-10 h-10 rounded-xl border border-black flex mr-5 items-center justify-center duration-300 cursor-pointer hover:bg-black hover:text-white"
+                                        onClick={(e) => {
+                                            handleRemoveFavorite(store.companyId)
+                                        }}
+                                    >
+                                        <Icon.Trash />
                                     </div>
                                 </div>
                                 </Link>

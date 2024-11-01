@@ -71,7 +71,7 @@ const EventForm = () => {
                 <div className="container">
                     <div className="flex justify-center max-lg:flex-col gap-y-10">
                         <div className="left lg:w-2/3 lg:pr-4">
-                            <div className="heading2 flex justify-center md:py-10">공지사항 작성 페이지</div>
+                            <div className="heading2 flex justify-center md:py-10">이벤트 작성 페이지</div>
                             <form className="md:mt-6 mt-4" onSubmit={handleSubmit}>
                                 <div className="Ev-form-container">
                                     <div className="Ev-form">

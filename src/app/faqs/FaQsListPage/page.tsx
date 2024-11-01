@@ -24,6 +24,8 @@ const Faqs = () => {
     const [qandas, setQandas] = useState<Qanda[]>([]); // Qanda[] 타입으로 상태를 정의
     const [visibleContent, setVisibleContent] = useState<{ [key: string]: boolean }>({}); // 각 Q&A의 표시 상태를 관리하는 객체
     const [userRole, setUserRole] = useState('');
+    const [editingQanda, setEditingQanda] = useState<{ id: string; title: string; content: string } | null>(null);
+
     const router = useRouter();  
 
 
@@ -96,6 +98,46 @@ const Faqs = () => {
             });
     };
 
+    // 수정 버튼 클릭 시 Q&A 항목 수정 모드로 전환
+    const handleEdit = (qanda: Qanda) => {
+        setEditingQanda({ id: qanda.id, title: qanda.title, content: qanda.content });
+    };
+
+    // 수정 내용 저장 함수
+    const handleSaveEdit = () => {
+        if (editingQanda) {
+            const formData = new FormData();
+    
+            // board 파트로 JSON 데이터 전송
+            formData.append("board", new Blob([JSON.stringify({
+                title: editingQanda.title,
+                content: editingQanda.content,
+                // 필요 시 다른 필드 추가
+            })], { type: "application/json" }));
+    
+            
+    
+            axios.put(`/api/qanda/${editingQanda.id}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            })
+            .then(() => {
+                setQandas(prevQandas => prevQandas.map(qanda =>
+                    qanda.id === editingQanda.id ? { ...qanda, ...editingQanda } : qanda
+                ));
+                setEditingQanda(null); // 수정 모드 종료
+            })
+            .catch(error => console.error('Error updating Q&A:', error));
+        }
+    };
+    
+
+    const handleCancelEdit = () => {
+        setEditingQanda(null);
+    };
+
+
     return (
         <>
             <TopNavOne props="style-one bg-black" slogan="New customers save 10% with the code GET10" />
@@ -137,31 +179,56 @@ const Faqs = () => {
                                         className={`question-item px-7 py-5 rounded-[20px] overflow-hidden border border-line cursor-pointer ${visibleContent[qanda.id] ? 'open' : ''}`}
                                         onClick={() => toggleContentVisibility(qanda.id)}
                                     >
-                                        <div className="heading flex items-center justify-between gap-6">
-                                            <div className="heading6">{qanda.title}</div>
-                                            
-                                            <Icon.CaretRight size={24} />
-                                            
-
-                                        </div>
-                                        <div className="heading flex items-right justify-between gap-6 mt-3">
-                                        <div> </div>
-                                        {userRole === 'ROLE_ADMIN' && (
-                                                <button
-                                                    className="button-main"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation(); // 삭제 버튼 클릭 시 Q&A 표시 토글을 막음
-                                                        handleDelete(qanda.id);
-                                                    }}
-                                                >
-                                                    삭제
-                                                </button>
-                                            )}
-                                        </div>
-                                        {visibleContent[qanda.id] && (
-                                            <div className="content body1 text-secondary">
-                                                {qanda.content}
+                                        {editingQanda && editingQanda.id === qanda.id ? (
+                                        <div className="edit-mode">
+                                            <input
+                                                type="text"
+                                                value={editingQanda.title}
+                                                onChange={(e) => setEditingQanda({ ...editingQanda, title: e.target.value })}
+                                                className="input-main w-full mb-4"
+                                                style={{
+                                                    border: '1px solid #000000',
+                                                    borderRadius: '7px'
+                                                }}
+                                            />
+                                            <textarea
+                                                value={editingQanda.content}
+                                                onChange={(e) => setEditingQanda({ ...editingQanda, content: e.target.value })}
+                                                className="textarea-main w-full h-40"
+                                                style={{
+                                                    border: '1px solid #000000',
+                                                    borderRadius: '7px'
+                                                }}
+                                            />
+                                            <div className="flex gap-3 mt-4">
+                                                <button className="button-main" onClick={handleSaveEdit}>저장</button>
+                                                <button className="button-secondary" onClick={handleCancelEdit}>취소</button>
                                             </div>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <div className="heading flex items-center justify-between gap-6">
+                                                <div className="heading6">{qanda.title}</div>
+                                                <Icon.CaretRight size={24} />
+                                            </div>
+                                            {visibleContent[qanda.id] && (
+                                                <div className="content body1 text-secondary mt-3">
+                                                    {qanda.content}
+                                                </div>
+                                            )}
+                                            {userRole === 'ROLE_ADMIN' && (
+                                                <div className="flex gap-3 mt-10 justify-end">
+                                                    <button className="button-main" onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleEdit(qanda);
+                                                    }}>수정</button>
+                                                    <button className="button-main" onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleDelete(qanda.id);
+                                                    }}>삭제</button>
+                                                </div>
+                                            )}
+                                        </>
                                         )}
                                     </div>
                                 ))}
@@ -208,28 +275,56 @@ const Faqs = () => {
                                         className={`question-item px-7 py-5 rounded-[20px] overflow-hidden border border-line cursor-pointer ${visibleContent[qanda.id] ? 'open' : ''}`}
                                         onClick={() => toggleContentVisibility(qanda.id)}
                                     >
-                                        <div className="heading flex items-center justify-between gap-6">
-                                            <div className="heading6">{qanda.title}</div>
-                                            <Icon.CaretRight size={24} />
-                                        </div>
-                                        <div className="heading flex items-right justify-between gap-6 mt-3">
-                                        <div> </div>
-                                        {userRole === 'ROLE_ADMIN' && (
-                                                <button
-                                                    className="button-main"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation(); // 삭제 버튼 클릭 시 Q&A 표시 토글을 막음
-                                                        handleDelete(qanda.id);
-                                                    }}
-                                                >
-                                                    삭제
-                                                </button>
-                                            )}
-                                        </div>
-                                        {visibleContent[qanda.id] && (
-                                            <div className="content body1 text-secondary">
-                                                {qanda.content}
+                                        {editingQanda && editingQanda.id === qanda.id ? (
+                                        <div className="edit-mode">
+                                            <input
+                                                type="text"
+                                                value={editingQanda.title}
+                                                onChange={(e) => setEditingQanda({ ...editingQanda, title: e.target.value })}
+                                                className="input-main w-full mb-4"
+                                                style={{
+                                                    border: '1px solid #000000',
+                                                    borderRadius: '7px'
+                                                }}
+                                            />
+                                            <textarea
+                                                value={editingQanda.content}
+                                                onChange={(e) => setEditingQanda({ ...editingQanda, content: e.target.value })}
+                                                className="textarea-main w-full h-40"
+                                                style={{
+                                                    border: '1px solid #000000',
+                                                    borderRadius: '7px'
+                                                }}
+                                            />
+                                            <div className="flex gap-3 mt-4">
+                                                <button className="button-main" onClick={handleSaveEdit}>저장</button>
+                                                <button className="button-secondary" onClick={handleCancelEdit}>취소</button>
                                             </div>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <div className="heading flex items-center justify-between gap-6">
+                                                <div className="heading6">{qanda.title}</div>
+                                                <Icon.CaretRight size={24} />
+                                            </div>
+                                            {visibleContent[qanda.id] && (
+                                                <div className="content body1 text-secondary mt-3">
+                                                    {qanda.content}
+                                                </div>
+                                            )}
+                                            {userRole === 'ROLE_ADMIN' && (
+                                                <div className="flex gap-3 mt-10 justify-end">
+                                                    <button className="button-main" onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleEdit(qanda);
+                                                    }}>수정</button>
+                                                    <button className="button-main" onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleDelete(qanda.id);
+                                                    }}>삭제</button>
+                                                </div>
+                                            )}
+                                        </>
                                         )}
                                     </div>
                                 ))}
@@ -242,28 +337,56 @@ const Faqs = () => {
                                         className={`question-item px-7 py-5 rounded-[20px] overflow-hidden border border-line cursor-pointer ${visibleContent[qanda.id] ? 'open' : ''}`}
                                         onClick={() => toggleContentVisibility(qanda.id)}
                                     >
-                                        <div className="heading flex items-center justify-between gap-6">
-                                            <div className="heading6">{qanda.title}</div>
-                                            <Icon.CaretRight size={24} />
-                                        </div>
-                                        <div className="heading flex items-right justify-between gap-6 mt-3">
-                                        <div> </div>
-                                        {userRole === 'ROLE_ADMIN' && (
-                                                <button
-                                                    className="button-main"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation(); // 삭제 버튼 클릭 시 Q&A 표시 토글을 막음
-                                                        handleDelete(qanda.id);
-                                                    }}
-                                                >
-                                                    삭제
-                                                </button>
-                                            )}
-                                        </div>
-                                        {visibleContent[qanda.id] && (
-                                            <div className="content body1 text-secondary">
-                                                {qanda.content}
+                                        {editingQanda && editingQanda.id === qanda.id ? (
+                                        <div className="edit-mode">
+                                            <input
+                                                type="text"
+                                                value={editingQanda.title}
+                                                onChange={(e) => setEditingQanda({ ...editingQanda, title: e.target.value })}
+                                                className="input-main w-full mb-4"
+                                                style={{
+                                                    border: '1px solid #000000',
+                                                    borderRadius: '7px'
+                                                }}
+                                            />
+                                            <textarea
+                                                value={editingQanda.content}
+                                                onChange={(e) => setEditingQanda({ ...editingQanda, content: e.target.value })}
+                                                className="textarea-main w-full h-40"
+                                                style={{
+                                                    border: '1px solid #000000',
+                                                    borderRadius: '7px'
+                                                }}
+                                            />
+                                            <div className="flex gap-3 mt-4">
+                                                <button className="button-main" onClick={handleSaveEdit}>저장</button>
+                                                <button className="button-secondary" onClick={handleCancelEdit}>취소</button>
                                             </div>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <div className="heading flex items-center justify-between gap-6">
+                                                <div className="heading6">{qanda.title}</div>
+                                                <Icon.CaretRight size={24} />
+                                            </div>
+                                            {visibleContent[qanda.id] && (
+                                                <div className="content body1 text-secondary mt-3">
+                                                    {qanda.content}
+                                                </div>
+                                            )}
+                                            {userRole === 'ROLE_ADMIN' && (
+                                                <div className="flex gap-3 mt-10 justify-end">
+                                                    <button className="button-main" onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleEdit(qanda);
+                                                    }}>수정</button>
+                                                    <button className="button-main" onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleDelete(qanda.id);
+                                                    }}>삭제</button>
+                                                </div>
+                                            )}
+                                        </>
                                         )}
                                     </div>
                                 ))}
@@ -276,28 +399,56 @@ const Faqs = () => {
                                         className={`question-item px-7 py-5 rounded-[20px] overflow-hidden border border-line cursor-pointer ${visibleContent[qanda.id] ? 'open' : ''}`}
                                         onClick={() => toggleContentVisibility(qanda.id)}
                                     >
-                                        <div className="heading flex items-center justify-between gap-6">
-                                            <div className="heading6">{qanda.title}</div>
-                                            <Icon.CaretRight size={24} />
-                                        </div>
-                                        <div className="heading flex items-right justify-between gap-6 mt-3">
-                                        <div> </div>
-                                        {userRole === 'ROLE_ADMIN' && (
-                                                <button
-                                                    className="button-main"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation(); // 삭제 버튼 클릭 시 Q&A 표시 토글을 막음
-                                                        handleDelete(qanda.id);
-                                                    }}
-                                                >
-                                                    삭제
-                                                </button>
-                                            )}
-                                        </div>
-                                        {visibleContent[qanda.id] && (
-                                            <div className="content body1 text-secondary">
-                                                {qanda.content}
+                                        {editingQanda && editingQanda.id === qanda.id ? (
+                                        <div className="edit-mode">
+                                            <input
+                                                type="text"
+                                                value={editingQanda.title}
+                                                onChange={(e) => setEditingQanda({ ...editingQanda, title: e.target.value })}
+                                                className="input-main w-full mb-4"
+                                                style={{
+                                                    border: '1px solid #000000',
+                                                    borderRadius: '7px'
+                                                }}
+                                            />
+                                            <textarea
+                                                value={editingQanda.content}
+                                                onChange={(e) => setEditingQanda({ ...editingQanda, content: e.target.value })}
+                                                className="textarea-main w-full h-40"
+                                                style={{
+                                                    border: '1px solid #000000',
+                                                    borderRadius: '7px'
+                                                }}
+                                            />
+                                            <div className="flex gap-3 mt-4">
+                                                <button className="button-main" onClick={handleSaveEdit}>저장</button>
+                                                <button className="button-secondary" onClick={handleCancelEdit}>취소</button>
                                             </div>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <div className="heading flex items-center justify-between gap-6">
+                                                <div className="heading6">{qanda.title}</div>
+                                                <Icon.CaretRight size={24} />
+                                            </div>
+                                            {visibleContent[qanda.id] && (
+                                                <div className="content body1 text-secondary mt-3">
+                                                    {qanda.content}
+                                                </div>
+                                            )}
+                                            {userRole === 'ROLE_ADMIN' && (
+                                                <div className="flex gap-3 mt-10 justify-end">
+                                                    <button className="button-main" onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleEdit(qanda);
+                                                    }}>수정</button>
+                                                    <button className="button-main" onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleDelete(qanda.id);
+                                                    }}>삭제</button>
+                                                </div>
+                                            )}
+                                        </>
                                         )}
                                     </div>
                                 ))}
@@ -310,28 +461,56 @@ const Faqs = () => {
                                         className={`question-item px-7 py-5 rounded-[20px] overflow-hidden border border-line cursor-pointer ${visibleContent[qanda.id] ? 'open' : ''}`}
                                         onClick={() => toggleContentVisibility(qanda.id)}
                                     >
-                                        <div className="heading flex items-center justify-between gap-6">
-                                            <div className="heading6">{qanda.title}</div>
-                                            <Icon.CaretRight size={24} />
-                                        </div>
-                                        <div className="heading flex items-right justify-between gap-6 mt-3">
-                                        <div> </div>
-                                        {userRole === 'ROLE_ADMIN' && (
-                                                <button
-                                                    className="button-main"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation(); // 삭제 버튼 클릭 시 Q&A 표시 토글을 막음
-                                                        handleDelete(qanda.id);
-                                                    }}
-                                                >
-                                                    삭제
-                                                </button>
-                                            )}
-                                        </div>
-                                        {visibleContent[qanda.id] && (
-                                            <div className="content body1 text-secondary">
-                                                {qanda.content}
+                                        {editingQanda && editingQanda.id === qanda.id ? (
+                                        <div className="edit-mode">
+                                            <input
+                                                type="text"
+                                                value={editingQanda.title}
+                                                onChange={(e) => setEditingQanda({ ...editingQanda, title: e.target.value })}
+                                                className="input-main w-full mb-4"
+                                                style={{
+                                                    border: '1px solid #000000',
+                                                    borderRadius: '7px'
+                                                }}
+                                            />
+                                            <textarea
+                                                value={editingQanda.content}
+                                                onChange={(e) => setEditingQanda({ ...editingQanda, content: e.target.value })}
+                                                className="textarea-main w-full h-40"
+                                                style={{
+                                                    border: '1px solid #000000',
+                                                    borderRadius: '7px'
+                                                }}
+                                            />
+                                            <div className="flex gap-3 mt-4">
+                                                <button className="button-main" onClick={handleSaveEdit}>저장</button>
+                                                <button className="button-secondary" onClick={handleCancelEdit}>취소</button>
                                             </div>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <div className="heading flex items-center justify-between gap-6">
+                                                <div className="heading6">{qanda.title}</div>
+                                                <Icon.CaretRight size={24} />
+                                            </div>
+                                            {visibleContent[qanda.id] && (
+                                                <div className="content body1 text-secondary mt-3">
+                                                    {qanda.content}
+                                                </div>
+                                            )}
+                                            {userRole === 'ROLE_ADMIN' && (
+                                                <div className="flex gap-3 mt-10 justify-end">
+                                                    <button className="button-main" onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleEdit(qanda);
+                                                    }}>수정</button>
+                                                    <button className="button-main" onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleDelete(qanda.id);
+                                                    }}>삭제</button>
+                                                </div>
+                                            )}
+                                        </>
                                         )}
                                     </div>
                                 ))}
@@ -343,29 +522,56 @@ const Faqs = () => {
                                         className={`question-item px-7 py-5 rounded-[20px] overflow-hidden border border-line cursor-pointer ${visibleContent[qanda.id] ? 'open' : ''}`}
                                         onClick={() => toggleContentVisibility(qanda.id)}
                                     >
-                                        <div className="heading flex items-center justify-between gap-6">
-                                            <div className="heading6">{qanda.title}</div>
-                                            <Icon.CaretRight size={24} />
-                                            
-                                        </div>
-                                        <div className="heading flex items-right justify-between gap-6 mt-3">
-                                        <div> </div>
-                                        {userRole === 'ROLE_ADMIN' && (
-                                                <button
-                                                    className="button-main"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation(); // 삭제 버튼 클릭 시 Q&A 표시 토글을 막음
-                                                        handleDelete(qanda.id);
-                                                    }}
-                                                >
-                                                    삭제
-                                                </button>
-                                            )}
-                                        </div>
-                                        {visibleContent[qanda.id] && (
-                                            <div className="content body1 text-secondary">
-                                                {qanda.content}
+                                        {editingQanda && editingQanda.id === qanda.id ? (
+                                        <div className="edit-mode">
+                                            <input
+                                                type="text"
+                                                value={editingQanda.title}
+                                                onChange={(e) => setEditingQanda({ ...editingQanda, title: e.target.value })}
+                                                className="input-main w-full mb-4"
+                                                style={{
+                                                    border: '1px solid #000000',
+                                                    borderRadius: '7px'
+                                                }}
+                                            />
+                                            <textarea
+                                                value={editingQanda.content}
+                                                onChange={(e) => setEditingQanda({ ...editingQanda, content: e.target.value })}
+                                                className="textarea-main w-full h-40"
+                                                style={{
+                                                    border: '1px solid #000000',
+                                                    borderRadius: '7px'
+                                                }}
+                                            />
+                                            <div className="flex gap-3 mt-4">
+                                                <button className="button-main" onClick={handleSaveEdit}>저장</button>
+                                                <button className="button-secondary" onClick={handleCancelEdit}>취소</button>
                                             </div>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <div className="heading flex items-center justify-between gap-6">
+                                                <div className="heading6">{qanda.title}</div>
+                                                <Icon.CaretRight size={24} />
+                                            </div>
+                                            {visibleContent[qanda.id] && (
+                                                <div className="content body1 text-secondary mt-3">
+                                                    {qanda.content}
+                                                </div>
+                                            )}
+                                            {userRole === 'ROLE_ADMIN' && (
+                                                <div className="flex gap-3 mt-10 justify-end">
+                                                    <button className="button-main" onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleEdit(qanda);
+                                                    }}>수정</button>
+                                                    <button className="button-main" onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleDelete(qanda.id);
+                                                    }}>삭제</button>
+                                                </div>
+                                            )}
+                                        </>
                                         )}
                                     </div>
                                 ))}
@@ -377,30 +583,56 @@ const Faqs = () => {
                                         className={`question-item px-7 py-5 rounded-[20px] overflow-hidden border border-line cursor-pointer ${visibleContent[qanda.id] ? 'open' : ''}`}
                                         onClick={() => toggleContentVisibility(qanda.id)}
                                     >
-                                        <div className="heading flex items-center justify-between gap-6">
-                                            <div className="heading6">{qanda.title}</div>
-                                            <Icon.CaretRight size={24} />
-                                            
-                                        </div>
-                                        <div className="heading flex items-right justify-between gap-6 mt-3">
-                                        <div> </div>
-                                        {userRole === 'ROLE_ADMIN' && (
-                                                <button
-                                                    className="button-main"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation(); // 삭제 버튼 클릭 시 Q&A 표시 토글을 막음
-                                                        handleDelete(qanda.id);
-                                                    }}
-                                                >
-                                                    삭제
-                                                </button>
-                                            )}
-                                        </div>
-
-                                        {visibleContent[qanda.id] && (
-                                            <div className="content body1 text-secondary">
-                                                {qanda.content}
+                                        {editingQanda && editingQanda.id === qanda.id ? (
+                                        <div className="edit-mode">
+                                            <input
+                                                type="text"
+                                                value={editingQanda.title}
+                                                onChange={(e) => setEditingQanda({ ...editingQanda, title: e.target.value })}
+                                                className="input-main w-full mb-4"
+                                                style={{
+                                                    border: '1px solid #000000',
+                                                    borderRadius: '7px'
+                                                }}
+                                            />
+                                            <textarea
+                                                value={editingQanda.content}
+                                                onChange={(e) => setEditingQanda({ ...editingQanda, content: e.target.value })}
+                                                className="textarea-main w-full h-40"
+                                                style={{
+                                                    border: '1px solid #000000',
+                                                    borderRadius: '7px'
+                                                }}
+                                            />
+                                            <div className="flex gap-3 mt-4">
+                                                <button className="button-main" onClick={handleSaveEdit}>저장</button>
+                                                <button className="button-secondary" onClick={handleCancelEdit}>취소</button>
                                             </div>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <div className="heading flex items-center justify-between gap-6">
+                                                <div className="heading6">{qanda.title}</div>
+                                                <Icon.CaretRight size={24} />
+                                            </div>
+                                            {visibleContent[qanda.id] && (
+                                                <div className="content body1 text-secondary mt-3">
+                                                    {qanda.content}
+                                                </div>
+                                            )}
+                                            {userRole === 'ROLE_ADMIN' && (
+                                                <div className="flex gap-3 mt-10 justify-end">
+                                                    <button className="button-main" onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleEdit(qanda);
+                                                    }}>수정</button>
+                                                    <button className="button-main" onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleDelete(qanda.id);
+                                                    }}>삭제</button>
+                                                </div>
+                                            )}
+                                        </>
                                         )}
                                     </div>
                                 ))}

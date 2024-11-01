@@ -60,7 +60,6 @@ const BlogItem: React.FC<BlogProps> = ({ type, event }) => {
                         <div className="blog-infor mt-7">
                             <div className="heading6 blog-title mt-3 duration-300">{truncateTitle(event.title, 30)}
                             </div>
-                            <div className="body1 text-secondary mt-4">{event.content}</div>
                             <div className="blog-date caption1 text-secondary">{formatDate(event.createdDate)}</div>
                             
                         </div>

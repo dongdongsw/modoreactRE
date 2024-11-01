@@ -29,12 +29,18 @@ const EventDetail = () => {
     const [event, setEvent] = useState<EventData | null>(null);
     const [loading, setLoading] = useState(true);
 
+    const [isEditing, setIsEditing] = useState(false); // 수정 모드 상태 추가
+    const [editData, setEditData] = useState({ title: '', content: '' }); // 수정할 데이터 상태
+    const [newImage, setNewImage] = useState<File | null>(null);
+
     useEffect(() => {
         if (id) {
             axios.get(`/api/event/${id}`)
                 .then(response => {
                     setEvent(response.data);
                     setLoading(false);
+                    setEditData({ title: response.data.title, content: response.data.content }); // 초기 데이터 설정
+
                 })
                 .catch(error => {
                     console.error('Error fetching event:', error);
@@ -69,6 +75,39 @@ const EventDetail = () => {
         return <div>No event found.</div>;
     }
 
+    const handleEditToggle = () => {
+        setIsEditing(!isEditing); // 수정 모드 전환
+    };
+
+    const handleEditSave = () => {
+        const formData = new FormData();
+        formData.append('board', new Blob([JSON.stringify(editData)], { type: 'application/json' }));
+        if (newImage) {
+            formData.append('image', newImage);
+        }
+    
+        axios.put(`/api/event/${id}`, formData)
+            .then(() => {
+                setEvent({ ...event, ...editData, imagePath: newImage ? URL.createObjectURL(newImage) : event.imagePath });
+                setIsEditing(false);
+            })
+            .catch(() => {
+                alert('공지사항 수정 중 오류가 발생했습니다.');
+            });
+    };
+    
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setEditData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            setNewImage(e.target.files[0]);
+        }
+    };
+
     return (
         <>
             <TopNavOne props="style-one bg-black" slogan="New customers save 10% with the code GET10" />
@@ -79,22 +118,62 @@ const EventDetail = () => {
                 
             </div>
             <div className='blog detail1 '>
-                <div className="heading3 flex justify-center">{event.title}</div>
-                    <div className="heading3 flex justify-between  md:pt-8">
+                <div className="heading3 flex justify-center">
+                {isEditing ? (
+                                    <input
+                                        type="text"
+                                        name="title"
+                                        value={editData.title}
+                                        onChange={handleInputChange}
+                                        className="input-main w-full p-4 rounded-lg border-2 border-gray-300 focus:border-blue-500 focus:ring-0"
+                                        style={{ 
+                                            border: '2px solid gray', // 기본 테두리
+                                            resize: 'vertical'
+                                        }}
+                                    />
+                                ) : (
+                                    event.title
+                                )}
+                    </div>
+                    <div className="heading3 flex justify-end gap-1  md:pt-8">
                     <div> </div>
                     {userRole === 'ROLE_ADMIN' &&
+                    <>
+                    <button onClick={handleEditToggle} className='button-main'>
+                                {isEditing ? '취소' : '수정'}
+                            </button>
+                            {isEditing && (
+                                <button onClick={handleEditSave} className='button-main'>
+                                    저장
+                                </button>
+                                )}
                             <button onClick={handleDelete} className='button-main'>삭제</button>
-                        }
+                            
+                            </>
+                            }
+
                     </div>
+                    {isEditing && (
+                                <div className="mt-4">
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleImageChange}
+                                        className="file-input"
+                                    />
+                                </div>
+                            )}
                  {/* 이미지가 있을 때만 이미지 컨테이너를 렌더링 */}
                  {event.imagePath && (
-                    <div className="bg-img flex justify-center items-center md:mt-[74px] mt-14">
+                    <div className="bg-img flex justify-center items-center md:mt-[74px] w-full mt-14"
+                    >
                         <Image
                             src={event.imagePath}
                             width={5000}
                             height={4000}
                             alt="Event Image"
-                            className='w-full min-[1600px]:h-[800px] xl:h-[1200px] lg:h-[1500px] sm:w-[1000px] sm:h-[1500px] h-[260px] object-cover'
+                            className='object-contain rounded-[30px] w-[60%]'
+                            
                         />
                     </div>
                 )}
@@ -112,7 +191,22 @@ const EventDetail = () => {
                                 </div>
                             </div>
                             <div className="content md:mt-8 mt-5">
-                                <div className="body1">{event.content}</div>
+                                <div className="body1">
+                                {isEditing ? (
+                                    <textarea
+                                        name="content"
+                                        value={editData.content}
+                                        onChange={handleInputChange}
+                                        className="textarea-main w-full h-40 p-4 rounded-lg border-2 border-gray-300 focus:border-blue-500 focus:ring-0"
+                                        style={{ 
+                                            border: '2px solid gray', // 기본 테두리
+                                            resize: 'vertical'
+                                        }}
+                                    />
+                                ) : (
+                                    <div className="body1">{event.content}</div>
+                                )}
+                                    </div>
                                 
                             </div>
                             <div className="action flex items-center justify-between flex-wrap gap-5 md:mt-8 mt-5">

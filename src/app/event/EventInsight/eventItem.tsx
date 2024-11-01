@@ -21,6 +21,11 @@ const EventItem: React.FC<BlogProps> = ({ event, type }) => {
         router.push(`/event/${event.id}`);
     };
 
+    // 제목이 90자 이상일 경우 '...'으로 줄이기
+const truncateTitle = (title: string, maxLength: number) => {
+    return title.length > maxLength ? `${title.substring(0, maxLength)}...` : title;
+};
+
     return (
         <>
             {type === "style-one" ? (
@@ -39,7 +44,7 @@ const EventItem: React.FC<BlogProps> = ({ event, type }) => {
                             />
                         </div>
                         <div className="blog-infor mt-7 text-center">
-                            <div className="blog-tag bg-green py-1 px-2.5 rounded-full text-button-uppercase inline-block">{event.title}</div>
+                            <div className="blog-tag bg-green py-1 px-2.5 rounded-full text-button-uppercase inline-block">{truncateTitle(event.title, 29)}</div>
                             
                             
                         </div>
