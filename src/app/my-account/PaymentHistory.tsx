@@ -201,90 +201,97 @@ const PaymentHistoryContent: React.FC = () => {
             <div className="recent_order p-7 border border-line rounded-xl">
                 <h5 className="heading5">결제 내역</h5>
                 {error && <p className="text-red-500">Error: {error}</p>}
-                <div className="list overflow-x-auto w-full mt-5">
-                    <table className="w-full">
-                        <thead className="border-b border-line">
-                        <tr>
-                            <th className="pb-3 text-left text-sm font-bold uppercase text-secondary whitespace-nowrap px-2">
-                                상품명
-                            </th>
-                            <th className="pb-3 text-left text-sm font-bold uppercase text-secondary whitespace-nowrap px-2">
-                                주소
-                            </th>
-                            <th className="pb-3 text-left text-sm font-bold uppercase text-secondary whitespace-nowrap px-2">
-                                업체명
-                            </th>
-                            <th className="pb-3 text-left text-sm font-bold uppercase text-secondary whitespace-nowrap px-2">
-                                전화번호
-                            </th>
-                            <th className="pb-3 text-left text-sm font-bold uppercase text-secondary whitespace-nowrap px-2">
-                                금액
-                            </th>
-                            <th className="pb-3 text-center text-sm font-bold uppercase text-secondary whitespace-nowrap px-2">
-                                리뷰
-                            </th> {/* Centered header */}
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {currentPayments.length > 0 ? (
-                            currentPayments.map(payment => (
-                                <tr
-                                    key={payment.id}
-                                    className="border-b border-line cursor-pointer hover:bg-gray-50"
-                                    onClick={() => handleReviewView(payment.id)}
-                                >
-                                    <td className="py-3 text-left text-sm px-2">{payment.name}</td>
-                                    <td className="py-3 text-left text-sm px-2">{payment.buyerAddr}</td>
-                                    <td className="py-3 text-left text-sm px-2">{storeNames[payment.companyId]}</td>
-                                    <td className="py-3 text-left text-sm px-2">{payment.buyerTel}</td>
-                                    <td className="py-3 text-left text-sm px-2">{formatCurrency(payment.amountTotal)}</td>
-                                    <td className="py-3 px-2 text-center">
-                                        <div className="flex justify-center items-center h-full">
-                                            {userReviews[payment.id]?.length > 0 ? (
-                                                <button className="flex items-center space-x-2 text-yellow-600">
-                                                    <span className="tag px-4 py-1.5 rounded-full bg-opacity-10 bg-yellow text-yellow caption1 font-semibold">
-                                                        조회
-                                                    </span>
-                                                </button>
-                                            ) : (
-                                                <button className="flex items-center space-x-2 text-success-600">
-                                                    <span className="tag px-4 py-1.5 rounded-full bg-opacity-10 bg-success text-success caption1 font-semibold">
-                                                        등록
-                                                    </span>
-                                                </button>
-                                            )}
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))
-                        ) : (
+                <div className="list w-full mt-5">
+                    <div className="w-full overflow-x-auto">
+                        <table className="min-w-max table-auto">
+                            <thead className="border-b border-line">
                             <tr>
-                                <td colSpan={6} className="py-3 text-center text-sm">결제 내역이 없습니다.</td>
+                                <th className="pb-3 text-left text-sm font-bold uppercase text-secondary whitespace-nowrap px-2">
+                                    상품명
+                                </th>
+                                <th className="pb-3 text-left text-sm font-bold uppercase text-secondary whitespace-nowrap px-2">
+                                    주소
+                                </th>
+                                <th className="pb-3 text-left text-sm font-bold uppercase text-secondary whitespace-nowrap px-2">
+                                    업체명
+                                </th>
+                                <th className="pb-3 text-left text-sm font-bold uppercase text-secondary whitespace-nowrap px-2">
+                                    전화번호
+                                </th>
+                                <th className="pb-3 text-left text-sm font-bold uppercase text-secondary whitespace-nowrap px-2">
+                                    금액
+                                </th>
+                                <th className="pb-3 text-center text-sm font-bold uppercase text-secondary whitespace-nowrap px-2">
+                                    리뷰
+                                </th> {/* Centered header */}
                             </tr>
-                        )}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            {currentPayments.length > 0 ? (
+                                currentPayments.map(payment => (
+                                    <tr
+                                        key={payment.id}
+                                        className="border-b border-line cursor-pointer hover:bg-gray-50"
+                                        onClick={() => handleReviewView(payment.id)}
+                                    >
+                                        <td className="py-3 text-left text-sm px-2">{payment.name}</td>
+                                        <td className="py-3 text-left text-sm px-2">{payment.buyerAddr}</td>
+                                        <td className="py-3 text-left text-sm px-2">{storeNames[payment.companyId]}</td>
+                                        <td className="py-3 text-left text-sm px-2">{payment.buyerTel}</td>
+                                        <td className="py-3 text-left text-sm px-2">{formatCurrency(payment.amountTotal)}</td>
+                                        <td className="py-3 px-2 text-center">
+                                            <div className="flex justify-center items-center h-full">
+                                                {userReviews[payment.id]?.length > 0 ? (
+                                                    <button className="flex items-center space-x-2 text-yellow-600">
+                      <span className="tag px-4 py-1.5 rounded-full bg-opacity-10 bg-yellow text-yellow caption1 font-semibold">
+                        조회
+                      </span>
+                                                    </button>
+                                                ) : (
+                                                    <button className="flex items-center space-x-2 text-success-600">
+                      <span className="tag px-4 py-1.5 rounded-full bg-opacity-10 bg-success text-success caption1 font-semibold">
+                        등록
+                      </span>
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan={6} className="py-3 text-center text-sm">결제 내역이 없습니다.</td>
+                                </tr>
+                            )}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
-                <div className="pagination mt-4 flex justify-center gap-2">
-                    <button
-                        className="btn-secondary"
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        disabled={currentPage === 1}
-                    >
-                        ⦁
-                    </button>
-                    <span className="text-sm">
-                    <strong>{currentPage}</strong> / {totalPages}
-                </span>
-                    <button
-                        className="btn-secondary"
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={currentPage === totalPages}
-                    >
-                        ⦁
-                    </button>
+                <div className="flex justify-center mt-4">
+                    {Array.from({ length: totalPages }, (_, index) => (
+                        <button
+                            key={index + 1}
+                            className={`mx-1 px-4 py-2 rounded-lg ${
+                                currentPage === index + 1
+                                    ? 'text-red' // 현재 페이지는 빨간색
+                                    : 'text-gray-500'  // 다른 페이지는 더 밝은 회색
+                            }`}
+                            onClick={() => handlePageChange(index + 1)}
+                        >
+                            {index + 1}
+                        </button>
+                    ))}
+                    {currentPage < totalPages && (
+                        <button
+                            className="mx-1 px-4 py-2 rounded-lg text-gray-300"
+                            onClick={() => handlePageChange(currentPage + 1)}
+                        >
+                            &gt;
+                        </button>
+                    )}
                 </div>
+
 
                 {selectedPayment &&  (
                     <div className="review-details mt-6 p-7 border border-line rounded-xl">

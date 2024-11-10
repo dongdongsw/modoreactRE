@@ -156,7 +156,9 @@ const RealReview: React.FC = () => {
                                     </div>
                                     <div className="content-text">{truncateText(review.content, 30)}</div>
                                     {!review.imageUrl && (
-                                        <div className="author text-title mt-2">{review.author || "Unknown Author"}</div>
+                                        <div className="author text-title mt-2" style={{ color: 'gray' }}>
+                                            {review.author || "Unknown Author"}
+                                        </div>
                                     )}
                                 </div>
                             </div>

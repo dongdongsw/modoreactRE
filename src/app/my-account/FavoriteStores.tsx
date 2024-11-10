@@ -97,7 +97,7 @@ const FavoriteStoresContent: React.FC = () => {
                                 <div className="food-type text-sm text-gray-500 mt-1">{store.foodType}</div>
                             </div>
                             <div
-                                className="remove-button text-xl bg-white w-10 h-10 rounded-xl border border-black flex items-center justify-center duration-300 cursor-pointer hover:bg-black hover:text-white"
+                                className="remove-button text-xl bg-white w-10 h-10 rounded-xl flex items-center justify-center duration-300 cursor-pointer hover:bg-black hover:text-white"
                                 onClick={e => {
                                     e.stopPropagation();
                                     handleRemoveFavorite(store.companyId);

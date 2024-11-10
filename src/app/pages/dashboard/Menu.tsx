@@ -16,8 +16,9 @@ export const MenuContent: React.FC = () => {
     });
     const companyId = 44;
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const itemsPerPage = 4; // 한 페이지에 출력될 카드 개수
+    const itemsPerPage = 8; // 한 페이지에 출력될 카드 개수
     const totalPages = Math.ceil(menus.length / itemsPerPage);
+    const [uploadedFileName, setUploadedFileName] = useState('');
 
     useEffect(() => {
         fetchMenus();
@@ -98,19 +99,102 @@ export const MenuContent: React.FC = () => {
     const currentItems = menus.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
     return (
-        <div className="recent_order p-7 border border-line rounded-xl">
-            <div className="heading flex items-center justify-between gap-5 flex-wrap">
+        <div className="recent_order p-7 border border-line rounded-xl flex flex-col h-[950px]">
+            <div className="heading flex items-center justify-between gap-5 flex-wrap w-full">
                 <div className="left flex items-center gap-6 gap-y-3 flex-wrap">
                     <h5 className="heading5 text-2xl font-bold mb-4">메뉴 관리</h5>
-                    <a
-                        href="#"
-                        className={`text-button pb-1 border-b-2 ${editMode ? 'border-black' : 'border-transparent'}`}
-                        onClick={() => setEditMode(!editMode)}
-                    >
-                        {editMode ? '취소' : '메뉴 수정'}
-                    </a>
                 </div>
+                <a
+                    href="#"
+                    className={`button-main px-4 py-2 bg-green-500 text-white rounded-lg 
+                hover:bg-gray-300 hover:text-black transition-all duration-200 ml-auto`}
+                    onClick={() => setEditMode(!editMode)}
+                >
+                    {editMode ? '취소' : '메뉴 수정'}
+                </a>
             </div>
+
+            {/* 메뉴 수정 폼 */}
+            {editMode && (
+                <div className="new-menu-upload mt-10 p-4 rounded-lg" style={{ backgroundColor: '#f3f4f6' }}>
+                    <h2 className="text-xl font-semibold mb-4">메뉴 추가</h2>
+                    <input
+                        type="text"
+                        value={newMenu.name}
+                        onChange={(e) => handleNewMenuChange('name', e.target.value)}
+                        placeholder="음식 이름"
+                        className="border p-2 rounded-lg w-full"
+                    />
+                    <input
+                        type="text"
+                        value={newMenu.price || ''}
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            if (!isNaN(Number(value)) && Number(value) >= 0) {
+                                handleNewMenuChange('price', Number(value));
+                            }
+                        }}
+                        placeholder="금액"
+                        className="border p-2 rounded-lg w-full mt-2"
+                    />
+
+                    <div className="mt-2 group">
+                        <label htmlFor="file-upload" className="w-full">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    const fileUploadElement = document.getElementById('file-upload');
+                                    if (fileUploadElement) {
+                                        fileUploadElement.click();
+                                    }
+                                }}
+                                className="bg-green-500 font-bold rounded-lg py-3 px-6 w-full flex items-center justify-center transition-colors duration-300 ease-in-out group-hover:bg-green-600 group-hover: hover:shadow-md focus:outline-none"
+                            >
+                                사진 업로드
+                            </button>
+
+                        </label>
+                        <input
+                            id="file-upload"
+                            type="file"
+                            onChange={(e) => {
+                                const file = e.target.files ? e.target.files[0] : null;
+                                if (file) {
+                                    handleNewMenuChange('image', file);
+                                    setUploadedFileName(file.name); // 파일명 상태 저장
+                                }
+                            }}
+                            className="hidden"
+                        />
+                    </div>
+
+
+                    {/* Display uploaded file name */}
+                    {uploadedFileName && (
+                        <div className="mt-2 text-gray-700">
+                            <span>선택된 파일: {uploadedFileName}</span>
+                        </div>
+                    )}
+
+                    {/* Buttons container aligned to the right */}
+                    <div className="flex justify-end gap-2 mt-5">
+                        <button
+                            className="button-main px-4 py-2 bg-green-500 text-white font-bold rounded-lg"
+                            onClick={handleAddMenus}
+                        >
+                            추가
+                        </button>
+                        <button
+                            className="button-main px-4 py-2 bg-green-500 text-white font-bold rounded-lg"
+                            onClick={handleSaveAll}
+                        >
+                            저장
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {/* 메뉴 리스트 */}
             <div className="list grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 sm:gap-[30px] gap-[20px] md:mt-10 mt-6">
                 {currentItems.map((menu, index) => (
                     <div key={menu.id} className="product-item style-marketplace p-4 border border-line rounded-2xl">
@@ -124,12 +208,18 @@ export const MenuContent: React.FC = () => {
                                     className="border p-2 rounded-lg w-full"
                                 />
                                 <input
-                                    type="number"
+                                    type="text"
                                     value={menu.price}
-                                    onChange={(e) => handleEditChange(index, 'price', Number(e.target.value))}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        if (/^\d+$/.test(value) || value === '') {
+                                            handleEditChange(index, 'price', value);
+                                        }
+                                    }}
                                     placeholder="Menu Price"
                                     className="border p-2 rounded-lg w-full mt-2"
                                 />
+
                                 <input
                                     type="file"
                                     onChange={(e) => handleEditChange(index, 'image', e.target.files ? e.target.files[0] : null)}
@@ -145,9 +235,11 @@ export const MenuContent: React.FC = () => {
                         ) : (
                             <>
                                 <h3 className="text-lg font-bold">{menu.name}</h3>
-                                <p className="text-gray-600">{menu.price}원</p>
+                                <p className="text-gray-600">
+                                    {new Intl.NumberFormat().format(menu.price)}원
+                                </p>
                                 {menu.imageUrl && (
-                                    <div style={{ width: '100%', height: '0', paddingBottom: '133.33%', position: 'relative', cursor:"default" }}> {}
+                                    <div style={{ width: '100%', height: '0', paddingBottom: '133.33%', position: 'relative', cursor: "default" }}>
                                         <img
                                             src={menu.imageUrl}
                                             alt={menu.name}
@@ -160,17 +252,14 @@ export const MenuContent: React.FC = () => {
                     </div>
                 ))}
             </div>
+
             {totalPages > 1 && (
                 <div className="pagination mt-5 flex justify-center">
                     <div className="flex justify-center mt-4">
                         {Array.from({ length: totalPages }, (_, index) => (
                             <button
                                 key={index + 1}
-                                className={`mx-1 px-4 py-2 rounded-lg ${
-                                    currentPage === index + 1
-                                        ? 'text-red-500'  
-                                        : 'text-gray-400' 
-                                }`}
+                                className={`mx-1 px-4 py-2 rounded-lg ${currentPage === index + 1 ? 'text-red-500' : 'text-gray-400'}`}
                                 onClick={() => setCurrentPage(index + 1)}
                             >
                                 {index + 1}
@@ -187,45 +276,10 @@ export const MenuContent: React.FC = () => {
                         )}
                     </div>
                 </div>
-
-
-            )}
-            {editMode && (
-                <div className="new-menu-upload mt-10">
-                    <input
-                        type="text"
-                        value={newMenu.name}
-                        onChange={(e) => handleNewMenuChange('name', e.target.value)}
-                        placeholder="음식 이름"
-                        className="border p-2 rounded-lg w-full"
-                    />
-                    <input
-                        value={newMenu.price}
-                        onChange={(e) => handleNewMenuChange('price', Number(e.target.value))}
-                        placeholder="가격"
-                        className="border p-2 rounded-lg w-full mt-2"
-                    />
-                    <input
-                        type="file"
-                        onChange={(e) => handleNewMenuChange('image', e.target.files ? e.target.files[0] : null)}
-                        className="mt-2"
-                    />
-                    <button
-                        className="button-main px-4 py-2 bg-green-500 text-white rounded-lg mt-5 mr-2"
-                        onClick={handleAddMenus}
-                    >
-                        추가
-                    </button>
-                    <button
-                        className="button-main px-4 py-2 bg-green-500 text-white rounded-lg mt-5"
-                        onClick={handleSaveAll}
-                    >
-                        저장
-                    </button>
-                </div>
             )}
         </div>
     );
+
 };
 
 export default MenuContent;

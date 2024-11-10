@@ -173,43 +173,73 @@ const RestDayContent: React.FC = () => {
         <>
             <style jsx>{`
               .date-display {
-                max-height: 400px; 
+                max-height: 400px;
                 overflow-y: auto;
               }
+
               .selected-dates-daily,
               .selected-dates-period,
               .selected-dates-weekly {
-                border-bottom: 1px solid #D1D5DB; 
-                padding-bottom: 1rem; 
+                border-bottom: 1px solid #D1D5DB;
+                padding-bottom: 1rem;
                 margin-bottom: 1rem;
-                display: flex; 
-                flex-direction: column; 
-                width: 100%; 
+                display: flex;
+                flex-direction: column;
+                width: 100%;
               }
 
               .selected-dates-daily h3,
               .selected-dates-period h3,
               .selected-dates-weekly h3 {
-                margin: 0; 
-                padding: 0; 
+                margin: 0;
+                padding: 0;
               }
 
               .no-selected-dates {
-                color: #A0AEC0; 
+                color: #A0AEC0;
               }
+
               .day-separator {
                 margin: 0 0.5rem;
               }
+
               .button-transparent {
-                background-color: transparent; 
-                color: black; 
+                background-color: transparent;
+                color: black;
                 cursor: pointer;
-                padding: 0.5rem 1rem; 
-                border-radius: 8px; 
-                margin-right: 0.5rem; 
+                padding: 0.5rem 1rem;
+                border-radius: 8px;
+                margin-right: 0.5rem;
+                transition: background-color 0.3s ease, color 0.3s ease;
+              }
+
+              .button-transparent:hover {
+                background-color: #F3F4F6; 
+                color: #333333;
+              }
+
+              .weekly-buttons button {
+                background-color: transparent;
+                color: black;
+                cursor: pointer;
+                padding: 0.5rem 1rem;
+                border-radius: 8px;
+                margin-right: 0.5rem;
+                transition: background-color 0.3s ease, color 0.3s ease;
+              }
+
+              .weekly-buttons button:hover {
+                background-color: #F3F4F6;
+                color: #333333; 
+              }
+
+              .weekly-buttons button.selected {
+                background-color: #F3F4F6; /
+                color: #333333; 
               }
             `}</style>
-            <div className="recent_order p-7 border border-line rounded-[20px] overflow-hidden">
+
+            <div className="recent_order p-7 border border-line rounded-[20px] overflow-hidden h-[950px]">
                 <div className="flex flex-wrap gap-5">
                     <div className="rest-day-container-first flex-1">
                         <div className="settings-container">
@@ -241,7 +271,7 @@ const RestDayContent: React.FC = () => {
                                     <div className="flex items-center">
                                         <button
                                             onClick={() => handleModeChange('DAILY')}
-                                            className={`button-transparent mt-1 ${restDayType === 'DAILY' ? 'bg-gray-300' : ''}`}>
+                                            className={`button-transparent mt-1  ${restDayType === 'DAILY' ? 'bg-gray-300' : ''}`}>
                                             일일
                                         </button>
                                         <span className="day-separator"> / </span>
@@ -290,47 +320,26 @@ const RestDayContent: React.FC = () => {
                                 />
                             </div>
 
-                            <div className="button-group">
-                                <button
-                                    onClick={() => setIsEditing(!isEditing)}
-                                    className="button-main px-4 py-2 bg-green-500 text-white rounded-lg mt-10 ml-2">
-                                    {isEditing ? "취소" : "수정"}
-                                </button>
-                                {isEditing && (
-                                    <>
-                                        <button
-                                            onClick={resetSelections} // 초기화 버튼
-                                            className="button-main px-4 py-2 bg-red-500 text-white rounded-lg mt-10 ml-2">
-                                            초기화
-                                        </button>
-                                        <button
-                                            onClick={saveRestDays}
-                                            className="button-main px-4 py-2 bg-green-500 text-white rounded-lg mt-10 ml-2">
-                                            Save
-                                        </button>
-                                    </>
-                                )}
-                            </div>
                         </div>
                     </div>
 
                     <div className="date-display flex-1">
-                        <span
-                            className="tag px-4 py-1.5 rounded-full bg-opacity-10 caption1 font-semibold bg-success mb-8"
-                            style={{ cursor: 'pointer', marginBottom: '5rem' }}>
-                            3. 휴무 확인
-                        </span>
+    <span
+        className="tag px-4 py-1.5 rounded-full bg-opacity-10 caption1 font-semibold bg-success mb-8"
+        style={{ cursor: 'pointer', marginBottom: '5rem' }}>
+        3. 휴무 확인
+    </span>
 
                         <div className="selected-dates">
                             {/* 일일 섹션 */}
                             <div className="selected-dates-daily mb-4 mt-2">
-                                <h3>일일</h3>
+                                <h3 style={{ fontWeight: 'bold' }}>일일</h3>
                                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))', gap: '0.5rem' }}>
                                     {selectedDates.length > 0 ? (
                                         selectedDates.map((date, index) => (
                                             <span key={index} className="py-1.5 px-4 rounded-full text-button-uppercase text-secondary duration-300">
-                                                {`D.${formatDisplayDate(date)}`}
-                                            </span>
+                            {`D.${formatDisplayDate(date)}`}
+                        </span>
                                         ))
                                     ) : (
                                         <div className="no-selected-dates">선택된 날짜가 없습니다</div>
@@ -340,12 +349,12 @@ const RestDayContent: React.FC = () => {
 
                             {/* 기간 섹션 */}
                             <div className="selected-dates-period mb-4">
-                                <h3>기간</h3>
+                                <h3 style={{ fontWeight: 'bold' }}>기간</h3>
                                 {periods.length > 0 ? (
                                     periods.map((period, index) => (
                                         <span key={index} className="py-1.5 px-4 rounded-full text-button-uppercase text-secondary duration-300">
-                                            {`P.${formatDisplayDate(period.startDate)}~${formatDisplayDate(period.endDate)}`}
-                                        </span>
+                        {`P.${formatDisplayDate(period.startDate)}~${formatDisplayDate(period.endDate)}`}
+                    </span>
                                     ))
                                 ) : (
                                     <div className="no-selected-dates">선택된 날짜가 없습니다</div>
@@ -354,13 +363,13 @@ const RestDayContent: React.FC = () => {
 
                             {/* 주간 섹션 */}
                             <div className="selected-dates-weekly mb-4">
-                                <h3>주간</h3>
+                                <h3 style={{ fontWeight: 'bold' }}>주간</h3>
                                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
                                     {weeklyDays.length > 0 ? (
                                         weeklyDays.map((day, index) => (
                                             <span key={index} className="py-1.5 px-4 rounded-full text-button-uppercase text-secondary duration-300">
-                                                {day}
-                                            </span>
+                            {day}
+                        </span>
                                         ))
                                     ) : (
                                         <div className="no-selected-dates">선택된 날짜가 없습니다</div>
@@ -368,7 +377,31 @@ const RestDayContent: React.FC = () => {
                                 </div>
                             </div>
                         </div>
+
+                        {/* 버튼 그룹을 휴무 확인 내용 아래로 이동 */}
+                        <div className="button-group flex justify-end mt-4">
+                            <button
+                                onClick={() => setIsEditing(!isEditing)}
+                                className="button-main px-4 py-2 bg-green-500 text-white rounded-lg mt-10 ml-2">
+                                {isEditing ? "취소" : "수정"}
+                            </button>
+                            {isEditing && (
+                                <>
+                                    <button
+                                        onClick={resetSelections} // 초기화 버튼
+                                        className="button-main px-4 py-2 bg-red-500 text-white rounded-lg mt-10 ml-2">
+                                        초기화
+                                    </button>
+                                    <button
+                                        onClick={saveRestDays}
+                                        className="button-main px-4 py-2 bg-green-500 text-white rounded-lg mt-10 ml-2">
+                                        Save
+                                    </button>
+                                </>
+                            )}
+                        </div>
                     </div>
+
                 </div>
             </div>
         </>

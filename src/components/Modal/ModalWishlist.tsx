@@ -174,7 +174,7 @@ const ModalWishlist = () => {
                                         Remove
                                     </div> */}
                                     <div
-                                        className="text-xl bg-white w-10 h-10 rounded-xl border border-black flex mr-5 items-center justify-center duration-300 cursor-pointer hover:bg-black hover:text-white"
+                                        className="text-xl bg-white w-10 h-10 rounded-xl flex mr-5 items-center justify-center duration-300 cursor-pointer hover:bg-black hover:text-white"
                                         onClick={(e) => {
                                             handleRemoveFavorite(store.companyId)
                                         }}

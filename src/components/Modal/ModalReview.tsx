@@ -176,12 +176,14 @@ const ModalReview = () => {
                 }}
             >
                 <div className="full-width">
-                    <div className="heading5">+</div>
+                    <div className="heading5">상세보기</div>
                     {selectedReview ? (
                         <div className="testimonial-main rounded-2xl mb-4" style={{ backgroundColor: 'transparent' }}>
                             <div className="flex items-center mt-4">
                                 <div className="heading6 title font-semibold text-black">{selectedReview.name}</div>
-                                <div className="desc ml-2 text-secondary">주문</div>
+                                <span className="tag px-4 py-1.5 rounded-full bg-opacity-10 caption1 font-semibold bg-purple text-purple ml-2">
+    주문
+</span>
                             </div>
                             <div className="desc mt-2">{selectedReview.content}</div>
                             {selectedReview.imageUrl && (

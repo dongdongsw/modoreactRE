@@ -245,7 +245,7 @@ export const AssignmentContent: React.FC = () => {
     const imageUrl = storeInfo.imageUrl ? storeInfo.imageUrl : '';
 
     return (
-        <div className="review-content p-7 border border-line rounded-xl">
+        <div className="review-content p-7 border border-line rounded-xl h-[950px]">
             <div style={{ textAlign: 'center', margin: '0 auto', padding: '20px' }}>
                 <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '30px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     {storeInfo.name}

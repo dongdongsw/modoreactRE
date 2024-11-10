@@ -177,7 +177,7 @@ export const OrderNowContent: React.FC = () => {
 
 
     return (
-        <div className="recent_order p-7 border border-line rounded-xl">
+        <div className="recent_order p-7 border border-line rounded-xl h-[950px]">
             <h5 className="heading5 text-2xl font-bold mb-4">주문 현황</h5>
             {error && <div className="error-message text-red-500 mb-4">{error}</div>}
 

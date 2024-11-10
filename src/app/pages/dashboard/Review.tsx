@@ -181,7 +181,7 @@ export const ReviewContent: React.FC = () => {
     };
 
     return (
-        <div className="rest-content p-7 border border-line rounded-xl">
+        <div className="rest-content p-7 border border-line rounded-xl h-[950px] overflow-y-auto">
             <h5 className="heading5 text-2xl font-bold mb-4">리뷰 관리</h5>
 
             {/* 열 당 출력할 카드개수 설정 부분 */}
@@ -200,7 +200,9 @@ export const ReviewContent: React.FC = () => {
                             <div className="heading6 title font-semibold text-black">
                                 {review.name}
                             </div>
-                            <div className="desc ml-2 text-secondary">주문</div>
+                            <span className="tag px-4 py-1.5 rounded-full bg-opacity-10 caption1 font-semibold bg-purple text-purple ml-2">
+    주문
+</span>
                         </div>
                         <hr
                             style={{

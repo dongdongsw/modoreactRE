@@ -174,7 +174,7 @@ const RandomMenu: React.FC<RandomMenuProps> = ({ data, start, limit }) => {
                                                 {product.name}
                                             </div>
                                             <div className="product-price text-title text-center">
-                                                {product.price}원
+                                                {product.price.toLocaleString()}원
                                             </div>
                                         </div>
                                     </div>
