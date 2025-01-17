@@ -10,7 +10,7 @@
 
 
 ## 자세한 내용은 링크로!
-<p align="right">
+<p align="center" width="200">
   <a href="https://github.com/euunbin/modoProject">
     <img src="https://img.shields.io/badge/백엔드%20페이지%20바로가기-666666?style=for-the-badge&logo=github&logoColor=white" alt="백엔드 페이지 바로가기">
   </a>
